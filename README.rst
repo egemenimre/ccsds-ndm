@@ -1,5 +1,5 @@
-CCSDS Orbit Data Messages Python ile Okuma/Yazma
-================================================
+CCSDS "Navigation Data Messages Ailesi" Python ile Okuma/Yazma
+===============================================================
 
 Giriş
 --------------
@@ -7,15 +7,18 @@ Uydular ile ilgilenen akademisyenler, şirketler ve kurumlar uyduların yörüng
 yönelim (attitude) verilerini oluşturmak, iletmek ve kullanmak için çeşitli dosya formatları kullanırlar. Bu formatlar arası
 karışıklıklar (birimler, parametre tanımları ve modeller) verilerin doğru şekilde kullanılmasını engelleyebilir ve hatalara yol
 açabilir. Bu nedenle verilerin tam ve doğru şekilde oluşturulması ve kullanılması için CCSDS 
-`Orbit Data Messages <https://public.ccsds.org/Pubs/502x0b2c1.pdf>`_ adlı bir standart oluşturmuştur.
+`Navigation Data Messages (NDM) <https://public.ccsds.org/Pubs/500x2g2.pdf>`_ adlı bir standart ailesi oluşturmuştur.
+Bunun altında Conjunction Data Message (CDM), Orbit Ephemeris Message (OEM) gibi alt standartlar
+bulunmaktadır.
 
 Bu standart, XML Schema Tanım Dosyaları (XSD Dosyaları) ile detaylı bi şekilde tanımlanır ve XML dosyaları şeklinde oluşturulur. 
 
 Problem Tanımı
 --------------
 
-1. Bu standart XML dosyalarını okuyacak, yazacak ve bu arada XSD Dosyasında tanımlı kısıtlarla verilerin doğruluğunu 
-   denetleyecek açık kaynak kodlar çok sınırlıdır (örn. Orekit). Python'da ise bunu yapacak bir açık kaynak kod bulunmamaktadır.
+1. NDM standartlar ailesi ile tanımlanmış XML dosyalarını okuyacak, yazacak ve bunu yaparken XSD Dosyasında
+   tanımlı kısıtlarla verilerin doğruluğunu denetleyecek açık kaynak kodlar çok sınırlıdır (örn. Orekit).
+   Python'da ise bunu yapacak bir açık kaynak kod bulunmamaktadır.
 2. Standartlardaki XSD Dosyaları ve sonuçta oluşan XML dosyalarının sayısı çok fazladır ve bazı alanlar ortaktır. Bu nedenle XML 
    verilerini oluşturacak ve okuyacak kodları yazmak çok miktarda zamana mal olabilir.
 3. Buna ek olarak, XSD Dosyaları her standart güncellemesinde değişebilmektedir. Bu nedenle dosyaların standart güncellemeleri 
@@ -30,7 +33,7 @@ Proje İsterleri
 
 1. İşlev:
    
-   1. Yazılım XSD dosyalarına göre oluşturulmuş XML dosyalarını okuyabilecek, XSD dosyalarında tanımlanmış doğruluk 
+   1. Yazılım NDM XSD dosyalarına göre oluşturulmuş XML dosyalarını okuyabilecek, XSD dosyalarında tanımlanmış doğruluk
       kontrollerini yapabilecek ve bu dosyalara uygun olarak XML dosyalarını oluşturabilecektir.
 
    2. Yazılım, bu XML dosyalarının okunan içeriğini kullanıcılara bir nesne (object) halinde verecek ve yine bu nesne 
@@ -52,7 +55,20 @@ Proje İsterleri
 4. Dağıtım
    
    1. Proje paketi PyPI ile Conda ya da Conda-forge üzerinden dağıtılacaktır. 
- 
+
+Kaynaklar
+----------
+
+1. XSD dosyaları `SANA Registry adresinde <https://sanaregistry.org/r/ndmxml>`_
+   bulunabilir.
+2. CCSDS Navigation Data Messages (NDM) temel standardına
+   `bu adresten <https://public.ccsds.org/Pubs/500x2g2.pdf>`_ erişilebilir.
+   Her bir dosya tipine dair ayrı standart dokümanları da bulunmaktadır. Örnek:
+   `CDM formatı <https://public.ccsds.org/Pubs/508x0b1e2c1.pdf>`_ ve
+   `ODM formatı <https://public.ccsds.org/Pubs/502x0b2c1.pdf>`_
+3. CCSDS ODM standartlarının tarihçesi ile ilgili bir makale
+   `buradan <https://arc.aiaa.org/doi/pdfplus/10.2514/6.2018-2456>`_ okunabilir.
+
 Tasarım Notları
 ------------------
 
@@ -65,7 +81,7 @@ Temelde iki tasarım alternatifi göze çarpmaktadır:
    
 İlk alternatif, özellikle standartlarda gerçekleşen değişikliklerin nesne yapılarına hızla geçirilebilmelerini sağlar. XSD
 dosyalarından yeni nesne dosyaları tek seferde üretilebilir. Ancak, en azından `generateDS` özelinde, otomatik olarak
-üretilen kodlar son derece karmaşıktır ve kullanımları zordur. Examples dizini altında bunun `generateDS`ile nasıl 
+üretilen kodlar son derece karmaşıktır ve kullanımları zordur. Examples dizini altında bunun `generateDS` ile nasıl
 yapıldığını anlatan bir doküman bulunuyor. 
 
 İkinci alternatif, dosya okuma, kontrol ve yazma işlerini bir başka kütüphaneye devreder. Ancak, en azından `xmlschema` 
