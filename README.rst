@@ -22,9 +22,31 @@ Problem Tanımı
    verilerini oluşturacak ve okuyacak kodları yazmak çok miktarda zamana mal olabilir.
 3. Buna ek olarak, XSD Dosyaları her standart güncellemesinde değişebilmektedir. Bu nedenle dosyaların standart güncellemeleri 
    ile güncellenmesi gerekmektedir. Buna ek olarak belli standartlara geri uyumluluk da gerekebilir.
-4. Bu kütüphanenin kullanıcıları dünyadaki akademisyenler, amatör uyduları işleten üniversiteler ve bunlar için kod geliştiren 
-   amatör ve açık kaynak topluluklarıdır. Bu nedenle İngilizce dokümantasyon, iyi test ve iyi bir geliştirme ortamı gereklidir.
+4. Bu kütüphanenin potansiyel kullanıcıları dünyadaki akademisyenler, amatör uyduları işleten üniversiteler ve bunlar için kod 
+   geliştiren amatör ve açık kaynak topluluklarıdır. Bu nedenle İngilizce dokümantasyon, iyi test ve iyi bir geliştirme ortamı
+   gereklidir.
 
 
 Proje İsterleri
 ----------------
+
+1. İşlev:
+   
+   1. Yazılım XSD dosyalarına göre oluşturulmuş XML dosyalarını okuyabilecek, XSD dosyalarında tanımlanmış doğruluk 
+      kontrollerini yapabilecek ve bu dosyalara uygun olarak XML dosyalarını oluşturabilecektir.
+
+   2. Yazılım, bu XML dosyalarının okunan içeriğini kullanıcılara bir nesne (object) halinde verecek ve yine bu nesne 
+      içeriğini XML dosyasına yazmak üzere kullanıcıdan alacaktır.
+      
+2. Test: 
+   
+   1. Yazılım testlerle doğrulanacaktır. 
+   2. Testler bir "Continuous Integration" ortamı üstünde çalışacaktır. 
+   
+3. Dokümantasyon: 
+   
+   1. Yazılım kod seviyesinde (her bir sınıf, fonksiyon ve parametre), en az %90 coverage olacak şekilde dokümante     
+      edilecektir.
+   2. Yazılımın örnek kullanımları gösteren ve tasarımı anlatan bir kullanım kılavuzu bulunacaktır.
+   3. Dokümantasyon standardı Restructured Text olacaktır. (Bu ister bir örnek, talep gelirse Markdown da olabilir)
+   4. Dokümantasyon dili İngilizce olacaktır.
