@@ -48,4 +48,27 @@ Proje İsterleri
    1. Yazılım kod seviyesinde (her bir sınıf, fonksiyon ve parametre) dokümante edilecektir.
    2. Yazılımın örnek kullanımları gösteren ve tasarımı anlatan bir kullanım kılavuzu bulunacaktır.
    3. Dokümantasyon standardı Restructured Text olacaktır. (Bu ister bir örnek, talep gelirse Markdown da olabilir)
-   4. Dokümantasyon dili İngilizce olacaktır.
+   4. Dokümanlar Readthedocs ya da GitHub docs gibi bir çevrimiçi ortamda yayınlanacaktır.
+   5. Dokümantasyon dili İngilizce olacaktır.
+
+4. Dağıtım
+   
+   1. Proje paketi PyPI ile Conda ya da Conda-forge üzerinden dağıtılacaktır. 
+ 
+Tasarım Notları
+------------------
+
+Temelde iki tasarım alternatifi göze çarpmaktadır:
+1. XSD dosyalarından otomatik olarak nesneleri içeren ve XML okuyan/yazan kodun yaratılması. 
+   (örn. `generateDS <https://sourceforge.net/projects/generateds/>`_)
+2. XSD ile XML kodunun otomatik olarak okunması, test edilmesi ve yazılması; sınıfların yaratılması işinin
+   geliştirici ekip tarafından yapılması. (örn. `xmlschema <https://pypi.org/project/xmlschema/>`_)
+   
+İlk alternatif, özellikle standartlarda gerçekleşen değişikliklerin nesne yapılarına hızla geçirilebilmelerini sağlar. XSD
+dosyalarından yeni nesne dosyaları tek seferde üretilebilir. Ancak, en azından `generateDS` özelinde, otomatik olarak
+üretilen kodlar son derece karmaşıktır ve kullanımları zordur.
+
+İkinci alternatif, dosya okuma, kontrol ve yazma işlerini bir başka kütüphaneye devreder. Ancak, en azından `xmlschema` 
+özelinde, özellikle dosya yazmak için dosya tipine ait _XML tag_ yapısını bilmek mecburidir. Bu nedenle geliştirici ekibin,
+kullanıcının dolduracağı nesneyi hazırlayıp bu nesneyi _tag_'lerle ilişkilendiren kodu yazması ve standart değişimlerinde de 
+güncel tutması gerekir.
