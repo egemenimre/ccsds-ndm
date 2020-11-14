@@ -1,5 +1,3 @@
-# ccsds-odm
-
 CCSDS Orbit Data Messages Python ile Okuma/Yazma
 ================================================
 
@@ -67,7 +65,8 @@ Temelde iki tasarım alternatifi göze çarpmaktadır:
    
 İlk alternatif, özellikle standartlarda gerçekleşen değişikliklerin nesne yapılarına hızla geçirilebilmelerini sağlar. XSD
 dosyalarından yeni nesne dosyaları tek seferde üretilebilir. Ancak, en azından `generateDS` özelinde, otomatik olarak
-üretilen kodlar son derece karmaşıktır ve kullanımları zordur.
+üretilen kodlar son derece karmaşıktır ve kullanımları zordur. Examples dizini altında bunun `generateDS`ile nasıl 
+yapıldığını anlatan bir doküman bulunuyor. 
 
 İkinci alternatif, dosya okuma, kontrol ve yazma işlerini bir başka kütüphaneye devreder. Ancak, en azından `xmlschema` 
 özelinde, özellikle dosya yazmak için dosya tipine ait *XML tag* yapısını bilmek mecburidir. Bu nedenle geliştirici ekibin,
