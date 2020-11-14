@@ -59,8 +59,9 @@ Tasarım Notları
 ------------------
 
 Temelde iki tasarım alternatifi göze çarpmaktadır:
-1. XSD dosyalarından otomatik olarak nesneleri içeren ve XML okuyan/yazan kodun yaratılması. 
-   (örn. `generateDS <https://sourceforge.net/projects/generateds/>`_)
+
+1. XSD dosyalarından otomatik olarak nesneleri içeren ve XML okuyan/yazan kodun yaratılması. (örn.
+   `generateDS <https://sourceforge.net/projects/generateds/>`_)
 2. XSD ile XML kodunun otomatik olarak okunması, test edilmesi ve yazılması; sınıfların yaratılması işinin
    geliştirici ekip tarafından yapılması. (örn. `xmlschema <https://pypi.org/project/xmlschema/>`_)
    
@@ -69,6 +70,6 @@ dosyalarından yeni nesne dosyaları tek seferde üretilebilir. Ancak, en azınd
 üretilen kodlar son derece karmaşıktır ve kullanımları zordur.
 
 İkinci alternatif, dosya okuma, kontrol ve yazma işlerini bir başka kütüphaneye devreder. Ancak, en azından `xmlschema` 
-özelinde, özellikle dosya yazmak için dosya tipine ait _XML tag_ yapısını bilmek mecburidir. Bu nedenle geliştirici ekibin,
-kullanıcının dolduracağı nesneyi hazırlayıp bu nesneyi _tag_'lerle ilişkilendiren kodu yazması ve standart değişimlerinde de 
+özelinde, özellikle dosya yazmak için dosya tipine ait *XML tag* yapısını bilmek mecburidir. Bu nedenle geliştirici ekibin,
+kullanıcının dolduracağı nesneyi hazırlayıp bu nesneyi *tag*'lerle ilişkilendiren kodu yazması ve standart değişimlerinde de 
 güncel tutması gerekir.
