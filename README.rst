@@ -40,13 +40,12 @@ Proje İsterleri
       
 2. Test: 
    
-   1. Yazılım testlerle doğrulanacaktır. 
+   1. Yazılım en az %90 coverage olacak şekilde testlerle doğrulanacaktır. 
    2. Testler bir "Continuous Integration" ortamı üstünde çalışacaktır. 
    
 3. Dokümantasyon: 
    
-   1. Yazılım kod seviyesinde (her bir sınıf, fonksiyon ve parametre), en az %90 coverage olacak şekilde dokümante     
-      edilecektir.
+   1. Yazılım kod seviyesinde (her bir sınıf, fonksiyon ve parametre) dokümante edilecektir.
    2. Yazılımın örnek kullanımları gösteren ve tasarımı anlatan bir kullanım kılavuzu bulunacaktır.
    3. Dokümantasyon standardı Restructured Text olacaktır. (Bu ister bir örnek, talep gelirse Markdown da olabilir)
    4. Dokümantasyon dili İngilizce olacaktır.
