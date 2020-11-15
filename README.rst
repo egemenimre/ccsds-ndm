@@ -75,7 +75,8 @@ Tasarım Notları
 Temelde iki tasarım alternatifi göze çarpmaktadır:
 
 1. XSD dosyalarından otomatik olarak nesneleri içeren ve XML okuyan/yazan kodun yaratılması. (örn.
-   `generateDS <https://sourceforge.net/projects/generateds/>`_)
+   `generateDS <https://sourceforge.net/projects/generateds/>`_ ya da
+   `xsdata <https://github.com/tefra/xsdata>`_)
 2. XSD ile XML kodunun otomatik olarak okunması, test edilmesi ve yazılması; sınıfların yaratılması işinin
    geliştirici ekip tarafından yapılması. (örn. `xmlschema <https://pypi.org/project/xmlschema/>`_)
    
