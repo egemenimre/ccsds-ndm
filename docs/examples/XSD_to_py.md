@@ -3,7 +3,7 @@
 
 ## Using `generateDS` to convert XSD files to classes that parse and export XML
 
-Use `generateDS` (see [website](https://sourceforge.net/projects/generateds/) and [tutorial](http://www.davekuhlman.org/generateds_tutorial.html])) to convert the xsd file into a bunch of classes that can parse and export an XML file:
+Use `generateDS` (see [website](https://sourceforge.net/projects/generateds/) and [tutorial](http://www.davekuhlman.org/generateds_tutorial.html)) to convert the xsd file into a bunch of classes that can parse and export an XML file:
 
 `generateDS.py -f -o ccsds_oem_api.py -s ccsds_oem_sub.py --super=ccsds_opm_api ndmxml-1.0-oem-2.0.xsd`
 
