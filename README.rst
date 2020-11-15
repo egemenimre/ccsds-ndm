@@ -68,6 +68,7 @@ Kaynaklar
    `ODM formatı <https://public.ccsds.org/Pubs/502x0b2c1.pdf>`_
 3. CCSDS ODM standartlarının tarihçesi ile ilgili bir makale
    `buradan <https://arc.aiaa.org/doi/pdfplus/10.2514/6.2018-2456>`_ okunabilir.
+4. CCSDS NDM Standartları `ana sayfası <https://public.ccsds.org/publications/MOIMS.aspx>`_
 
 Tasarım Notları
 ------------------
