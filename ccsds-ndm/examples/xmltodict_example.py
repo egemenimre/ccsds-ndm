@@ -20,9 +20,9 @@ if __name__ == '__main__':
 
     # check file location
     xml_file_path = Path(os.getcwd(), "..", "sample_xml",
-                         "CH_FDS_ORBPRE_OPER_20180320224847_20190601000000_20190608000000.xml")
+                         "cdm_example_section4.xml")
 
-    print(f"xml file path :  {xml_file_path.resolve()}")
+    print(f"xml file path : {xml_file_path.resolve()}")
     print(f"file exists   : {xml_file_path.exists()}")
 
     # read XML file
