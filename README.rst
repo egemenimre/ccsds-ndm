@@ -89,4 +89,5 @@ yapıldığını anlatan bir doküman bulunuyor.
 İkinci alternatif, dosya okuma, kontrol ve yazma işlerini bir başka kütüphaneye devreder. Ancak, en azından `xmlschema` 
 özelinde, özellikle dosya yazmak için dosya tipine ait *XML tag* yapısını bilmek mecburidir. Bu nedenle geliştirici ekibin,
 kullanıcının dolduracağı nesneyi hazırlayıp bu nesneyi *tag*'lerle ilişkilendiren kodu yazması ve standart değişimlerinde de 
-güncel tutması gerekir.
+güncel tutması gerekir. XSD dosyalarından herhangi bir kontrol yapılma isteri kaldırılırsa `xmltodict` kütüphanesi
+kullanılabilir (`examples` dizini altında bir örnek bulunmaktadır).
