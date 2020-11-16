@@ -2,26 +2,26 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:ndm="urn:ccsds:recommendation:navigation:schema:ndmxml"
             targetNamespace="urn:ccsds:recommendation:navigation:schema:ndmxml"
-            elementFormDefault="qualified" 
+            elementFormDefault="unqualified"
             attributeFormDefault="unqualified">
 
-<!--********************************************************************-->
+    <!--********************************************************************-->
+    <!-- NOTE: This is version 1.0, Rev D of the NDM/XML Schema (05/17/2020)-->
+    <!-- If this schema changed in Rev D, it is noted below, else no change.-->
+    <!--********************************************************************-->
 
-<!--********************************************************************--> 
-<!-- NOTE: This is version 1.0, Rev C of the NDM/XML Schema (09/03/2019)-->
-<!--                                                                    --> 
-<!-- Compatible document versions are:                                  --> 
-<!-- NDM/XML 505.0-B-1 Blue Book (12/2010)                              --> 
-<!-- CDM 508.0-B-1 Blue Book (06/2013)                                  -->
-<!--                                                                    --> 
-<!--********************* BLUE BOOK CHANGE LOG *************************--> 
-<!-- 03/03/2013: Original implementation of CDM XML schema.             --> 
-<!-- 10/13/2017: Rev A: Modified to include revA common schemas.        -->
-<!-- 08/29/2018: Rev B: Modified to remove revision version from file   -->
-<!--                    names, since file names on SANA were static     -->
-<!--                    and the schemas basically did not work.         -->
-<!-- 09/03/2019: Rev C: No modifications to this schema; preparation of -->
-<!--                    schema set for introduction of the RDM.         -->
+
+    <!--********************************************************************-->
+    <!-- Compatible document versions are:                                  -->
+    <!-- NDM/XML 505.0-B-1 Blue Book (12/2010)                              -->
+    <!-- CDM 508.0-B-1 Blue Book (06/2013)                                  -->
+    <!--                                                                    -->
+    <!--********************* BLUE BOOK CHANGE LOG *************************-->
+    <!-- 03/03/2013: Original implementation of CDM XML schema.             -->
+    <!-- 10/13/2017: Rev A: Modified to include revA common schemas.        -->
+    <!-- 08/29/2018: Rev B: Modified to remove revision version from file   -->
+    <!--                    names, since file names on SANA were static     -->
+    <!--                    and the schemas basically did not work.         -->
 <!--********************************************************************--> 
 
 <!--********************************************************************--> 
@@ -171,7 +171,7 @@
       <xsd:element name="additionalParameters" type="ndm:additionalParametersType"
          minOccurs="0"/>
       <xsd:element name="stateVector" type="ndm:cdmStateVectorType"/>
-      <xsd:element name="covarianceMatrix" type="ndm:cdmCovarianceType"/>
+       <xsd:element name="covarianceMatrix" type="ndm:cdmCovarianceMatrixType"/>
    </xsd:sequence>
 </xsd:complexType> 
 
@@ -219,19 +219,19 @@
       <xsd:element name="Y_DOT" type="ndm:cdmVelocityType"/>
       <xsd:element name="Z_DOT" type="ndm:cdmVelocityType"/>
    </xsd:sequence>
-</xsd:complexType> 
+</xsd:complexType>
 
-<xsd:complexType name="cdmCovarianceType">
-   <xsd:sequence>
-      <xsd:element name="COMMENT" type="xsd:string" minOccurs="0" 
-         maxOccurs="unbounded"/>
-     <xsd:element name="CR_R" type="ndm:m2Type"/>
-      <xsd:element name="CT_R" type="ndm:m2Type"/>
-      <xsd:element name="CT_T" type="ndm:m2Type"/>
-      <xsd:element name="CN_R" type="ndm:m2Type"/>
-      <xsd:element name="CN_T" type="ndm:m2Type"/>
-      <xsd:element name="CN_N" type="ndm:m2Type"/>
-      <xsd:element name="CRDOT_R" type="ndm:m2sType"/>
+    <xsd:complexType name="cdmCovarianceMatrixType">
+        <xsd:sequence>
+            <xsd:element name="COMMENT" type="xsd:string" minOccurs="0"
+                         maxOccurs="unbounded"/>
+            <xsd:element name="CR_R" type="ndm:m2Type"/>
+            <xsd:element name="CT_R" type="ndm:m2Type"/>
+            <xsd:element name="CT_T" type="ndm:m2Type"/>
+            <xsd:element name="CN_R" type="ndm:m2Type"/>
+            <xsd:element name="CN_T" type="ndm:m2Type"/>
+            <xsd:element name="CN_N" type="ndm:m2Type"/>
+            <xsd:element name="CRDOT_R" type="ndm:m2sType"/>
       <xsd:element name="CRDOT_T" type="ndm:m2sType"/>
       <xsd:element name="CRDOT_N" type="ndm:m2sType"/>
       <xsd:element name="CRDOT_RDOT" type="ndm:m2s2Type"/>

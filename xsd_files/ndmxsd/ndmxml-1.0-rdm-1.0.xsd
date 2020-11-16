@@ -2,17 +2,19 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:ndm="urn:ccsds:recommendation:navigation:schema:ndmxml"
             targetNamespace="urn:ccsds:recommendation:navigation:schema:ndmxml"
-            elementFormDefault="qualified" 
+            elementFormDefault="unqualified"
             attributeFormDefault="unqualified">
 
-<!--********************************************************************-->
+    <!--********************************************************************-->
+    <!-- NOTE: This is version 1.0, Rev D of the NDM/XML Schema (05/17/2020)-->
+    <!-- If this schema changed in Rev D, it is noted below, else no change.-->
+    <!--********************************************************************-->
 
     <!--********************************************************************-->
     <!-- NOTE: This is version 1.0 of the RDM/XML Schema (16-May-2019)      -->
-    <!--                                                                    -->
     <!-- Compatible document versions are:                                  -->
     <!-- NDM/XML 505.0-B-1 Blue Book (12/2010)                              -->
-    <!-- RDM 508.1-B-1     Blue Book (10/2019)                              -->
+    <!-- RDM 508.1-B-1     Blue Book (11/2019)                              -->
     <!--                                                                    -->
     <!--********************* BLUE BOOK CHANGE LOG *************************-->
     <!--                                                                    -->

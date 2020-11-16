@@ -2,19 +2,22 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:ndm="urn:ccsds:recommendation:navigation:schema:ndmxml"
             targetNamespace="urn:ccsds:recommendation:navigation:schema:ndmxml"
-            elementFormDefault="qualified" 
+            elementFormDefault="unqualified"
             attributeFormDefault="unqualified">
 
-<!--********************************************************************-->
+    <!--********************************************************************-->
+    <!-- NOTE: This is version 1.0, Rev D of the NDM/XML Schema (05/17/2020)-->
+    <!-- If this schema changed in Rev D, it is noted below, else no change.-->
+    <!--********************************************************************-->
 
-<!--********************************************************************-->
-<!-- NOTE: This is version 1.0, Rev C of the NDM/XML Schema (09/03/2019)-->
-<!-- This component of the schema is the "APM" module, which contains   -->
-<!-- elements that are used exclusively in the Attitude Parameter       -->
-<!-- Message (APM).                                                     -->
-<!--                                                                    -->
-<!-- Compatible document versions are:                                  -->
-<!--    NDM/XML 505.0-B-1   Blue Book (12/2010)                         -->
+
+    <!--********************************************************************-->
+    <!-- This component of the schema is the "APM" module, which contains   -->
+    <!-- elements that are used exclusively in the Attitude Parameter       -->
+    <!-- Message (APM).                                                     -->
+    <!--                                                                    -->
+    <!-- Compatible document versions are:                                  -->
+    <!--    NDM/XML 505.0-B-1   Blue Book (12/2010)                         -->
 <!--    ADM     504.0-B-1   Blue Book (05/2008)                         -->
 <!--                                                                    -->
 <!-- *********************  BLUE BOOK CHANGE LOG  ********************* -->
@@ -23,8 +26,6 @@
 <!-- 08/29/2018: Rev B: Modified to remove revision version from file   -->
 <!--                    names, since file names on SANA were static     -->
 <!--                    and the schemas basically did not work.         -->
-<!-- 09/03/2019: Rev C: No modifications to this schema; preparation of -->
-<!--                    schema set for introduction of the RDM.         -->
 <!--********************************************************************-->
 
 <!--********************************************************************-->
@@ -197,21 +198,6 @@
 <!--********************************************************************-->
 <!-- Simple Types and Complex Types Unique to the APM.                  -->
 <!--********************************************************************-->
-
-<xsd:complexType name="momentType">
-   <xsd:simpleContent>
-      <xsd:extension base="xsd:double">
-         <xsd:attribute name="units" type="ndm:momentUnits" use="optional"/>
-      </xsd:extension>
-   </xsd:simpleContent>
-</xsd:complexType>
-
-
-<xsd:simpleType name="momentUnits">
-   <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="kg*m**2"/>
-   </xsd:restriction>
-</xsd:simpleType>
 
 
 <xsd:simpleType name="apmRateFrameType">

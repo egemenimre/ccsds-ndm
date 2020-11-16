@@ -2,34 +2,38 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:ndm="urn:ccsds:recommendation:navigation:schema:ndmxml"
             targetNamespace="urn:ccsds:recommendation:navigation:schema:ndmxml"
-            elementFormDefault="qualified" 
+            elementFormDefault="unqualified"
             attributeFormDefault="unqualified">
 
-<!--********************************************************************-->
+    <!--********************************************************************-->
+    <!-- NOTE: This is version 1.0, Rev D of the NDM/XML Schema (05/17/2020)-->
+    <!-- If this schema changed in Rev D, it is noted below, else no change.-->
+    <!--********************************************************************-->
 
-<!--********************************************************************-->
-<!-- NOTE: This is version 1.0, Rev C of the NDM/XML Schema (09/03/2019)-->
-<!-- This component of the schema is the "Navigation WG common" module, -->
-<!-- which contains only simple types and complex types used by the     -->
-<!-- constituent schemas that make up Navigation Data Messages (AEM,    -->
-<!-- APM, OEM, OMM, OPM, TDM).                                          -->
-<!--                                                                    -->
-<!-- Compatible document versions are:                                  -->
-<!--    NDM/XML 505.0-B-1 Blue Book   (12/2010)                         -->
-<!--    ODM     502.0-B-2 Blue Book   (11/2009)                         -->
-<!--    ADM     504.0-B-1 Blue Book   (05/2008)                         -->
-<!--    TDM     503.0-B-1 Blue Book   (11/2007)                         -->
-<!--    RDM     508.1-B-1 Blue Book   (10/2019)                         -->
-<!--                                                                    -->
-<!-- *********************  BLUE BOOK CHANGE LOG  ********************* -->
-<!-- 03/14/2010: Original implemementation of schemas.                  -->
-<!-- 01/08/2013  Rev 0: Updated for CDM                                 -->
-<!-- 10/13/2017: Rev A: Corrected units errors in covariance matrix.    -->
-<!--                    Modified to include revA common schemas.        -->
-<!-- 08/29/2018: Rev B: Modified to remove revision version from file   -->
-<!--                    names, since file names on SANA were static     -->
-<!--                    and the schemas basically did not work. Also    -->
-<!--                    corrected error in OEM covariance matrix.       -->
+
+    <!--********************************************************************-->
+    <!-- This component of the schema is the "Navigation WG common" module, -->
+    <!-- which contains only simple types and complex types used by the     -->
+    <!-- constituent schemas that make up Navigation Data Messages (AEM,    -->
+    <!-- APM, OEM, OMM, OPM, TDM).                                          -->
+    <!--                                                                    -->
+    <!-- Compatible document versions are:                                  -->
+    <!--    NDM/XML 505.0-B-1 Blue Book   (12/2010)                         -->
+    <!--    ODM     502.0-B-2 Blue Book   (11/2009)                         -->
+    <!--    ADM     504.0-B-1 Blue Book   (05/2008)                         -->
+    <!--    TDM     503.0-B-2 Blue Book   (06/2020)                         -->
+    <!--    CDM     508.0-B-1 Blue Book   (06/2013)                         -->
+    <!--    RDM     508.1-B-1 Blue Book   (11/2019)                         -->
+    <!--                                                                    -->
+    <!-- *********************  BLUE BOOK CHANGE LOG  ********************* -->
+    <!-- 03/14/2010: Original implemementation of schemas.                  -->
+    <!-- 01/08/2013  Rev 0: Updated for CDM                                 -->
+    <!-- 10/13/2017: Rev A: Corrected units errors in covariance matrix.    -->
+    <!--                    Modified to include revA common schemas.        -->
+    <!-- 08/29/2018: Rev B: Modified to remove revision version from file   -->
+    <!--                    names, since file names on SANA were static     -->
+    <!--                    and the schemas basically did not work. Also    -->
+    <!--                    corrected error in OEM covariance matrix.       -->
 <!-- 08/16/2019: Rev C: Merged all "CCSDS common" schema components     -->
 <!--                    with this schema. Now only "NAVWG common".      -->
 <!--                    The "CCSDS Common" is temporarily empty schema. -->
@@ -1029,10 +1033,26 @@
 
     <xsd:simpleType name="reentryUncertaintyMethodType">
         <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="NONE" />
-            <xsd:enumeration value="ANALYTICAL" />
-            <xsd:enumeration value="STOCHASTIC" />
-            <xsd:enumeration value="EMPIRICAL" />
+            <xsd:enumeration value="NONE"/>
+            <xsd:enumeration value="ANALYTICAL"/>
+            <xsd:enumeration value="STOCHASTIC"/>
+            <xsd:enumeration value="EMPIRICAL"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:complexType name="momentType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:double">
+                <xsd:attribute name="units" type="ndm:momentUnits" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+
+    <xsd:simpleType name="momentUnits">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="kg*m**2"/>
         </xsd:restriction>
     </xsd:simpleType>
 
