@@ -19,7 +19,8 @@ if __name__ == '__main__':
     print(f"current working directory is {os.getcwd()}.")
 
     # check file location
-    xml_file_path = Path(os.getcwd(), "..", "sample_xml", "cdm_example_section4.xml")
+    xml_file_path = Path(os.getcwd(), "..", "sample_xml",
+                         "NDMXML-P1.0.1-figure-B-3.xml")
 
     print(f"xml file path : {xml_file_path.resolve()}")
     print(f"file exists   : {xml_file_path.exists()}")
@@ -37,4 +38,4 @@ if __name__ == '__main__':
     # read XML file
     print(f"XML is valid  : {xsd.is_valid(xml_file_path.read_text())}")
     # print(xsd.validate(str(xml_file_path)))
-    pprint(xsd.to_dict(xml_file_path.read_text(), validation="lax"))
+    pprint(xsd.to_dict(xml_file_path.read_text()))
