@@ -46,7 +46,8 @@ Proje İsterleri
    
 3. Dokümantasyon: 
    
-   1. Yazılım kod seviyesinde (her bir sınıf, fonksiyon ve parametre) dokümante edilecektir.
+   1. Yazılım kod seviyesinde (her bir sınıf, fonksiyon ve parametre) dokümante edilecektir ve Numpy standardı 
+      kullanılacaktır.
    2. Yazılımın örnek kullanımları gösteren ve tasarımı anlatan bir kullanım kılavuzu bulunacaktır.
    3. Dokümantasyon standardı Restructured Text olacaktır. (Bu ister bir örnek, talep gelirse Markdown da olabilir)
    4. Dokümanlar Readthedocs ya da GitHub docs gibi bir çevrimiçi ortamda yayınlanacaktır.
