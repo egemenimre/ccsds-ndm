@@ -16,16 +16,17 @@ import xmlschema
 
 if __name__ == '__main__':
     # print working directory
-    print(f"current working directory is {os.getcwd()}.")
+    ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+    print(f"current working directory is {ROOT_DIR}.")
 
     # check file location
-    xml_file_path = Path(os.getcwd(), "..", "sample_xml", "cdm_example_section4.xml")
+    xml_file_path = Path(ROOT_DIR, "..", "sample_xml", "cdm_example_section4.xml")
 
     print(f"xml file path : {xml_file_path.resolve()}")
     print(f"file exists   : {xml_file_path.exists()}")
 
     # define XSD file
-    xsd_file_base_path = Path(os.getcwd(), "..", "..", "xsd_files", "ndmxsd")
+    xsd_file_base_path = Path(ROOT_DIR, "..", "..", "xsd_files", "ndmxsd")
     ndm_master_xsd_path = Path(xsd_file_base_path, "ndmxml-1.0-master.xsd")
     # xsd_file_base_path = Path(os.getcwd(), "..", "..", "xsd_files", "ndmxml-2.0.0-schemas-qualified")
     # ndm_master_xsd_path = Path(xsd_file_base_path, "ndmxml-2.0.0-master-2.0.xsd")
