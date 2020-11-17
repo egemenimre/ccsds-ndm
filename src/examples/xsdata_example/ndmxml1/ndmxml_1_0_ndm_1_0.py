@@ -1,14 +1,14 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_aem_1_0 import AemType
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_apm_1_0 import ApmType
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_cdm_1_0 import CdmType
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_oem_2_0 import OemType
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_omm_2_0 import OmmType
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_opm_1_0 import OpmType
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_rdm_1_0 import RdmType
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_tdm_2_0 import TdmType
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_aem_1_0 import AemType
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_apm_1_0 import ApmType
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_cdm_1_0 import CdmType
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_oem_2_0 import OemType
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_omm_2_0 import OmmType
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_opm_1_0 import OpmType
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_rdm_1_0 import RdmType
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_tdm_2_0 import TdmType
 
 __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 

@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_navwg_common import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_navwg_common import (
     NdmHeader,
     OemCovarianceMatrixType,
     StateVectorAccType,

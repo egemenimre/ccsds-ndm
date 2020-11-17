@@ -16,7 +16,7 @@ from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers import XmlSerializer
 
-from src.examples.xsdata_example.ndmxml import Cdm
+from src.examples.xsdata_example.ndmxml1 import Cdm
 
 if __name__ == '__main__':
     # print working directory

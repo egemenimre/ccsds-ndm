@@ -1,4 +1,4 @@
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_aem_1_0 import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_aem_1_0 import (
     AemBody,
     AemData,
     AemMetadata,
@@ -16,7 +16,7 @@ from src.examples.xsdata_example.ndmxml.ndmxml_1_0_aem_1_0 import (
     SpinNutationType,
     SpinType,
 )
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_apm_1_0 import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_apm_1_0 import (
     ApmBody,
     ApmData,
     ApmMetadata,
@@ -31,7 +31,7 @@ from src.examples.xsdata_example.ndmxml.ndmxml_1_0_apm_1_0 import (
     TorqueType,
     TorqueUnits,
 )
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_cdm_1_0 import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_cdm_1_0 import (
     AdditionalParametersType,
     CdmBody,
     CdmCovarianceMatrixType,
@@ -76,7 +76,7 @@ from src.examples.xsdata_example.ndmxml.ndmxml_1_0_cdm_1_0 import (
     WkgType,
     WkgUnits,
 )
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_master import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_master import (
     Aem,
     Apm,
     Cdm,
@@ -87,7 +87,7 @@ from src.examples.xsdata_example.ndmxml.ndmxml_1_0_master import (
     Rdm,
     Tdm,
 )
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_navwg_common import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_navwg_common import (
     AccType,
     AccUnits,
     AltType,
@@ -177,15 +177,15 @@ from src.examples.xsdata_example.ndmxml.ndmxml_1_0_navwg_common import (
     VelocityUnits,
     YesNoType,
 )
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_ndm_1_0 import NdmType
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_oem_2_0 import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_ndm_1_0 import NdmType
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_oem_2_0 import (
     OemBody,
     OemData,
     OemMetadata,
     OemSegment,
     OemType,
 )
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_omm_2_0 import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_omm_2_0 import (
     BStarType,
     BStarUnits,
     DRevType,
@@ -202,7 +202,7 @@ from src.examples.xsdata_example.ndmxml.ndmxml_1_0_omm_2_0 import (
     RevUnits,
     TleParametersType,
 )
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_opm_1_0 import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_opm_1_0 import (
     KeplerianElementsType,
     ManeuverParametersType,
     OpmBody,
@@ -211,7 +211,7 @@ from src.examples.xsdata_example.ndmxml.ndmxml_1_0_opm_1_0 import (
     OpmSegment,
     OpmType,
 )
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_rdm_1_0 import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_rdm_1_0 import (
     RdmBody,
     RdmData,
     RdmHeader,
@@ -219,7 +219,7 @@ from src.examples.xsdata_example.ndmxml.ndmxml_1_0_rdm_1_0 import (
     RdmSegment,
     RdmType,
 )
-from src.examples.xsdata_example.ndmxml.ndmxml_1_0_tdm_2_0 import (
+from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_tdm_2_0 import (
     AngleTypeType,
     DataQualityType,
     IntegrationRefType,
