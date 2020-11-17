@@ -14,6 +14,7 @@ from pathlib import Path
 
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.parsers.config import ParserConfig
+from xsdata.formats.dataclass.serializers import XmlSerializer
 
 from src.examples.xsdata_example.ndmxml import Cdm
 
@@ -22,15 +23,28 @@ if __name__ == '__main__':
     print(f"current working directory is {os.getcwd()}.")
 
     # check file location
-    xml_file_path = Path(os.getcwd(), "..", "..", "sample_xml",
-                         "cdm_example_section4.xml")
+    xml_read_file_path = Path(os.getcwd(), "..", "..", "sample_xml",
+                              "cdm_example_section4.xml")
 
-    print(f"xml file path : {xml_file_path.resolve()}")
-    print(f"file exists   : {xml_file_path.exists()}")
+    print(f"xml file path : {xml_read_file_path.resolve()}")
+    print(f"file exists   : {xml_read_file_path.exists()}")
 
     # read XML file
     config = ParserConfig(fail_on_unknown_properties=True)
     parser = XmlParser(config=config)
-    cdm = parser.from_path(xml_file_path, Cdm)
+    cdm = parser.from_path(xml_read_file_path, Cdm)
 
-    print(cdm.header)
+    print(cdm.body.relative_metadata_data.relative_state_vector.relative_position_n)
+
+    # write XML file
+    serializer = XmlSerializer(pretty_print=True)
+    xml = serializer.render(cdm)
+
+    xml_write_file_path = Path(os.getcwd(), "..", "..", "sample_xml",
+                               "write_cdm.xml")
+    xml_write_file_path.write_text(xml)
+
+    # read written XML file
+    config = ParserConfig(fail_on_unknown_properties=True)
+    parser = XmlParser(config=config)
+    cdm = parser.from_path(xml_write_file_path, Cdm)
