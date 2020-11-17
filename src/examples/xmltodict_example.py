@@ -16,10 +16,11 @@ import xmltodict
 
 if __name__ == '__main__':
     # print working directory
-    print(f"current working directory is {os.getcwd()}.")
+    ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+    print(f"current working directory is {ROOT_DIR}.")
 
     # check file location
-    xml_file_path = Path(os.getcwd(), "..", "sample_xml",
+    xml_file_path = Path(ROOT_DIR, "..", "sample_xml",
                          "cdm_example_section4.xml")
 
     print(f"xml file path : {xml_file_path.resolve()}")
