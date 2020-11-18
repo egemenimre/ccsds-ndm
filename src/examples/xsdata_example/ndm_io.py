@@ -8,6 +8,7 @@ CCSDS Navigation Data Messages XML File I/O.
 
 """
 
+import xml.etree.ElementTree as ElementTree
 from enum import Enum
 
 from xsdata.formats.dataclass.parsers import XmlParser
@@ -18,7 +19,6 @@ from src.examples.xsdata_example.ndmxml1 import (
     Aem,
     Apm,
     Cdm,
-    Ndm,
     Oem,
     Omm,
     Opm,
@@ -27,35 +27,48 @@ from src.examples.xsdata_example.ndmxml1 import (
 )
 
 
-class NdmDataType(Enum):
+class _NdmDataType(Enum):
     """
     NDM Data Type (e.g. OEM or AEM).
     """
 
-    AEMv1 = Aem
-    APMv1 = Apm
-    CDMv1 = Cdm
-    NDMv1 = Ndm
-    OEMv1 = Oem
-    OMMv1 = Omm
-    OPMv1 = Opm
-    RDMv1 = Rdm
-    TDMv1 = Tdm
+    AEMv1 = (Aem.id, Aem)
+    APMv1 = (Apm.id, Apm)
+    CDMv1 = (Cdm.id, Cdm)
+    OEMv1 = (Oem.id, Oem)
+    OMMv1 = (Omm.id, Omm)
+    OPMv1 = (Opm.id, Opm)
+    RDMv1 = (Rdm.id, Rdm)
+    TDMv1 = (Tdm.id, Tdm)
 
-    def __init__(self, clazz):
+    def __init__(self, ndm_id, clazz):
         self.clazz = clazz
+        self.ndm_id = ndm_id
+
+    @staticmethod
+    def find_element(ndm_id):
+        """
+        Finds the NDM Data Type corresponding to the requested id.
+
+        Parameters
+        ----------
+        ndm_id : str
+            NDM data id (e.g. `CCSDS_AEM_VERS`)
+        Returns
+        -------
+        correct `_NdmDataType` enum corresponding to the id
+        """
+        for ndm_data in _NdmDataType:
+            if ndm_data.ndm_id == ndm_id:
+                return ndm_data
 
 
 class NdmIo:
     """
-    Parameters
-    ----------
-    data_type : NdmDataType
-        NDM data type to be read (e.g. OEMv1 or AEMv1)
+    Navigation Data Message.
     """
 
-    def __init__(self, data_type):
-        self.data_type = data_type
+    def __init__(self):
         self.parser = None
         self.serializer = None
 
@@ -72,6 +85,25 @@ class NdmIo:
         """
         self.serializer = XmlSerializer(pretty_print=True)
 
+    @staticmethod
+    def __identify_data_type(xml_data):
+        """
+        Identifies the data type (AEM, CDM etc.) of the XML data.
+
+        Parameters
+        ----------
+        xml_data
+            filename or file object containing XML data
+        Returns
+        -------
+        XML Data class
+
+        """
+        # Identify the data type
+        root = ElementTree.parse(xml_data).getroot()
+
+        return _NdmDataType.find_element(root.attrib.get("id")).clazz
+
     def from_path(self, xml_read_file_path):
         """
         Reads the file to extract contents to an object of correct type.
@@ -85,11 +117,14 @@ class NdmIo:
         -------
         Object tree from the file contents
         """
+        # Identify data type
+        data_type = self.__identify_data_type(xml_read_file_path)
+
         # lazy init parser
         if self.parser is None:
             self.__init_parser()
 
-        return self.parser.from_path(xml_read_file_path, self.data_type.value)
+        return self.parser.from_path(xml_read_file_path, data_type)
 
     def from_bytes(self, xml_source):
         """
@@ -104,11 +139,14 @@ class NdmIo:
         -------
         Object tree from the file contents
         """
+        # Identify data type
+        data_type = self.__identify_data_type(xml_source)
+
         # lazy init parser
         if self.parser is None:
             self.__init_parser()
 
-        return self.parser.from_bytes(xml_source, self.data_type.value)
+        return self.parser.from_bytes(xml_source, data_type)
 
     def from_string(self, xml_source):
         """
@@ -123,11 +161,14 @@ class NdmIo:
         -------
         Object tree from the file contents
         """
+        # Identify data type
+        data_type = self.__identify_data_type(xml_source)
+
         # lazy init parser
         if self.parser is None:
             self.__init_parser()
 
-        return self.parser.from_string(xml_source, self.data_type.value)
+        return self.parser.from_string(xml_source, data_type.value)
 
     def to_string(self, ndm_obj):
         """

@@ -10,13 +10,16 @@ xsdata example. Uses auto-generated classes from the XSD files.
 
 import os
 from builtins import print
+from decimal import Decimal
 from pathlib import Path
 
-from xsdata.formats.dataclass.parsers import XmlParser
-from xsdata.formats.dataclass.parsers.config import ParserConfig
+from src.examples.xsdata_example.ndm_io import NdmIo
+from src.examples.xsdata_example.ndmxml1 import LengthType, LengthUnits
 
-from src.examples.xsdata_example.ndm_io import NdmIo, NdmDataType
-from src.examples.xsdata_example.ndmxml1 import Cdm
+# from xsdata.formats.dataclass.parsers import XmlParser
+# from xsdata.formats.dataclass.parsers.config import ParserConfig
+# from xsdata.formats.dataclass.serializers import XmlSerializer
+
 
 if __name__ == "__main__":
     # *** print working directory ***
@@ -31,23 +34,31 @@ if __name__ == "__main__":
     print(f"file exists   : {xml_read_file_path.exists()}")
 
     # *** read XML file ***
+
     # config = ParserConfig(fail_on_unknown_properties=True)
     # parser = XmlParser(config=config)
     # cdm = parser.from_path(xml_read_file_path, Cdm)
-    cdm_data = NdmIo(NdmDataType.CDMv1)
-    cdm = cdm_data.from_path(xml_read_file_path)
+    cdm = NdmIo().from_path(xml_read_file_path)
 
+    # *** Modify object tree ***
+    print(cdm.body.relative_metadata_data.relative_state_vector.relative_position_n)
+
+    cdm.body.relative_metadata_data.relative_state_vector.relative_position_n = (
+        LengthType(Decimal(800), LengthUnits.M)
+    )
     print(cdm.body.relative_metadata_data.relative_state_vector.relative_position_n)
 
     # *** write XML file ***
     xml_write_file_path = Path(os.getcwd(), "..", "..", "sample_xml", "write_cdm.xml")
-    cdm_data.to_file(cdm, xml_write_file_path)
+    NdmIo().to_file(cdm, xml_write_file_path)
 
     # serializer = XmlSerializer(pretty_print=True)
-    # xml = serializer.render(cdm)
+    # xml = serializer.render(cdm, ns_map=parser.ns_map)
     # xml_write_file_path.write_text(xml)
 
     # *** read written XML file ***
-    config = ParserConfig(fail_on_unknown_properties=True)
-    parser = XmlParser(config=config)
-    cdm = parser.from_path(xml_write_file_path, Cdm)
+
+    # config = ParserConfig(fail_on_unknown_properties=True)
+    # parser = XmlParser(config=config)
+    # cdm = parser.from_path(xml_write_file_path, Cdm)
+    cdm = NdmIo().from_path(xml_read_file_path)
