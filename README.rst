@@ -89,7 +89,12 @@ yapıldığını anlatan bir doküman bulunuyor. Benzer bir kütüphane de
 `xsdata <https://github.com/tefra/xsdata/>`_ ve bunun ürettiği sınıflar daha okunabilir ve temiz bir
 kod çıkarıyor.
 
-- `xsData örneği <src/examples/xsdata_example/xsdata_example.py>`_
+- `xsData örneği <src/examples/xsdata_example/xsdata_example.py>`_: Görünüşe göre xsData gayet başarılı, sadece üç
+konu var (her üçü için de issue açıldı):
+    - conda veya conda-forge'da xsData paketi yok
+    - kritik olmamakla birlikte baştaki attribute'lar okunmuyor ya da yazılmıyor
+    - yaratılan doküman formatı ReST - numpy vb tercih edilebilir ama `pyment` gibi dönüştürücü paketler de iş görebilir
+
 
 İkinci alternatif, dosya okuma, kontrol ve yazma işlerini bir başka kütüphaneye devreder. Ancak, en azından `xmlschema` 
 özelinde, özellikle dosya yazmak için dosya tipine ait *XML tag* yapısını bilmek mecburidir. Bu nedenle geliştirici ekibin,
