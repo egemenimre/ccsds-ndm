@@ -56,7 +56,8 @@ class _NdmDataType(Enum):
             NDM data id (e.g. `CCSDS_AEM_VERS`)
         Returns
         -------
-        correct `_NdmDataType` enum corresponding to the id
+        ndm_data_type
+            correct `_NdmDataType` enum corresponding to the id
         """
         for ndm_data in _NdmDataType:
             if ndm_data.ndm_id == ndm_id:
@@ -96,7 +97,8 @@ class NdmIo:
             filename or file object containing XML data
         Returns
         -------
-        XML Data class
+        class
+            XML Data class
 
         """
         # Identify the data type
@@ -115,7 +117,8 @@ class NdmIo:
 
         Returns
         -------
-        Object tree from the file contents
+        object
+            Object tree from the file contents
         """
         # Identify data type
         data_type = self.__identify_data_type(xml_read_file_path)
@@ -137,7 +140,8 @@ class NdmIo:
 
         Returns
         -------
-        Object tree from the file contents
+        object
+            Object tree from the file contents
         """
         # Identify data type
         data_type = self.__identify_data_type(xml_source)
@@ -159,7 +163,8 @@ class NdmIo:
 
         Returns
         -------
-        Object tree from the file contents
+        object
+            Object tree from the file contents
         """
         # Identify data type
         data_type = self.__identify_data_type(xml_source)
@@ -181,7 +186,8 @@ class NdmIo:
 
         Returns
         -------
-        given object tree as xml string
+        str
+            given object tree as xml string
         """
         # lazy init serializer
         if self.serializer is None:
@@ -199,10 +205,6 @@ class NdmIo:
             input object tree
         xml_write_file_path : Path
             Path of the XML file to be written
-
-        Returns
-        -------
-        given object tree as xml string
         """
         xml_txt = self.to_string(ndm_obj)
         xml_write_file_path.write_text(xml_txt)
