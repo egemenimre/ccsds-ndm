@@ -13,8 +13,8 @@ from builtins import print
 from decimal import Decimal
 from pathlib import Path
 
-from src.examples.xsdata_example.ndm_io import NdmIo
-from src.examples.xsdata_example.ndmxml1 import LengthType, LengthUnits
+from src.ndm_io import NdmIo
+from src.ndmxml1 import LengthType, LengthUnits
 
 # from xsdata.formats.dataclass.parsers import XmlParser
 # from xsdata.formats.dataclass.parsers.config import ParserConfig
@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     # *** check file location ***
     xml_read_file_path = Path(
-        os.getcwd(), "..", "..", "sample_xml", "cdm_example_section4.xml"
+        os.getcwd(), "..", "sample_xml", "cdm_example_section4.xml"
     )
 
     print(f"xml file path : {xml_read_file_path.resolve()}")
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     print(cdm.body.relative_metadata_data.relative_state_vector.relative_position_n)
 
     # *** write XML file ***
-    xml_write_file_path = Path(os.getcwd(), "..", "..", "sample_xml", "write_cdm.xml")
+    xml_write_file_path = Path(os.getcwd(), "..", "sample_xml", "write_cdm.xml")
     NdmIo().to_file(cdm, xml_write_file_path)
 
     # serializer = XmlSerializer(pretty_print=True)

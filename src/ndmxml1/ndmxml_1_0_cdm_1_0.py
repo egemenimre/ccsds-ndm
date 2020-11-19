@@ -3,7 +3,7 @@ from decimal import Decimal
 from enum import Enum
 from typing import List, Optional
 
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_navwg_common import (
+from src.ndmxml1.ndmxml_1_0_navwg_common import (
     AreaType,
     LengthType,
     MassType,
@@ -37,7 +37,7 @@ class CdmHeader:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     creation_date: Optional[str] = field(
         default=None,
@@ -47,7 +47,7 @@ class CdmHeader:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     originator: Optional[str] = field(
         default=None,
@@ -56,7 +56,7 @@ class CdmHeader:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     message_for: Optional[str] = field(
         default=None,
@@ -64,7 +64,7 @@ class CdmHeader:
             "name": "MESSAGE_FOR",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     message_id: Optional[str] = field(
         default=None,
@@ -73,7 +73,7 @@ class CdmHeader:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -84,6 +84,7 @@ class CovarianceMethodType(Enum):
     :cvar DEFAULT:
     :cvar DEFAULT_1:
     """
+
     CALCULATED = "CALCULATED"
     CALCULATED_1 = "calculated"
     DEFAULT = "DEFAULT"
@@ -94,6 +95,7 @@ class DvUnits(Enum):
     """
     :cvar M_S:
     """
+
     M_S = "m/s"
 
 
@@ -101,6 +103,7 @@ class M2Units(Enum):
     """
     :cvar M_2:
     """
+
     M_2 = "m**2"
 
 
@@ -108,6 +111,7 @@ class M2KgUnits(Enum):
     """
     :cvar M_2_KG:
     """
+
     M_2_KG = "m**2/kg"
 
 
@@ -115,6 +119,7 @@ class M2S2Units(Enum):
     """
     :cvar M_2_S_2:
     """
+
     M_2_S_2 = "m**2/s**2"
 
 
@@ -122,6 +127,7 @@ class M2S3Units(Enum):
     """
     :cvar M_2_S_3:
     """
+
     M_2_S_3 = "m**2/s**3"
 
 
@@ -129,6 +135,7 @@ class M2S4Units(Enum):
     """
     :cvar M_2_S_4:
     """
+
     M_2_S_4 = "m**2/s**4"
 
 
@@ -136,6 +143,7 @@ class M2SUnits(Enum):
     """
     :cvar M_2_S:
     """
+
     M_2_S = "m**2/s"
 
 
@@ -143,6 +151,7 @@ class M3KgUnits(Enum):
     """
     :cvar M_3_KG:
     """
+
     M_3_KG = "m**3/kg"
 
 
@@ -150,6 +159,7 @@ class M3Kgs2Units(Enum):
     """
     :cvar M_3_KG_S_2:
     """
+
     M_3_KG_S_2 = "m**3/(kg*s**2)"
 
 
@@ -157,6 +167,7 @@ class M3KgsUnits(Enum):
     """
     :cvar M_3_KG_S:
     """
+
     M_3_KG_S = "m**3/(kg*s)"
 
 
@@ -164,6 +175,7 @@ class M4Kg2Units(Enum):
     """
     :cvar M_4_KG_2:
     """
+
     M_4_KG_2 = "m**4/kg**2"
 
 
@@ -176,6 +188,7 @@ class ManeuverableType(Enum):
     :cvar N_A:
     :cvar N_A_1:
     """
+
     YES = "YES"
     YES_1 = "yes"
     NO = "NO"
@@ -191,6 +204,7 @@ class ObjectType(Enum):
     :cvar OBJECT2:
     :cvar OBJECT2_1:
     """
+
     OBJECT1 = "OBJECT1"
     OBJECT1_1 = "object1"
     OBJECT2 = "OBJECT2"
@@ -206,6 +220,7 @@ class ReferenceFrameType(Enum):
     :cvar ITRF:
     :cvar ITRF_1:
     """
+
     EME2000 = "EME2000"
     EME2000_1 = "eme2000"
     GCRF = "GCRF"
@@ -221,6 +236,7 @@ class ScreenVolumeFrameType(Enum):
     :cvar TVN:
     :cvar TVN_1:
     """
+
     RTN = "RTN"
     RTN_1 = "rtn"
     TVN = "TVN"
@@ -234,6 +250,7 @@ class ScreenVolumeShapeType(Enum):
     :cvar BOX:
     :cvar BOX_1:
     """
+
     ELLIPSOID = "ELLIPSOID"
     ELLIPSOID_1 = "ellipsoid"
     BOX = "BOX"
@@ -244,6 +261,7 @@ class WkgUnits(Enum):
     """
     :cvar W_KG:
     """
+
     W_KG = "W/kg"
 
 
@@ -283,7 +301,7 @@ class CdmMetadata:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object: Optional[ObjectType] = field(
         default=None,
@@ -292,7 +310,7 @@ class CdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     object_designator: Optional[str] = field(
         default=None,
@@ -301,7 +319,7 @@ class CdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     catalog_name: Optional[str] = field(
         default=None,
@@ -310,7 +328,7 @@ class CdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     object_name: Optional[str] = field(
         default=None,
@@ -319,7 +337,7 @@ class CdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     international_designator: Optional[str] = field(
         default=None,
@@ -328,7 +346,7 @@ class CdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     object_type: Optional[ObjectDescriptionType] = field(
         default=None,
@@ -336,7 +354,7 @@ class CdmMetadata:
             "name": "OBJECT_TYPE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     operator_contact_position: Optional[str] = field(
         default=None,
@@ -344,7 +362,7 @@ class CdmMetadata:
             "name": "OPERATOR_CONTACT_POSITION",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     operator_organization: Optional[str] = field(
         default=None,
@@ -352,7 +370,7 @@ class CdmMetadata:
             "name": "OPERATOR_ORGANIZATION",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     operator_phone: Optional[str] = field(
         default=None,
@@ -360,7 +378,7 @@ class CdmMetadata:
             "name": "OPERATOR_PHONE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     operator_email: Optional[str] = field(
         default=None,
@@ -368,7 +386,7 @@ class CdmMetadata:
             "name": "OPERATOR_EMAIL",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     ephemeris_name: Optional[str] = field(
         default=None,
@@ -377,7 +395,7 @@ class CdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     covariance_method: Optional[CovarianceMethodType] = field(
         default=None,
@@ -386,7 +404,7 @@ class CdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     maneuverable: Optional[ManeuverableType] = field(
         default=None,
@@ -395,7 +413,7 @@ class CdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     orbit_center: Optional[str] = field(
         default=None,
@@ -403,7 +421,7 @@ class CdmMetadata:
             "name": "ORBIT_CENTER",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     ref_frame: Optional[ReferenceFrameType] = field(
         default=None,
@@ -412,7 +430,7 @@ class CdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     gravity_model: Optional[str] = field(
         default=None,
@@ -420,7 +438,7 @@ class CdmMetadata:
             "name": "GRAVITY_MODEL",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     atmospheric_model: Optional[str] = field(
         default=None,
@@ -428,7 +446,7 @@ class CdmMetadata:
             "name": "ATMOSPHERIC_MODEL",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     n_body_perturbations: Optional[str] = field(
         default=None,
@@ -436,7 +454,7 @@ class CdmMetadata:
             "name": "N_BODY_PERTURBATIONS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     solar_rad_pressure: Optional[YesNoType] = field(
         default=None,
@@ -444,7 +462,7 @@ class CdmMetadata:
             "name": "SOLAR_RAD_PRESSURE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     earth_tides: Optional[YesNoType] = field(
         default=None,
@@ -452,7 +470,7 @@ class CdmMetadata:
             "name": "EARTH_TIDES",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     intrack_thrust: Optional[YesNoType] = field(
         default=None,
@@ -460,7 +478,7 @@ class CdmMetadata:
             "name": "INTRACK_THRUST",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -482,7 +500,7 @@ class CdmPositionType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -504,7 +522,7 @@ class CdmVelocityType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -526,7 +544,7 @@ class DvType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -548,7 +566,7 @@ class M2Type:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -566,14 +584,14 @@ class M2KgType:
         default=None,
         metadata={
             "min_inclusive": 0.0,
-        }
+        },
     )
     units: Optional[M2KgUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -595,7 +613,7 @@ class M2S2Type:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -617,7 +635,7 @@ class M2S3Type:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -639,7 +657,7 @@ class M2S4Type:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -661,7 +679,7 @@ class M2SType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -683,7 +701,7 @@ class M3KgType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -705,7 +723,7 @@ class M3Kgs2Type:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -727,7 +745,7 @@ class M3KgsType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -749,7 +767,7 @@ class M4Kg2Type:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -767,14 +785,14 @@ class WkgType:
         default=None,
         metadata={
             "min_inclusive": 0.0,
-        }
+        },
     )
     units: Optional[WkgUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -801,7 +819,7 @@ class AdditionalParametersType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     area_pc: Optional[AreaType] = field(
         default=None,
@@ -809,7 +827,7 @@ class AdditionalParametersType:
             "name": "AREA_PC",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     area_drg: Optional[AreaType] = field(
         default=None,
@@ -817,7 +835,7 @@ class AdditionalParametersType:
             "name": "AREA_DRG",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     area_srp: Optional[AreaType] = field(
         default=None,
@@ -825,7 +843,7 @@ class AdditionalParametersType:
             "name": "AREA_SRP",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     mass: Optional[MassType] = field(
         default=None,
@@ -833,7 +851,7 @@ class AdditionalParametersType:
             "name": "MASS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cd_area_over_mass: Optional[M2KgType] = field(
         default=None,
@@ -841,7 +859,7 @@ class AdditionalParametersType:
             "name": "CD_AREA_OVER_MASS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cr_area_over_mass: Optional[M2KgType] = field(
         default=None,
@@ -849,7 +867,7 @@ class AdditionalParametersType:
             "name": "CR_AREA_OVER_MASS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     thrust_acceleration: Optional[Ms2Type] = field(
         default=None,
@@ -857,7 +875,7 @@ class AdditionalParametersType:
             "name": "THRUST_ACCELERATION",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     sedr: Optional[WkgType] = field(
         default=None,
@@ -865,7 +883,7 @@ class AdditionalParametersType:
             "name": "SEDR",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -929,7 +947,7 @@ class CdmCovarianceMatrixType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cr_r: Optional[M2Type] = field(
         default=None,
@@ -938,7 +956,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ct_r: Optional[M2Type] = field(
         default=None,
@@ -947,7 +965,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ct_t: Optional[M2Type] = field(
         default=None,
@@ -956,7 +974,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cn_r: Optional[M2Type] = field(
         default=None,
@@ -965,7 +983,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cn_t: Optional[M2Type] = field(
         default=None,
@@ -974,7 +992,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cn_n: Optional[M2Type] = field(
         default=None,
@@ -983,7 +1001,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     crdot_r: Optional[M2SType] = field(
         default=None,
@@ -992,7 +1010,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     crdot_t: Optional[M2SType] = field(
         default=None,
@@ -1001,7 +1019,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     crdot_n: Optional[M2SType] = field(
         default=None,
@@ -1010,7 +1028,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     crdot_rdot: Optional[M2S2Type] = field(
         default=None,
@@ -1019,7 +1037,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ctdot_r: Optional[M2SType] = field(
         default=None,
@@ -1028,7 +1046,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ctdot_t: Optional[M2SType] = field(
         default=None,
@@ -1037,7 +1055,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ctdot_n: Optional[M2SType] = field(
         default=None,
@@ -1046,7 +1064,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ctdot_rdot: Optional[M2S2Type] = field(
         default=None,
@@ -1055,7 +1073,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ctdot_tdot: Optional[M2S2Type] = field(
         default=None,
@@ -1064,7 +1082,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cndot_r: Optional[M2SType] = field(
         default=None,
@@ -1073,7 +1091,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cndot_t: Optional[M2SType] = field(
         default=None,
@@ -1082,7 +1100,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cndot_n: Optional[M2SType] = field(
         default=None,
@@ -1091,7 +1109,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cndot_rdot: Optional[M2S2Type] = field(
         default=None,
@@ -1100,7 +1118,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cndot_tdot: Optional[M2S2Type] = field(
         default=None,
@@ -1109,7 +1127,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cndot_ndot: Optional[M2S2Type] = field(
         default=None,
@@ -1118,7 +1136,7 @@ class CdmCovarianceMatrixType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cdrg_r: Optional[M3KgType] = field(
         default=None,
@@ -1126,7 +1144,7 @@ class CdmCovarianceMatrixType:
             "name": "CDRG_R",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cdrg_t: Optional[M3KgType] = field(
         default=None,
@@ -1134,7 +1152,7 @@ class CdmCovarianceMatrixType:
             "name": "CDRG_T",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cdrg_n: Optional[M3KgType] = field(
         default=None,
@@ -1142,7 +1160,7 @@ class CdmCovarianceMatrixType:
             "name": "CDRG_N",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cdrg_rdot: Optional[M3KgsType] = field(
         default=None,
@@ -1150,7 +1168,7 @@ class CdmCovarianceMatrixType:
             "name": "CDRG_RDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cdrg_tdot: Optional[M3KgsType] = field(
         default=None,
@@ -1158,7 +1176,7 @@ class CdmCovarianceMatrixType:
             "name": "CDRG_TDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cdrg_ndot: Optional[M3KgsType] = field(
         default=None,
@@ -1166,7 +1184,7 @@ class CdmCovarianceMatrixType:
             "name": "CDRG_NDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cdrg_drg: Optional[M4Kg2Type] = field(
         default=None,
@@ -1174,7 +1192,7 @@ class CdmCovarianceMatrixType:
             "name": "CDRG_DRG",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     csrp_r: Optional[M3KgType] = field(
         default=None,
@@ -1182,7 +1200,7 @@ class CdmCovarianceMatrixType:
             "name": "CSRP_R",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     csrp_t: Optional[M3KgType] = field(
         default=None,
@@ -1190,7 +1208,7 @@ class CdmCovarianceMatrixType:
             "name": "CSRP_T",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     csrp_n: Optional[M3KgType] = field(
         default=None,
@@ -1198,7 +1216,7 @@ class CdmCovarianceMatrixType:
             "name": "CSRP_N",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     csrp_rdot: Optional[M3KgsType] = field(
         default=None,
@@ -1206,7 +1224,7 @@ class CdmCovarianceMatrixType:
             "name": "CSRP_RDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     csrp_tdot: Optional[M3KgsType] = field(
         default=None,
@@ -1214,7 +1232,7 @@ class CdmCovarianceMatrixType:
             "name": "CSRP_TDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     csrp_ndot: Optional[M3KgsType] = field(
         default=None,
@@ -1222,7 +1240,7 @@ class CdmCovarianceMatrixType:
             "name": "CSRP_NDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     csrp_drg: Optional[M4Kg2Type] = field(
         default=None,
@@ -1230,7 +1248,7 @@ class CdmCovarianceMatrixType:
             "name": "CSRP_DRG",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     csrp_srp: Optional[M4Kg2Type] = field(
         default=None,
@@ -1238,7 +1256,7 @@ class CdmCovarianceMatrixType:
             "name": "CSRP_SRP",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cthr_r: Optional[M2S2Type] = field(
         default=None,
@@ -1246,7 +1264,7 @@ class CdmCovarianceMatrixType:
             "name": "CTHR_R",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cthr_t: Optional[M2S2Type] = field(
         default=None,
@@ -1254,7 +1272,7 @@ class CdmCovarianceMatrixType:
             "name": "CTHR_T",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cthr_n: Optional[M2S2Type] = field(
         default=None,
@@ -1262,7 +1280,7 @@ class CdmCovarianceMatrixType:
             "name": "CTHR_N",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cthr_rdot: Optional[M2S3Type] = field(
         default=None,
@@ -1270,7 +1288,7 @@ class CdmCovarianceMatrixType:
             "name": "CTHR_RDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cthr_tdot: Optional[M2S3Type] = field(
         default=None,
@@ -1278,7 +1296,7 @@ class CdmCovarianceMatrixType:
             "name": "CTHR_TDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cthr_ndot: Optional[M2S3Type] = field(
         default=None,
@@ -1286,7 +1304,7 @@ class CdmCovarianceMatrixType:
             "name": "CTHR_NDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cthr_drg: Optional[M3Kgs2Type] = field(
         default=None,
@@ -1294,7 +1312,7 @@ class CdmCovarianceMatrixType:
             "name": "CTHR_DRG",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cthr_srp: Optional[M3Kgs2Type] = field(
         default=None,
@@ -1302,7 +1320,7 @@ class CdmCovarianceMatrixType:
             "name": "CTHR_SRP",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cthr_thr: Optional[M2S4Type] = field(
         default=None,
@@ -1310,7 +1328,7 @@ class CdmCovarianceMatrixType:
             "name": "CTHR_THR",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -1335,7 +1353,7 @@ class CdmStateVectorType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     x: Optional[CdmPositionType] = field(
         default=None,
@@ -1344,7 +1362,7 @@ class CdmStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     y: Optional[CdmPositionType] = field(
         default=None,
@@ -1353,7 +1371,7 @@ class CdmStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     z: Optional[CdmPositionType] = field(
         default=None,
@@ -1362,7 +1380,7 @@ class CdmStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     x_dot: Optional[CdmVelocityType] = field(
         default=None,
@@ -1371,7 +1389,7 @@ class CdmStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     y_dot: Optional[CdmVelocityType] = field(
         default=None,
@@ -1380,7 +1398,7 @@ class CdmStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     z_dot: Optional[CdmVelocityType] = field(
         default=None,
@@ -1389,7 +1407,7 @@ class CdmStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -1414,7 +1432,7 @@ class RelativeStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     relative_position_t: Optional[LengthType] = field(
         default=None,
@@ -1423,7 +1441,7 @@ class RelativeStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     relative_position_n: Optional[LengthType] = field(
         default=None,
@@ -1432,7 +1450,7 @@ class RelativeStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     relative_velocity_r: Optional[DvType] = field(
         default=None,
@@ -1441,7 +1459,7 @@ class RelativeStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     relative_velocity_t: Optional[DvType] = field(
         default=None,
@@ -1450,7 +1468,7 @@ class RelativeStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     relative_velocity_n: Optional[DvType] = field(
         default=None,
@@ -1459,7 +1477,7 @@ class RelativeStateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -1482,7 +1500,7 @@ class CdmData:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     od_parameters: Optional[OdParametersType] = field(
         default=None,
@@ -1490,7 +1508,7 @@ class CdmData:
             "name": "odParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     additional_parameters: Optional[AdditionalParametersType] = field(
         default=None,
@@ -1498,7 +1516,7 @@ class CdmData:
             "name": "additionalParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     state_vector: Optional[CdmStateVectorType] = field(
         default=None,
@@ -1507,7 +1525,7 @@ class CdmData:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     covariance_matrix: Optional[CdmCovarianceMatrixType] = field(
         default=None,
@@ -1516,7 +1534,7 @@ class CdmData:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -1550,7 +1568,7 @@ class RelativeMetadataData:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     tca: Optional[str] = field(
         default=None,
@@ -1560,7 +1578,7 @@ class RelativeMetadataData:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     miss_distance: Optional[LengthType] = field(
         default=None,
@@ -1569,7 +1587,7 @@ class RelativeMetadataData:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     relative_speed: Optional[DvType] = field(
         default=None,
@@ -1577,7 +1595,7 @@ class RelativeMetadataData:
             "name": "RELATIVE_SPEED",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     relative_state_vector: Optional[RelativeStateVectorType] = field(
         default=None,
@@ -1585,7 +1603,7 @@ class RelativeMetadataData:
             "name": "relativeStateVector",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     start_screen_period: Optional[str] = field(
         default=None,
@@ -1594,7 +1612,7 @@ class RelativeMetadataData:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     stop_screen_period: Optional[str] = field(
         default=None,
@@ -1603,7 +1621,7 @@ class RelativeMetadataData:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     screen_volume_frame: Optional[ScreenVolumeFrameType] = field(
         default=None,
@@ -1611,7 +1629,7 @@ class RelativeMetadataData:
             "name": "SCREEN_VOLUME_FRAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     screen_volume_shape: Optional[ScreenVolumeShapeType] = field(
         default=None,
@@ -1619,7 +1637,7 @@ class RelativeMetadataData:
             "name": "SCREEN_VOLUME_SHAPE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     screen_volume_x: Optional[LengthType] = field(
         default=None,
@@ -1627,7 +1645,7 @@ class RelativeMetadataData:
             "name": "SCREEN_VOLUME_X",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     screen_volume_y: Optional[LengthType] = field(
         default=None,
@@ -1635,7 +1653,7 @@ class RelativeMetadataData:
             "name": "SCREEN_VOLUME_Y",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     screen_volume_z: Optional[LengthType] = field(
         default=None,
@@ -1643,7 +1661,7 @@ class RelativeMetadataData:
             "name": "SCREEN_VOLUME_Z",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     screen_entry_time: Optional[str] = field(
         default=None,
@@ -1652,7 +1670,7 @@ class RelativeMetadataData:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     screen_exit_time: Optional[str] = field(
         default=None,
@@ -1661,7 +1679,7 @@ class RelativeMetadataData:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     collision_probability: Optional[Decimal] = field(
         default=None,
@@ -1671,7 +1689,7 @@ class RelativeMetadataData:
             "namespace": "",
             "min_inclusive": 0.0,
             "max_inclusive": 1.0,
-        }
+        },
     )
     collision_probability_method: Optional[str] = field(
         default=None,
@@ -1679,7 +1697,7 @@ class RelativeMetadataData:
             "name": "COLLISION_PROBABILITY_METHOD",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -1699,7 +1717,7 @@ class CdmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     data: Optional[CdmData] = field(
         default=None,
@@ -1707,7 +1725,7 @@ class CdmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -1728,7 +1746,7 @@ class CdmBody:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     segment: List[CdmSegment] = field(
         default_factory=list,
@@ -1737,7 +1755,7 @@ class CdmBody:
             "namespace": "",
             "min_occurs": 2,
             "max_occurs": 2,
-        }
+        },
     )
 
 
@@ -1759,7 +1777,7 @@ class CdmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     body: Optional[CdmBody] = field(
         default=None,
@@ -1767,7 +1785,7 @@ class CdmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     id: str = field(
         init=False,
@@ -1775,7 +1793,7 @@ class CdmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     version: str = field(
         init=False,
@@ -1783,5 +1801,5 @@ class CdmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )

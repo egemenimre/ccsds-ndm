@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import List, Optional
 
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_navwg_common import (
+from src.ndmxml1.ndmxml_1_0_navwg_common import (
     AngleType,
     DeltamassType,
     DistanceType,
@@ -38,7 +38,7 @@ class OpmMetadata:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object_name: Optional[str] = field(
         default=None,
@@ -47,7 +47,7 @@ class OpmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     object_id: Optional[str] = field(
         default=None,
@@ -56,7 +56,7 @@ class OpmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     center_name: Optional[str] = field(
         default=None,
@@ -65,7 +65,7 @@ class OpmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ref_frame: Optional[str] = field(
         default=None,
@@ -74,7 +74,7 @@ class OpmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     time_system: Optional[str] = field(
         default=None,
@@ -83,7 +83,7 @@ class OpmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -110,7 +110,7 @@ class KeplerianElementsType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     semi_major_axis: Optional[DistanceType] = field(
         default=None,
@@ -119,7 +119,7 @@ class KeplerianElementsType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     eccentricity: Optional[Decimal] = field(
         default=None,
@@ -129,7 +129,7 @@ class KeplerianElementsType:
             "namespace": "",
             "required": True,
             "min_inclusive": 0.0,
-        }
+        },
     )
     inclination: Optional[InclinationType] = field(
         default=None,
@@ -138,7 +138,7 @@ class KeplerianElementsType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ra_of_asc_node: Optional[AngleType] = field(
         default=None,
@@ -147,7 +147,7 @@ class KeplerianElementsType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     arg_of_pericenter: Optional[AngleType] = field(
         default=None,
@@ -156,7 +156,7 @@ class KeplerianElementsType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     true_anomaly: Optional[AngleType] = field(
         default=None,
@@ -164,7 +164,7 @@ class KeplerianElementsType:
             "name": "TRUE_ANOMALY",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     mean_anomaly: Optional[AngleType] = field(
         default=None,
@@ -172,7 +172,7 @@ class KeplerianElementsType:
             "name": "MEAN_ANOMALY",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     gm: Optional[GmType] = field(
         default=None,
@@ -181,7 +181,7 @@ class KeplerianElementsType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -207,7 +207,7 @@ class ManeuverParametersType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     man_epoch_ignition: Optional[str] = field(
         default=None,
@@ -217,7 +217,7 @@ class ManeuverParametersType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     man_duration: Optional[DurationType] = field(
         default=None,
@@ -226,7 +226,7 @@ class ManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     man_delta_mass: Optional[DeltamassType] = field(
         default=None,
@@ -235,7 +235,7 @@ class ManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     man_ref_frame: Optional[str] = field(
         default=None,
@@ -244,7 +244,7 @@ class ManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     man_dv_1: Optional[VelocityType] = field(
         default=None,
@@ -253,7 +253,7 @@ class ManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     man_dv_2: Optional[VelocityType] = field(
         default=None,
@@ -262,7 +262,7 @@ class ManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     man_dv_3: Optional[VelocityType] = field(
         default=None,
@@ -271,7 +271,7 @@ class ManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -294,7 +294,7 @@ class OpmData:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     state_vector: Optional[StateVectorType] = field(
         default=None,
@@ -303,7 +303,7 @@ class OpmData:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     keplerian_elements: Optional[KeplerianElementsType] = field(
         default=None,
@@ -311,7 +311,7 @@ class OpmData:
             "name": "keplerianElements",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     spacecraft_parameters: Optional[SpacecraftParametersType] = field(
         default=None,
@@ -320,7 +320,7 @@ class OpmData:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     maneuver_parameters: List[ManeuverParametersType] = field(
         default_factory=list,
@@ -328,7 +328,7 @@ class OpmData:
             "name": "maneuverParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -348,7 +348,7 @@ class OpmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     data: Optional[OpmData] = field(
         default=None,
@@ -356,7 +356,7 @@ class OpmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -375,7 +375,7 @@ class OpmBody:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -397,7 +397,7 @@ class OpmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     body: Optional[OpmBody] = field(
         default=None,
@@ -405,7 +405,7 @@ class OpmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     id: str = field(
         init=False,
@@ -413,7 +413,7 @@ class OpmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     version: str = field(
         init=False,
@@ -421,5 +421,5 @@ class OpmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )

@@ -10,6 +10,7 @@ class AccUnits(Enum):
     """
     :cvar KM_S_2:
     """
+
     KM_S_2 = "km/s**2"
 
 
@@ -19,6 +20,7 @@ class AngleKeywordType(Enum):
     :cvar Y_ANGLE:
     :cvar Z_ANGLE:
     """
+
     X_ANGLE = "X_ANGLE"
     Y_ANGLE = "Y_ANGLE"
     Z_ANGLE = "Z_ANGLE"
@@ -30,6 +32,7 @@ class AngleRateKeywordType(Enum):
     :cvar Y_RATE:
     :cvar Z_RATE:
     """
+
     X_RATE = "X_RATE"
     Y_RATE = "Y_RATE"
     Z_RATE = "Z_RATE"
@@ -39,6 +42,7 @@ class AngleRateUnits(Enum):
     """
     :cvar DEG_S:
     """
+
     DEG_S = "deg/s"
 
 
@@ -46,6 +50,7 @@ class AngleUnits(Enum):
     """
     :cvar DEG:
     """
+
     DEG = "deg"
 
 
@@ -53,6 +58,7 @@ class AreaUnits(Enum):
     """
     :cvar M_2:
     """
+
     M_2 = "m**2"
 
 
@@ -60,6 +66,7 @@ class BallisticCoeffUnitsType(Enum):
     """
     :cvar KG_M_2:
     """
+
     KG_M_2 = "kg/m**2"
 
 
@@ -72,6 +79,7 @@ class ControlledType(Enum):
     :cvar UNKNOWN:
     :cvar UNKNOWN_1:
     """
+
     YES = "YES"
     YES_1 = "yes"
     NO = "NO"
@@ -84,6 +92,7 @@ class DayIntervalUnits(Enum):
     """
     :cvar D:
     """
+
     D = "d"
 
 
@@ -94,6 +103,7 @@ class DisintegrationType(Enum):
     :cvar BREAK_UP:
     :cvar MASS_LOSS_BREAK_UP:
     """
+
     NONE_VALUE = "NONE"
     MASS_LOSS = "MASS-LOSS"
     BREAK_UP = "BREAK-UP"
@@ -104,6 +114,7 @@ class FrequencyUnits(Enum):
     """
     :cvar HZ:
     """
+
     HZ = "Hz"
 
 
@@ -112,6 +123,7 @@ class GmUnits(Enum):
     :cvar KM_3_S_2:
     :cvar KM_3_S_2_1:
     """
+
     KM_3_S_2 = "km**3/s**2"
     KM_3_S_2_1 = "KM**3/S**2"
 
@@ -123,6 +135,7 @@ class ImpactUncertaintyType(Enum):
     :cvar STOCHASTIC:
     :cvar EMPIRICAL:
     """
+
     NONE_VALUE = "NONE"
     ANALYTICAL = "ANALYTICAL"
     STOCHASTIC = "STOCHASTIC"
@@ -133,6 +146,7 @@ class Km2Units(Enum):
     """
     :cvar KM_2:
     """
+
     KM_2 = "km**2"
 
 
@@ -140,6 +154,7 @@ class Km2S2Units(Enum):
     """
     :cvar KM_2_S_2:
     """
+
     KM_2_S_2 = "km**2/s**2"
 
 
@@ -147,6 +162,7 @@ class Km2SUnits(Enum):
     """
     :cvar KM_2_S:
     """
+
     KM_2_S = "km**2/s"
 
 
@@ -154,6 +170,7 @@ class LatLonUnits(Enum):
     """
     :cvar DEG:
     """
+
     DEG = "deg"
 
 
@@ -161,6 +178,7 @@ class LengthUnits(Enum):
     """
     :cvar M:
     """
+
     M = "m"
 
 
@@ -168,6 +186,7 @@ class MassUnits(Enum):
     """
     :cvar KG:
     """
+
     KG = "kg"
 
 
@@ -175,6 +194,7 @@ class MomentUnits(Enum):
     """
     :cvar KG_M_2:
     """
+
     KG_M_2 = "kg*m**2"
 
 
@@ -182,6 +202,7 @@ class Ms2Units(Enum):
     """
     :cvar M_S_2:
     """
+
     M_S_2 = "m/s**2"
 
 
@@ -202,7 +223,7 @@ class NdmHeader:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     creation_date: Optional[str] = field(
         default=None,
@@ -212,7 +233,7 @@ class NdmHeader:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     originator: Optional[str] = field(
         default=None,
@@ -221,7 +242,7 @@ class NdmHeader:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -240,6 +261,7 @@ class ObjectDescriptionType(Enum):
     :cvar OTHER:
     :cvar OTHER_1:
     """
+
     PAYLOAD = "PAYLOAD"
     PAYLOAD_1 = "payload"
     ROCKET_BODY = "ROCKET BODY"
@@ -271,7 +293,7 @@ class OemCovarianceMatrixAbstractType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     epoch: Optional[str] = field(
         default=None,
@@ -281,7 +303,7 @@ class OemCovarianceMatrixAbstractType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     cov_ref_frame: Optional[str] = field(
         default=None,
@@ -289,7 +311,7 @@ class OemCovarianceMatrixAbstractType:
             "name": "COV_REF_FRAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -309,7 +331,7 @@ class OpmCovarianceMatrixAbstractType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     cov_ref_frame: Optional[str] = field(
         default=None,
@@ -317,7 +339,7 @@ class OpmCovarianceMatrixAbstractType:
             "name": "COV_REF_FRAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -325,6 +347,7 @@ class PercentageUnits(Enum):
     """
     :cvar VALUE:
     """
+
     VALUE = "%"
 
 
@@ -332,6 +355,7 @@ class PositionCovarianceUnits(Enum):
     """
     :cvar KM_2:
     """
+
     KM_2 = "km**2"
 
 
@@ -339,6 +363,7 @@ class PositionUnits(Enum):
     """
     :cvar KM:
     """
+
     KM = "km"
 
 
@@ -346,6 +371,7 @@ class PositionVelocityCovarianceUnits(Enum):
     """
     :cvar KM_2_S:
     """
+
     KM_2_S = "km**2/s"
 
 
@@ -353,6 +379,7 @@ class QuaternionDotUnits(Enum):
     """
     :cvar VALUE_1_S:
     """
+
     VALUE_1_S = "1/s"
 
 
@@ -377,7 +404,7 @@ class QuaternionType:
             "required": True,
             "min_inclusive": -1.0,
             "max_inclusive": 1.0,
-        }
+        },
     )
     q1: Optional[Decimal] = field(
         default=None,
@@ -388,7 +415,7 @@ class QuaternionType:
             "required": True,
             "min_inclusive": -1.0,
             "max_inclusive": 1.0,
-        }
+        },
     )
     q2: Optional[Decimal] = field(
         default=None,
@@ -399,7 +426,7 @@ class QuaternionType:
             "required": True,
             "min_inclusive": -1.0,
             "max_inclusive": 1.0,
-        }
+        },
     )
     q3: Optional[Decimal] = field(
         default=None,
@@ -410,7 +437,7 @@ class QuaternionType:
             "required": True,
             "min_inclusive": -1.0,
             "max_inclusive": 1.0,
-        }
+        },
     )
 
 
@@ -421,6 +448,7 @@ class ReentryUncertaintyMethodType(Enum):
     :cvar STOCHASTIC:
     :cvar EMPIRICAL:
     """
+
     NONE_VALUE = "NONE"
     ANALYTICAL = "ANALYTICAL"
     STOCHASTIC = "STOCHASTIC"
@@ -432,6 +460,7 @@ class RotDirectionType(Enum):
     :cvar A2_B:
     :cvar B2_A:
     """
+
     A2_B = "A2B"
     B2_A = "B2A"
 
@@ -451,6 +480,7 @@ class RotseqType(Enum):
     :cvar VALUE_321:
     :cvar VALUE_323:
     """
+
     VALUE_121 = "121"
     VALUE_123 = "123"
     VALUE_131 = "131"
@@ -488,6 +518,7 @@ class TimeSystemType(Enum):
     :cvar UTC:
     :cvar UTC_1:
     """
+
     GMST = "GMST"
     GMST_1 = "gmst"
     GPS = "GPS"
@@ -514,6 +545,7 @@ class TimeUnits(Enum):
     """
     :cvar S:
     """
+
     S = "s"
 
 
@@ -535,7 +567,7 @@ class UserDefinedParameterType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -543,6 +575,7 @@ class VelocityCovarianceUnits(Enum):
     """
     :cvar KM_2_S_2:
     """
+
     KM_2_S_2 = "km**2/s**2"
 
 
@@ -550,6 +583,7 @@ class VelocityUnits(Enum):
     """
     :cvar KM_S:
     """
+
     KM_S = "km/s"
 
 
@@ -560,6 +594,7 @@ class YesNoType(Enum):
     :cvar NO:
     :cvar NO_1:
     """
+
     YES = "YES"
     YES_1 = "yes"
     NO = "NO"
@@ -583,7 +618,7 @@ class AccType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -602,13 +637,13 @@ class AltType:
         metadata={
             "min_inclusive": -430.5,
             "max_inclusive": 8848,
-        }
+        },
     )
     units: Optional[LengthUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -629,7 +664,7 @@ class AngleRateType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -648,13 +683,13 @@ class AngleType:
         metadata={
             "min_inclusive": -180.0,
             "max_exclusive": 360.0,
-        }
+        },
     )
     units: Optional[AngleUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -672,13 +707,13 @@ class AreaType:
         default=None,
         metadata={
             "min_inclusive": 0.0,
-        }
+        },
     )
     units: Optional[AreaUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -696,13 +731,13 @@ class BallisticCoeffType:
         default=None,
         metadata={
             "min_inclusive": 0.0,
-        }
+        },
     )
     units: Optional[BallisticCoeffUnitsType] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -720,14 +755,14 @@ class DayIntervalType:
         default=None,
         metadata={
             "min_exclusive": 0.0,
-        }
+        },
     )
     units: Optional[DayIntervalUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -745,13 +780,13 @@ class DeltamassType:
         default=None,
         metadata={
             "max_exclusive": 0.0,
-        }
+        },
     )
     units: Optional[MassUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -772,7 +807,7 @@ class DistanceType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -790,13 +825,13 @@ class DurationType:
         default=None,
         metadata={
             "min_inclusive": 0.0,
-        }
+        },
     )
     units: Optional[TimeUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -814,13 +849,13 @@ class FrequencyType:
         default=None,
         metadata={
             "min_exclusive": 0.0,
-        }
+        },
     )
     units: Optional[FrequencyUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -838,13 +873,13 @@ class GmType:
         default=None,
         metadata={
             "min_exclusive": 0.0,
-        }
+        },
     )
     units: Optional[GmUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -864,13 +899,13 @@ class InclinationType:
             "min_inclusive": 0.0,
             "max_exclusive": 360.0,
             "max_inclusive": 180.0,
-        }
+        },
     )
     units: Optional[AngleUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -891,7 +926,7 @@ class Km2Type:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -912,7 +947,7 @@ class Km2S2Type:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -933,7 +968,7 @@ class Km2SType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -952,14 +987,14 @@ class LatType:
         metadata={
             "min_inclusive": -90.0,
             "max_inclusive": 90.0,
-        }
+        },
     )
     units: Optional[LatLonUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -981,7 +1016,7 @@ class LengthType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -1000,14 +1035,14 @@ class LonType:
         metadata={
             "min_inclusive": -180.0,
             "max_inclusive": 180.0,
-        }
+        },
     )
     units: Optional[LatLonUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -1025,13 +1060,13 @@ class MassType:
         default=None,
         metadata={
             "min_inclusive": 0.0,
-        }
+        },
     )
     units: Optional[MassUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -1052,7 +1087,7 @@ class MomentType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -1074,7 +1109,7 @@ class Ms2Type:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -1093,14 +1128,14 @@ class PercentageType:
         metadata={
             "min_inclusive": 0.0,
             "max_inclusive": 100.0,
-        }
+        },
     )
     units: Optional[PercentageUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -1121,7 +1156,7 @@ class PositionCovarianceType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -1142,7 +1177,7 @@ class PositionType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -1163,7 +1198,7 @@ class PositionVelocityCovarianceType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -1184,7 +1219,7 @@ class QuaternionDotType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -1206,7 +1241,7 @@ class RdmPositionType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -1228,7 +1263,7 @@ class RdmVelocityType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -1248,20 +1283,20 @@ class RotationAngleComponentType:
         metadata={
             "min_inclusive": -180.0,
             "max_exclusive": 360.0,
-        }
+        },
     )
     angle: Optional[AngleKeywordType] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     units: Optional[AngleUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -1280,14 +1315,14 @@ class RotationAngleComponentTypeold:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
     angle: Optional[AngleKeywordType] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     value: Optional[Decimal] = field(
         default=None,
@@ -1296,7 +1331,7 @@ class RotationAngleComponentTypeold:
             "required": True,
             "min_inclusive": -180.0,
             "max_exclusive": 360.0,
-        }
+        },
     )
 
 
@@ -1319,13 +1354,13 @@ class RotationRateComponentType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     units: Optional[AngleRateUnits] = field(
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -1344,21 +1379,21 @@ class RotationRateComponentTypeOld:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
     rate: Optional[AngleRateKeywordType] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     value: Optional[Decimal] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -1379,7 +1414,7 @@ class UserDefinedType:
             "type": "Element",
             "namespace": "",
             "sequential": True,
-        }
+        },
     )
     user_defined: List[UserDefinedParameterType] = field(
         default_factory=list,
@@ -1388,7 +1423,7 @@ class UserDefinedType:
             "type": "Element",
             "namespace": "",
             "sequential": True,
-        }
+        },
     )
 
 
@@ -1409,7 +1444,7 @@ class VelocityCovarianceType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -1430,7 +1465,7 @@ class VelocityType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -1457,7 +1492,7 @@ class AtmosphericReentryParametersType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     orbit_lifetime: Optional[DayIntervalType] = field(
         default=None,
@@ -1466,7 +1501,7 @@ class AtmosphericReentryParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     reentry_altitude: Optional[PositionType] = field(
         default=None,
@@ -1475,7 +1510,7 @@ class AtmosphericReentryParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     orbit_lifetime_window_start: Optional[DayIntervalType] = field(
         default=None,
@@ -1483,7 +1518,7 @@ class AtmosphericReentryParametersType:
             "name": "ORBIT_LIFETIME_WINDOW_START",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     orbit_lifetime_window_end: Optional[DayIntervalType] = field(
         default=None,
@@ -1491,7 +1526,7 @@ class AtmosphericReentryParametersType:
             "name": "ORBIT_LIFETIME_WINDOW_END",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     nominal_reentry_epoch: Optional[str] = field(
         default=None,
@@ -1500,7 +1535,7 @@ class AtmosphericReentryParametersType:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     reentry_window_start: Optional[str] = field(
         default=None,
@@ -1509,7 +1544,7 @@ class AtmosphericReentryParametersType:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     reentry_window_end: Optional[str] = field(
         default=None,
@@ -1518,7 +1553,7 @@ class AtmosphericReentryParametersType:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     orbit_lifetime_confidence_level: Optional[PercentageType] = field(
         default=None,
@@ -1526,7 +1561,7 @@ class AtmosphericReentryParametersType:
             "name": "ORBIT_LIFETIME_CONFIDENCE_LEVEL",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -1575,7 +1610,7 @@ class GroundImpactParametersType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     probability_of_impact: Optional[Decimal] = field(
         default=None,
@@ -1585,7 +1620,7 @@ class GroundImpactParametersType:
             "namespace": "",
             "min_inclusive": 0.0,
             "max_inclusive": 1.0,
-        }
+        },
     )
     probability_of_burn_up: Optional[Decimal] = field(
         default=None,
@@ -1595,7 +1630,7 @@ class GroundImpactParametersType:
             "namespace": "",
             "min_inclusive": 0.0,
             "max_inclusive": 1.0,
-        }
+        },
     )
     probability_of_break_up: Optional[Decimal] = field(
         default=None,
@@ -1605,7 +1640,7 @@ class GroundImpactParametersType:
             "namespace": "",
             "min_inclusive": 0.0,
             "max_inclusive": 1.0,
-        }
+        },
     )
     probability_of_land_impact: Optional[Decimal] = field(
         default=None,
@@ -1615,7 +1650,7 @@ class GroundImpactParametersType:
             "namespace": "",
             "min_inclusive": 0.0,
             "max_inclusive": 1.0,
-        }
+        },
     )
     probability_of_casualty: Optional[Decimal] = field(
         default=None,
@@ -1625,7 +1660,7 @@ class GroundImpactParametersType:
             "namespace": "",
             "min_inclusive": 0.0,
             "max_inclusive": 1.0,
-        }
+        },
     )
     nominal_impact_epoch: Optional[str] = field(
         default=None,
@@ -1634,7 +1669,7 @@ class GroundImpactParametersType:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     impact_window_start: Optional[str] = field(
         default=None,
@@ -1643,7 +1678,7 @@ class GroundImpactParametersType:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     impact_window_end: Optional[str] = field(
         default=None,
@@ -1652,7 +1687,7 @@ class GroundImpactParametersType:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     impact_ref_frame: Optional[str] = field(
         default=None,
@@ -1660,7 +1695,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_REF_FRAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     nominal_impact_lon: Optional[LonType] = field(
         default=None,
@@ -1668,7 +1703,7 @@ class GroundImpactParametersType:
             "name": "NOMINAL_IMPACT_LON",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     nominal_impact_lat: Optional[LatType] = field(
         default=None,
@@ -1676,7 +1711,7 @@ class GroundImpactParametersType:
             "name": "NOMINAL_IMPACT_LAT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     nominal_impact_alt: Optional[AltType] = field(
         default=None,
@@ -1684,7 +1719,7 @@ class GroundImpactParametersType:
             "name": "NOMINAL_IMPACT_ALT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_1_confidence: Optional[PercentageType] = field(
         default=None,
@@ -1692,7 +1727,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_1_CONFIDENCE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_1_start_lon: Optional[LonType] = field(
         default=None,
@@ -1700,7 +1735,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_1_START_LON",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_1_start_lat: Optional[LatType] = field(
         default=None,
@@ -1708,7 +1743,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_1_START_LAT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_1_stop_lon: Optional[LonType] = field(
         default=None,
@@ -1716,7 +1751,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_1_STOP_LON",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_1_stop_lat: Optional[LatType] = field(
         default=None,
@@ -1724,7 +1759,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_1_STOP_LAT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_1_cross_track: Optional[DistanceType] = field(
         default=None,
@@ -1732,7 +1767,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_1_CROSS_TRACK",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_2_confidence: Optional[PercentageType] = field(
         default=None,
@@ -1740,7 +1775,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_2_CONFIDENCE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_2_start_lon: Optional[LonType] = field(
         default=None,
@@ -1748,7 +1783,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_2_START_LON",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_2_start_lat: Optional[LatType] = field(
         default=None,
@@ -1756,7 +1791,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_2_START_LAT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_2_stop_lon: Optional[LonType] = field(
         default=None,
@@ -1764,7 +1799,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_2_STOP_LON",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_2_stop_lat: Optional[LatType] = field(
         default=None,
@@ -1772,7 +1807,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_2_STOP_LAT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_2_cross_track: Optional[DistanceType] = field(
         default=None,
@@ -1780,7 +1815,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_2_CROSS_TRACK",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_3_confidence: Optional[PercentageType] = field(
         default=None,
@@ -1788,7 +1823,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_3_CONFIDENCE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_3_start_lon: Optional[LonType] = field(
         default=None,
@@ -1796,7 +1831,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_3_START_LON",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_3_start_lat: Optional[LatType] = field(
         default=None,
@@ -1804,7 +1839,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_3_START_LAT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_3_stop_lon: Optional[LonType] = field(
         default=None,
@@ -1812,7 +1847,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_3_STOP_LON",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_3_stop_lat: Optional[LatType] = field(
         default=None,
@@ -1820,7 +1855,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_3_STOP_LAT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_3_cross_track: Optional[DistanceType] = field(
         default=None,
@@ -1828,7 +1863,7 @@ class GroundImpactParametersType:
             "name": "IMPACT_3_CROSS_TRACK",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -1857,7 +1892,7 @@ class OdParametersType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     time_lastob_start: Optional[str] = field(
         default=None,
@@ -1866,7 +1901,7 @@ class OdParametersType:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     time_lastob_end: Optional[str] = field(
         default=None,
@@ -1875,7 +1910,7 @@ class OdParametersType:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     recommended_od_span: Optional[DayIntervalType] = field(
         default=None,
@@ -1883,7 +1918,7 @@ class OdParametersType:
             "name": "RECOMMENDED_OD_SPAN",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     actual_od_span: Optional[DayIntervalType] = field(
         default=None,
@@ -1891,7 +1926,7 @@ class OdParametersType:
             "name": "ACTUAL_OD_SPAN",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     obs_available: Optional[int] = field(
         default=None,
@@ -1899,7 +1934,7 @@ class OdParametersType:
             "name": "OBS_AVAILABLE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     obs_used: Optional[int] = field(
         default=None,
@@ -1907,7 +1942,7 @@ class OdParametersType:
             "name": "OBS_USED",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     tracks_available: Optional[int] = field(
         default=None,
@@ -1915,7 +1950,7 @@ class OdParametersType:
             "name": "TRACKS_AVAILABLE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     tracks_used: Optional[int] = field(
         default=None,
@@ -1923,7 +1958,7 @@ class OdParametersType:
             "name": "TRACKS_USED",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     residuals_accepted: Optional[PercentageType] = field(
         default=None,
@@ -1931,7 +1966,7 @@ class OdParametersType:
             "name": "RESIDUALS_ACCEPTED",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     weighted_rms: Optional[Decimal] = field(
         default=None,
@@ -1940,7 +1975,7 @@ class OdParametersType:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
 
 
@@ -1980,7 +2015,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_x: Optional[PositionCovarianceType] = field(
         default=None,
@@ -1989,7 +2024,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_y: Optional[PositionCovarianceType] = field(
         default=None,
@@ -1998,7 +2033,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_x: Optional[PositionCovarianceType] = field(
         default=None,
@@ -2007,7 +2042,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_y: Optional[PositionCovarianceType] = field(
         default=None,
@@ -2016,7 +2051,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_z: Optional[PositionCovarianceType] = field(
         default=None,
@@ -2025,7 +2060,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cx_dot_x: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2034,7 +2069,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cx_dot_y: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2043,7 +2078,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cx_dot_z: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2052,7 +2087,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cx_dot_x_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2061,7 +2096,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_dot_x: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2070,7 +2105,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_dot_y: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2079,7 +2114,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_dot_z: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2088,7 +2123,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_dot_x_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2097,7 +2132,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_dot_y_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2106,7 +2141,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_x: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2115,7 +2150,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_y: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2124,7 +2159,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_z: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2133,7 +2168,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_x_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2142,7 +2177,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_y_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2151,7 +2186,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_z_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2160,7 +2195,7 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -2200,7 +2235,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_x: Optional[PositionCovarianceType] = field(
         default=None,
@@ -2209,7 +2244,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_y: Optional[PositionCovarianceType] = field(
         default=None,
@@ -2218,7 +2253,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_x: Optional[PositionCovarianceType] = field(
         default=None,
@@ -2227,7 +2262,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_y: Optional[PositionCovarianceType] = field(
         default=None,
@@ -2236,7 +2271,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_z: Optional[PositionCovarianceType] = field(
         default=None,
@@ -2245,7 +2280,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cx_dot_x: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2254,7 +2289,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cx_dot_y: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2263,7 +2298,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cx_dot_z: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2272,7 +2307,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cx_dot_x_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2281,7 +2316,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_dot_x: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2290,7 +2325,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_dot_y: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2299,7 +2334,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_dot_z: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2308,7 +2343,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_dot_x_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2317,7 +2352,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cy_dot_y_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2326,7 +2361,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_x: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2335,7 +2370,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_y: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2344,7 +2379,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_z: Optional[PositionVelocityCovarianceType] = field(
         default=None,
@@ -2353,7 +2388,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_x_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2362,7 +2397,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_y_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2371,7 +2406,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     cz_dot_z_dot: Optional[VelocityCovarianceType] = field(
         default=None,
@@ -2380,7 +2415,7 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -2403,7 +2438,7 @@ class QuaternionRateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     q1_dot: Optional[QuaternionDotType] = field(
         default=None,
@@ -2412,7 +2447,7 @@ class QuaternionRateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     q2_dot: Optional[QuaternionDotType] = field(
         default=None,
@@ -2421,7 +2456,7 @@ class QuaternionRateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     q3_dot: Optional[QuaternionDotType] = field(
         default=None,
@@ -2430,7 +2465,7 @@ class QuaternionRateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -2459,7 +2494,7 @@ class RdmSpacecraftParametersType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     wet_mass: Optional[MassType] = field(
         default=None,
@@ -2467,7 +2502,7 @@ class RdmSpacecraftParametersType:
             "name": "WET_MASS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     dry_mass: Optional[MassType] = field(
         default=None,
@@ -2475,7 +2510,7 @@ class RdmSpacecraftParametersType:
             "name": "DRY_MASS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     hazardous_substances: Optional[str] = field(
         default=None,
@@ -2483,7 +2518,7 @@ class RdmSpacecraftParametersType:
             "name": "HAZARDOUS_SUBSTANCES",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     solar_rad_area: Optional[AreaType] = field(
         default=None,
@@ -2491,7 +2526,7 @@ class RdmSpacecraftParametersType:
             "name": "SOLAR_RAD_AREA",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     solar_rad_coeff: Optional[Decimal] = field(
         default=None,
@@ -2500,7 +2535,7 @@ class RdmSpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     drag_area: Optional[AreaType] = field(
         default=None,
@@ -2508,7 +2543,7 @@ class RdmSpacecraftParametersType:
             "name": "DRAG_AREA",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     drag_coeff: Optional[Decimal] = field(
         default=None,
@@ -2517,7 +2552,7 @@ class RdmSpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     rcs: Optional[AreaType] = field(
         default=None,
@@ -2525,7 +2560,7 @@ class RdmSpacecraftParametersType:
             "name": "RCS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     ballistic_coeff: Optional[BallisticCoeffType] = field(
         default=None,
@@ -2533,7 +2568,7 @@ class RdmSpacecraftParametersType:
             "name": "BALLISTIC_COEFF",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     thrust_acceleration: Optional[Ms2Type] = field(
         default=None,
@@ -2541,7 +2576,7 @@ class RdmSpacecraftParametersType:
             "name": "THRUST_ACCELERATION",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -2562,7 +2597,7 @@ class RotationAngleType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     rotation2: Optional[RotationAngleComponentType] = field(
         default=None,
@@ -2570,7 +2605,7 @@ class RotationAngleType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     rotation3: Optional[RotationAngleComponentType] = field(
         default=None,
@@ -2578,7 +2613,7 @@ class RotationAngleType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -2599,7 +2634,7 @@ class RotationRateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     rotation2: Optional[RotationRateComponentType] = field(
         default=None,
@@ -2607,7 +2642,7 @@ class RotationRateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     rotation3: Optional[RotationRateComponentType] = field(
         default=None,
@@ -2615,7 +2650,7 @@ class RotationRateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -2639,7 +2674,7 @@ class SpacecraftParametersType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     mass: Optional[MassType] = field(
         default=None,
@@ -2648,7 +2683,7 @@ class SpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     solar_rad_area: Optional[AreaType] = field(
         default=None,
@@ -2657,7 +2692,7 @@ class SpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     solar_rad_coeff: Optional[Decimal] = field(
         default=None,
@@ -2667,7 +2702,7 @@ class SpacecraftParametersType:
             "namespace": "",
             "required": True,
             "min_inclusive": 0.0,
-        }
+        },
     )
     drag_area: Optional[AreaType] = field(
         default=None,
@@ -2676,7 +2711,7 @@ class SpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     drag_coeff: Optional[Decimal] = field(
         default=None,
@@ -2686,7 +2721,7 @@ class SpacecraftParametersType:
             "namespace": "",
             "required": True,
             "min_inclusive": 0.0,
-        }
+        },
     )
 
 
@@ -2716,7 +2751,7 @@ class StateVectorAccType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     x: Optional[PositionType] = field(
         default=None,
@@ -2725,7 +2760,7 @@ class StateVectorAccType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     y: Optional[PositionType] = field(
         default=None,
@@ -2734,7 +2769,7 @@ class StateVectorAccType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     z: Optional[PositionType] = field(
         default=None,
@@ -2743,7 +2778,7 @@ class StateVectorAccType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     x_dot: Optional[VelocityType] = field(
         default=None,
@@ -2752,7 +2787,7 @@ class StateVectorAccType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     y_dot: Optional[VelocityType] = field(
         default=None,
@@ -2761,7 +2796,7 @@ class StateVectorAccType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     z_dot: Optional[VelocityType] = field(
         default=None,
@@ -2770,7 +2805,7 @@ class StateVectorAccType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     x_ddot: Optional[AccType] = field(
         default=None,
@@ -2778,7 +2813,7 @@ class StateVectorAccType:
             "name": "X_DDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     y_ddot: Optional[AccType] = field(
         default=None,
@@ -2786,7 +2821,7 @@ class StateVectorAccType:
             "name": "Y_DDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     z_ddot: Optional[AccType] = field(
         default=None,
@@ -2794,7 +2829,7 @@ class StateVectorAccType:
             "name": "Z_DDOT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -2820,7 +2855,7 @@ class StateVectorType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     epoch: Optional[str] = field(
         default=None,
@@ -2830,7 +2865,7 @@ class StateVectorType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     x: Optional[PositionType] = field(
         default=None,
@@ -2839,7 +2874,7 @@ class StateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     y: Optional[PositionType] = field(
         default=None,
@@ -2848,7 +2883,7 @@ class StateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     z: Optional[PositionType] = field(
         default=None,
@@ -2857,7 +2892,7 @@ class StateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     x_dot: Optional[VelocityType] = field(
         default=None,
@@ -2866,7 +2901,7 @@ class StateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     y_dot: Optional[VelocityType] = field(
         default=None,
@@ -2875,7 +2910,7 @@ class StateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     z_dot: Optional[VelocityType] = field(
         default=None,
@@ -2884,5 +2919,5 @@ class StateVectorType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )

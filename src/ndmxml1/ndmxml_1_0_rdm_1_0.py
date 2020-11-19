@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_navwg_common import (
+from src.ndmxml1.ndmxml_1_0_navwg_common import (
     AtmosphericReentryParametersType,
     ControlledType,
     DisintegrationType,
@@ -39,7 +39,7 @@ class RdmHeader:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     creation_date: Optional[str] = field(
         default=None,
@@ -49,7 +49,7 @@ class RdmHeader:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     originator: Optional[str] = field(
         default=None,
@@ -58,7 +58,7 @@ class RdmHeader:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     message_id: Optional[str] = field(
         default=None,
@@ -67,7 +67,7 @@ class RdmHeader:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -93,7 +93,7 @@ class RdmData:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     atmospheric_reentry_parameters: Optional[AtmosphericReentryParametersType] = field(
         default=None,
@@ -102,7 +102,7 @@ class RdmData:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ground_impact_parameters: Optional[GroundImpactParametersType] = field(
         default=None,
@@ -110,7 +110,7 @@ class RdmData:
             "name": "groundImpactParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     state_vector: Optional[StateVectorType] = field(
         default=None,
@@ -118,7 +118,7 @@ class RdmData:
             "name": "stateVector",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     covariance_matrix: Optional[OpmCovarianceMatrixType] = field(
         default=None,
@@ -126,7 +126,7 @@ class RdmData:
             "name": "covarianceMatrix",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     spacecraft_parameters: Optional[RdmSpacecraftParametersType] = field(
         default=None,
@@ -134,7 +134,7 @@ class RdmData:
             "name": "spacecraftParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     od_parameters: Optional[OdParametersType] = field(
         default=None,
@@ -142,7 +142,7 @@ class RdmData:
             "name": "odParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     user_defined_parameters: Optional[UserDefinedType] = field(
         default=None,
@@ -150,7 +150,7 @@ class RdmData:
             "name": "userDefinedParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -198,7 +198,7 @@ class RdmMetadata:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object_name: Optional[str] = field(
         default=None,
@@ -207,7 +207,7 @@ class RdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     international_designator: Optional[str] = field(
         default=None,
@@ -216,7 +216,7 @@ class RdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     catalog_name: Optional[str] = field(
         default=None,
@@ -224,7 +224,7 @@ class RdmMetadata:
             "name": "CATALOG_NAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object_designator: Optional[str] = field(
         default=None,
@@ -232,7 +232,7 @@ class RdmMetadata:
             "name": "OBJECT_DESIGNATOR",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object_type: Optional[ObjectDescriptionType] = field(
         default=None,
@@ -240,7 +240,7 @@ class RdmMetadata:
             "name": "OBJECT_TYPE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object_owner: Optional[str] = field(
         default=None,
@@ -248,7 +248,7 @@ class RdmMetadata:
             "name": "OBJECT_OWNER",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object_operator: Optional[str] = field(
         default=None,
@@ -256,7 +256,7 @@ class RdmMetadata:
             "name": "OBJECT_OPERATOR",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     controlled_reentry: Optional[ControlledType] = field(
         default=None,
@@ -265,7 +265,7 @@ class RdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     center_name: Optional[str] = field(
         default=None,
@@ -274,7 +274,7 @@ class RdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     time_system: Optional[str] = field(
         default=None,
@@ -283,7 +283,7 @@ class RdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     epoch_tzero: Optional[str] = field(
         default=None,
@@ -293,7 +293,7 @@ class RdmMetadata:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     ref_frame: Optional[str] = field(
         default=None,
@@ -301,7 +301,7 @@ class RdmMetadata:
             "name": "REF_FRAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     ref_frame_epoch: Optional[str] = field(
         default=None,
@@ -310,7 +310,7 @@ class RdmMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     ephemeris_name: Optional[str] = field(
         default=None,
@@ -318,7 +318,7 @@ class RdmMetadata:
             "name": "EPHEMERIS_NAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     gravity_model: Optional[str] = field(
         default=None,
@@ -326,7 +326,7 @@ class RdmMetadata:
             "name": "GRAVITY_MODEL",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     atmospheric_model: Optional[str] = field(
         default=None,
@@ -334,7 +334,7 @@ class RdmMetadata:
             "name": "ATMOSPHERIC_MODEL",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     solar_flux_prediction: Optional[str] = field(
         default=None,
@@ -342,7 +342,7 @@ class RdmMetadata:
             "name": "SOLAR_FLUX_PREDICTION",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     n_body_perturbations: Optional[str] = field(
         default=None,
@@ -350,7 +350,7 @@ class RdmMetadata:
             "name": "N_BODY_PERTURBATIONS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     solar_rad_pressure: Optional[str] = field(
         default=None,
@@ -358,7 +358,7 @@ class RdmMetadata:
             "name": "SOLAR_RAD_PRESSURE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     earth_tides: Optional[str] = field(
         default=None,
@@ -366,7 +366,7 @@ class RdmMetadata:
             "name": "EARTH_TIDES",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     intrack_thrust: Optional[YesNoType] = field(
         default=None,
@@ -374,7 +374,7 @@ class RdmMetadata:
             "name": "INTRACK_THRUST",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     drag_parameters_source: Optional[str] = field(
         default=None,
@@ -382,7 +382,7 @@ class RdmMetadata:
             "name": "DRAG_PARAMETERS_SOURCE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     drag_parameters_altitude: Optional[DistanceType] = field(
         default=None,
@@ -390,7 +390,7 @@ class RdmMetadata:
             "name": "DRAG_PARAMETERS_ALTITUDE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     reentry_uncertainty_method: Optional[ReentryUncertaintyMethodType] = field(
         default=None,
@@ -398,7 +398,7 @@ class RdmMetadata:
             "name": "REENTRY_UNCERTAINTY_METHOD",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     reentry_disintegration: Optional[DisintegrationType] = field(
         default=None,
@@ -406,7 +406,7 @@ class RdmMetadata:
             "name": "REENTRY_DISINTEGRATION",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     impact_uncertainty_method: Optional[ImpactUncertaintyType] = field(
         default=None,
@@ -414,7 +414,7 @@ class RdmMetadata:
             "name": "IMPACT_UNCERTAINTY_METHOD",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     previous_message_id: Optional[str] = field(
         default=None,
@@ -422,7 +422,7 @@ class RdmMetadata:
             "name": "PREVIOUS_MESSAGE_ID",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     previous_message_epoch: Optional[str] = field(
         default=None,
@@ -431,7 +431,7 @@ class RdmMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     next_message_epoch: Optional[str] = field(
         default=None,
@@ -440,7 +440,7 @@ class RdmMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
 
 
@@ -460,7 +460,7 @@ class RdmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     data: Optional[RdmData] = field(
         default=None,
@@ -468,7 +468,7 @@ class RdmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -487,7 +487,7 @@ class RdmBody:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -509,7 +509,7 @@ class RdmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     body: Optional[RdmBody] = field(
         default=None,
@@ -517,7 +517,7 @@ class RdmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     id: str = field(
         init=False,
@@ -525,7 +525,7 @@ class RdmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     version: str = field(
         init=False,
@@ -533,5 +533,5 @@ class RdmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )

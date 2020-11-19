@@ -3,7 +3,7 @@ from decimal import Decimal
 from enum import Enum
 from typing import List, Optional
 
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_navwg_common import (
+from src.ndmxml1.ndmxml_1_0_navwg_common import (
     AngleRateType,
     AngleType,
     DurationType,
@@ -26,6 +26,7 @@ class ApmRateFrameType(Enum):
     :cvar EULER_FRAME_A:
     :cvar EULER_FRAME_B:
     """
+
     EULER_FRAME_A = "EULER_FRAME_A"
     EULER_FRAME_B = "EULER_FRAME_B"
 
@@ -34,6 +35,7 @@ class TorqueUnits(Enum):
     """
     :cvar N_M:
     """
+
     N_M = "N*m"
 
 
@@ -56,7 +58,7 @@ class ApmMetadata:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object_name: Optional[str] = field(
         default=None,
@@ -65,7 +67,7 @@ class ApmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     object_id: Optional[str] = field(
         default=None,
@@ -74,7 +76,7 @@ class ApmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     center_name: Optional[str] = field(
         default=None,
@@ -82,7 +84,7 @@ class ApmMetadata:
             "name": "CENTER_NAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     time_system: Optional[TimeSystemType] = field(
         default=None,
@@ -91,7 +93,7 @@ class ApmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -117,7 +119,7 @@ class AttSpacecraftParametersType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     inertia_ref_frame: Optional[str] = field(
         default=None,
@@ -125,7 +127,7 @@ class AttSpacecraftParametersType:
             "name": "INERTIA_REF_FRAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     i11: Optional[MomentType] = field(
         default=None,
@@ -134,7 +136,7 @@ class AttSpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     i22: Optional[MomentType] = field(
         default=None,
@@ -143,7 +145,7 @@ class AttSpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     i33: Optional[MomentType] = field(
         default=None,
@@ -152,7 +154,7 @@ class AttSpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     i12: Optional[MomentType] = field(
         default=None,
@@ -161,7 +163,7 @@ class AttSpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     i13: Optional[MomentType] = field(
         default=None,
@@ -170,7 +172,7 @@ class AttSpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     i23: Optional[MomentType] = field(
         default=None,
@@ -179,7 +181,7 @@ class AttSpacecraftParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -208,7 +210,7 @@ class EulerElementsSpinType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     spin_frame_a: Optional[str] = field(
         default=None,
@@ -217,7 +219,7 @@ class EulerElementsSpinType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     spin_frame_b: Optional[str] = field(
         default=None,
@@ -226,7 +228,7 @@ class EulerElementsSpinType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     spin_dir: Optional[RotDirectionType] = field(
         default=None,
@@ -234,7 +236,7 @@ class EulerElementsSpinType:
             "name": "SPIN_DIR",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     spin_alpha: Optional[AngleType] = field(
         default=None,
@@ -242,7 +244,7 @@ class EulerElementsSpinType:
             "name": "SPIN_ALPHA",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     spin_delta: Optional[AngleType] = field(
         default=None,
@@ -250,7 +252,7 @@ class EulerElementsSpinType:
             "name": "SPIN_DELTA",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     spin_angle: Optional[AngleType] = field(
         default=None,
@@ -258,7 +260,7 @@ class EulerElementsSpinType:
             "name": "SPIN_ANGLE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     spin_angle_vel: Optional[AngleRateType] = field(
         default=None,
@@ -266,7 +268,7 @@ class EulerElementsSpinType:
             "name": "SPIN_ANGLE_VEL",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     nutation: Optional[AngleType] = field(
         default=None,
@@ -274,7 +276,7 @@ class EulerElementsSpinType:
             "name": "NUTATION",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     nutation_per: Optional[DurationType] = field(
         default=None,
@@ -282,7 +284,7 @@ class EulerElementsSpinType:
             "name": "NUTATION_PER",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     nutation_phase: Optional[AngleType] = field(
         default=None,
@@ -290,7 +292,7 @@ class EulerElementsSpinType:
             "name": "NUTATION_PHASE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -316,7 +318,7 @@ class EulerElementsThreeType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     euler_frame_a: Optional[str] = field(
         default=None,
@@ -324,7 +326,7 @@ class EulerElementsThreeType:
             "name": "EULER_FRAME_A",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     euler_frame_b: Optional[str] = field(
         default=None,
@@ -332,7 +334,7 @@ class EulerElementsThreeType:
             "name": "EULER_FRAME_B",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     euler_dir: Optional[RotDirectionType] = field(
         default=None,
@@ -340,7 +342,7 @@ class EulerElementsThreeType:
             "name": "EULER_DIR",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     euler_rot_seq: Optional[RotseqType] = field(
         default=None,
@@ -348,7 +350,7 @@ class EulerElementsThreeType:
             "name": "EULER_ROT_SEQ",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     rate_frame: Optional[ApmRateFrameType] = field(
         default=None,
@@ -356,7 +358,7 @@ class EulerElementsThreeType:
             "name": "RATE_FRAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     rotation_angles: Optional[RotationAngleType] = field(
         default=None,
@@ -364,7 +366,7 @@ class EulerElementsThreeType:
             "name": "rotationAngles",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     rotation_rates: Optional[RotationRateType] = field(
         default=None,
@@ -372,7 +374,7 @@ class EulerElementsThreeType:
             "name": "rotationRates",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -397,7 +399,7 @@ class QuaternionStateType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     epoch: Optional[str] = field(
         default=None,
@@ -407,7 +409,7 @@ class QuaternionStateType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     q_frame_a: Optional[str] = field(
         default=None,
@@ -416,7 +418,7 @@ class QuaternionStateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     q_frame_b: Optional[str] = field(
         default=None,
@@ -425,7 +427,7 @@ class QuaternionStateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     q_dir: Optional[RotDirectionType] = field(
         default=None,
@@ -434,7 +436,7 @@ class QuaternionStateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     quaternion: Optional[QuaternionType] = field(
         default=None,
@@ -442,7 +444,7 @@ class QuaternionStateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     quaternion_rate: Optional[QuaternionRateType] = field(
         default=None,
@@ -450,7 +452,7 @@ class QuaternionStateType:
             "name": "quaternionRate",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -471,7 +473,7 @@ class TorqueType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -496,7 +498,7 @@ class AttManeuverParametersType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     man_epoch_start: Optional[str] = field(
         default=None,
@@ -506,7 +508,7 @@ class AttManeuverParametersType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     man_duration: Optional[DurationType] = field(
         default=None,
@@ -515,7 +517,7 @@ class AttManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     man_ref_frame: Optional[str] = field(
         default=None,
@@ -524,7 +526,7 @@ class AttManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     man_tor_1: Optional[TorqueType] = field(
         default=None,
@@ -533,7 +535,7 @@ class AttManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     man_tor_2: Optional[TorqueType] = field(
         default=None,
@@ -542,7 +544,7 @@ class AttManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     man_tor_3: Optional[TorqueType] = field(
         default=None,
@@ -551,7 +553,7 @@ class AttManeuverParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -575,7 +577,7 @@ class ApmData:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     quaternion_state: Optional[QuaternionStateType] = field(
         default=None,
@@ -584,7 +586,7 @@ class ApmData:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     euler_elements_three: Optional[EulerElementsThreeType] = field(
         default=None,
@@ -592,7 +594,7 @@ class ApmData:
             "name": "eulerElementsThree",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     euler_elements_spin: Optional[EulerElementsSpinType] = field(
         default=None,
@@ -600,7 +602,7 @@ class ApmData:
             "name": "eulerElementsSpin",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     spacecraft_parameters: Optional[AttSpacecraftParametersType] = field(
         default=None,
@@ -608,7 +610,7 @@ class ApmData:
             "name": "spacecraftParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     maneuver_parameters: List[AttManeuverParametersType] = field(
         default_factory=list,
@@ -616,7 +618,7 @@ class ApmData:
             "name": "maneuverParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -636,7 +638,7 @@ class ApmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     data: Optional[ApmData] = field(
         default=None,
@@ -644,7 +646,7 @@ class ApmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -663,7 +665,7 @@ class ApmBody:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -685,7 +687,7 @@ class ApmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     body: Optional[ApmBody] = field(
         default=None,
@@ -693,7 +695,7 @@ class ApmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     id: str = field(
         init=False,
@@ -701,7 +703,7 @@ class ApmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     version: str = field(
         init=False,
@@ -709,5 +711,5 @@ class ApmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )

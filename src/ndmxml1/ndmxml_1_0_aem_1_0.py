@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
 
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_navwg_common import (
+from src.ndmxml1.ndmxml_1_0_navwg_common import (
     AngleRateType,
     AngleType,
     DurationType,
@@ -26,6 +26,7 @@ class AemRateFrameType(Enum):
     :cvar REF_FRAME_B:
     :cvar REF_FRAME_B_1:
     """
+
     REF_FRAME_A = "ref_frame_a"
     REF_FRAME_A_1 = "REF_FRAME_A"
     REF_FRAME_B = "ref_frame_b"
@@ -49,6 +50,7 @@ class AttitudeTypeType(Enum):
     :cvar SPIN_NUTATION:
     :cvar SPIN_NUTATION_1:
     """
+
     QUATERNION = "quaternion"
     QUATERNION_1 = "QUATERNION"
     QUATERNION_DERIVATIVE = "quaternion/derivative"
@@ -72,6 +74,7 @@ class QuaternionTypeType(Enum):
     :cvar LAST:
     :cvar LAST_1:
     """
+
     FIRST = "first"
     FIRST_1 = "FIRST"
     LAST = "last"
@@ -110,7 +113,7 @@ class AemMetadata:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object_name: Optional[str] = field(
         default=None,
@@ -119,7 +122,7 @@ class AemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     object_id: Optional[str] = field(
         default=None,
@@ -128,7 +131,7 @@ class AemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     center_name: Optional[str] = field(
         default=None,
@@ -136,7 +139,7 @@ class AemMetadata:
             "name": "CENTER_NAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     ref_frame_a: Optional[str] = field(
         default=None,
@@ -145,7 +148,7 @@ class AemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ref_frame_b: Optional[str] = field(
         default=None,
@@ -154,7 +157,7 @@ class AemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     attitude_dir: Optional[RotDirectionType] = field(
         default=None,
@@ -163,7 +166,7 @@ class AemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     time_system: Optional[TimeSystemType] = field(
         default=None,
@@ -172,7 +175,7 @@ class AemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     start_time: Optional[str] = field(
         default=None,
@@ -182,7 +185,7 @@ class AemMetadata:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     useable_start_time: Optional[str] = field(
         default=None,
@@ -191,7 +194,7 @@ class AemMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     useable_stop_time: Optional[str] = field(
         default=None,
@@ -200,7 +203,7 @@ class AemMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     stop_time: Optional[str] = field(
         default=None,
@@ -210,7 +213,7 @@ class AemMetadata:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     attitude_type: Optional[AttitudeTypeType] = field(
         default=None,
@@ -219,7 +222,7 @@ class AemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     quaternion_type: Optional[QuaternionTypeType] = field(
         default=None,
@@ -227,7 +230,7 @@ class AemMetadata:
             "name": "QUATERNION_TYPE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     euler_rot_seq: Optional[RotseqType] = field(
         default=None,
@@ -235,7 +238,7 @@ class AemMetadata:
             "name": "EULER_ROT_SEQ",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     rate_frame: Optional[AemRateFrameType] = field(
         default=None,
@@ -243,7 +246,7 @@ class AemMetadata:
             "name": "RATE_FRAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     interpolation_method: Optional[str] = field(
         default=None,
@@ -251,7 +254,7 @@ class AemMetadata:
             "name": "INTERPOLATION_METHOD",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     interpolation_degree: Optional[int] = field(
         default=None,
@@ -259,7 +262,7 @@ class AemMetadata:
             "name": "INTERPOLATION_DEGREE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -282,7 +285,7 @@ class EulerAngleRateType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     rotation_angles: Optional[RotationAngleType] = field(
         default=None,
@@ -290,7 +293,7 @@ class EulerAngleRateType:
             "name": "rotationAngles",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     rotation_rates: Optional[RotationRateType] = field(
         default=None,
@@ -298,7 +301,7 @@ class EulerAngleRateType:
             "name": "rotationRates",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -320,7 +323,7 @@ class EulerAngleType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     rotation_angles: Optional[RotationAngleType] = field(
         default=None,
@@ -328,7 +331,7 @@ class EulerAngleType:
             "name": "rotationAngles",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -351,7 +354,7 @@ class QuaternionDerivativeType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     quaternion: Optional[QuaternionType] = field(
         default=None,
@@ -359,7 +362,7 @@ class QuaternionDerivativeType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     quaternion_rate: Optional[QuaternionRateType] = field(
         default=None,
@@ -368,7 +371,7 @@ class QuaternionDerivativeType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -390,7 +393,7 @@ class QuaternionEphemerisType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     quaternion: Optional[QuaternionType] = field(
         default=None,
@@ -398,7 +401,7 @@ class QuaternionEphemerisType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -421,7 +424,7 @@ class QuaternionEulerRateType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     quaternion: Optional[QuaternionType] = field(
         default=None,
@@ -429,7 +432,7 @@ class QuaternionEulerRateType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     rotation_rates: Optional[RotationRateType] = field(
         default=None,
@@ -437,7 +440,7 @@ class QuaternionEulerRateType:
             "name": "rotationRates",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -465,7 +468,7 @@ class SpinNutationType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     spin_alpha: Optional[AngleType] = field(
         default=None,
@@ -474,7 +477,7 @@ class SpinNutationType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     spin_delta: Optional[AngleType] = field(
         default=None,
@@ -483,7 +486,7 @@ class SpinNutationType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     spin_angle: Optional[AngleType] = field(
         default=None,
@@ -492,7 +495,7 @@ class SpinNutationType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     spin_angle_vel: Optional[AngleRateType] = field(
         default=None,
@@ -501,7 +504,7 @@ class SpinNutationType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     nutation: Optional[AngleType] = field(
         default=None,
@@ -510,7 +513,7 @@ class SpinNutationType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     nutation_per: Optional[DurationType] = field(
         default=None,
@@ -519,7 +522,7 @@ class SpinNutationType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     nutation_phase: Optional[AngleType] = field(
         default=None,
@@ -528,7 +531,7 @@ class SpinNutationType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -553,7 +556,7 @@ class SpinType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     spin_alpha: Optional[AngleType] = field(
         default=None,
@@ -562,7 +565,7 @@ class SpinType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     spin_delta: Optional[AngleType] = field(
         default=None,
@@ -571,7 +574,7 @@ class SpinType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     spin_angle: Optional[AngleType] = field(
         default=None,
@@ -580,7 +583,7 @@ class SpinType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     spin_angle_vel: Optional[AngleRateType] = field(
         default=None,
@@ -589,7 +592,7 @@ class SpinType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -614,7 +617,7 @@ class AttitudeStateType:
             "name": "quaternionState",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     quaternion_derivative: Optional[QuaternionDerivativeType] = field(
         default=None,
@@ -622,7 +625,7 @@ class AttitudeStateType:
             "name": "quaternionDerivative",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     quaternion_euler_rate: Optional[QuaternionEulerRateType] = field(
         default=None,
@@ -630,7 +633,7 @@ class AttitudeStateType:
             "name": "quaternionEulerRate",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     euler_angle: Optional[EulerAngleType] = field(
         default=None,
@@ -638,7 +641,7 @@ class AttitudeStateType:
             "name": "eulerAngle",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     euler_angle_rate: Optional[EulerAngleRateType] = field(
         default=None,
@@ -646,14 +649,14 @@ class AttitudeStateType:
             "name": "eulerAngleRate",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     spin: Optional[SpinType] = field(
         default=None,
         metadata={
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     spin_nutation: Optional[SpinNutationType] = field(
         default=None,
@@ -661,7 +664,7 @@ class AttitudeStateType:
             "name": "spinNutation",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -681,7 +684,7 @@ class AemData:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     attitude_state: List[AttitudeStateType] = field(
         default_factory=list,
@@ -690,7 +693,7 @@ class AemData:
             "type": "Element",
             "namespace": "",
             "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -710,7 +713,7 @@ class AemSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     data: Optional[AemData] = field(
         default=None,
@@ -718,7 +721,7 @@ class AemSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -737,7 +740,7 @@ class AemBody:
             "type": "Element",
             "namespace": "",
             "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -759,7 +762,7 @@ class AemType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     body: Optional[AemBody] = field(
         default=None,
@@ -767,7 +770,7 @@ class AemType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     id: str = field(
         init=False,
@@ -775,7 +778,7 @@ class AemType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     version: str = field(
         init=False,
@@ -783,5 +786,5 @@ class AemType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )

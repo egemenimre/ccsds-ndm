@@ -1,5 +1,5 @@
 # CCSDS-NDM: CCSDS Navigation Data Messages Read/Write Library
-# 
+#
 # Copyright (C) 2020 CCSDS-NDM Project Team
 #
 # Licensed under GNU GPL v3.0. See LICENSE.rst for more info.
@@ -14,7 +14,7 @@ from pprint import pprint
 
 import xmlschema
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # print working directory
     ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
     print(f"current working directory is {ROOT_DIR}.")
@@ -38,4 +38,5 @@ if __name__ == '__main__':
     # read XML file
     print(f"XML is valid  : {xsd.is_valid(xml_file_path.read_text())}")
     # print(xsd.validate(str(xml_file_path)))
-    pprint(xsd.to_dict(xml_file_path.read_text(), validation="lax"))
+    xml_dict = xsd.to_dict(xml_file_path.read_text(), validation="lax")
+    pprint(xml_dict)

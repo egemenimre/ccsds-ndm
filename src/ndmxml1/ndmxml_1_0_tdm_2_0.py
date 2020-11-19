@@ -3,7 +3,7 @@ from decimal import Decimal
 from enum import Enum
 from typing import List, Optional
 
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_navwg_common import (
+from src.ndmxml1.ndmxml_1_0_navwg_common import (
     AngleType,
     TimeSystemType,
     YesNoType,
@@ -23,6 +23,7 @@ class AngleTypeType(Enum):
     :cvar XSYE:
     :cvar XSYE_1:
     """
+
     AZEL = "AZEL"
     AZEL_1 = "azel"
     RADEC = "RADEC"
@@ -42,6 +43,7 @@ class DataQualityType(Enum):
     :cvar DEGRADED:
     :cvar DEGRADED_1:
     """
+
     RAW = "raw"
     RAW_1 = "RAW"
     VALIDATED = "validated"
@@ -59,6 +61,7 @@ class IntegrationRefType(Enum):
     :cvar END:
     :cvar END_1:
     """
+
     START = "START"
     START_1 = "start"
     MIDDLE = "MIDDLE"
@@ -74,6 +77,7 @@ class ModeType(Enum):
     :cvar SINGLE_DIFF:
     :cvar SINGLE_DIFF_1:
     """
+
     SEQUENTIAL = "SEQUENTIAL"
     SEQUENTIAL_1 = "sequential"
     SINGLE_DIFF = "SINGLE_DIFF"
@@ -89,6 +93,7 @@ class RangeUnitsType(Enum):
     :cvar S:
     :cvar S_1:
     """
+
     KM = "km"
     KM_1 = "KM"
     RU = "ru"
@@ -106,6 +111,7 @@ class RangemodeType(Enum):
     :cvar ONE_WAY:
     :cvar ONE_WAY_1:
     """
+
     COHERENT = "coherent"
     COHERENT_1 = "COHERENT"
     CONSTANT = "constant"
@@ -129,6 +135,7 @@ class RefFrameType(Enum):
     :cvar TOD:
     :cvar TOD_1:
     """
+
     EME2000 = "EME2000"
     EME2000_1 = "eme2000"
     ICRF = "ICRF"
@@ -161,7 +168,7 @@ class TdmHeader:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     creation_date: Optional[str] = field(
         default=None,
@@ -171,7 +178,7 @@ class TdmHeader:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     originator: Optional[str] = field(
         default=None,
@@ -180,7 +187,7 @@ class TdmHeader:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     message_id: Optional[str] = field(
         default=None,
@@ -188,7 +195,7 @@ class TdmHeader:
             "name": "MESSAGE_ID",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -199,6 +206,7 @@ class TimetagRefType(Enum):
     :cvar RECEIVE:
     :cvar RECEIVE_1:
     """
+
     TRANSMIT = "TRANSMIT"
     TRANSMIT_1 = "transmit"
     RECEIVE = "RECEIVE"
@@ -279,7 +287,7 @@ class TdmMetadata:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     track_id: Optional[str] = field(
         default=None,
@@ -287,7 +295,7 @@ class TdmMetadata:
             "name": "TRACK_ID",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     data_types: Optional[str] = field(
         default=None,
@@ -295,7 +303,7 @@ class TdmMetadata:
             "name": "DATA_TYPES",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     time_system: Optional[TimeSystemType] = field(
         default=None,
@@ -304,7 +312,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     start_time: Optional[str] = field(
         default=None,
@@ -313,7 +321,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     stop_time: Optional[str] = field(
         default=None,
@@ -322,7 +330,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     participant_1: Optional[str] = field(
         default=None,
@@ -331,7 +339,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     participant_2: Optional[str] = field(
         default=None,
@@ -339,7 +347,7 @@ class TdmMetadata:
             "name": "PARTICIPANT_2",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     participant_3: Optional[str] = field(
         default=None,
@@ -347,7 +355,7 @@ class TdmMetadata:
             "name": "PARTICIPANT_3",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     participant_4: Optional[str] = field(
         default=None,
@@ -355,7 +363,7 @@ class TdmMetadata:
             "name": "PARTICIPANT_4",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     participant_5: Optional[str] = field(
         default=None,
@@ -363,7 +371,7 @@ class TdmMetadata:
             "name": "PARTICIPANT_5",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     mode: Optional[ModeType] = field(
         default=None,
@@ -371,7 +379,7 @@ class TdmMetadata:
             "name": "MODE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     path: Optional[str] = field(
         default=None,
@@ -380,7 +388,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\d{1},\d{1}(,\d{1})*",
-        }
+        },
     )
     path_1: Optional[str] = field(
         default=None,
@@ -389,7 +397,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\d{1},\d{1}(,\d{1})*",
-        }
+        },
     )
     path_2: Optional[str] = field(
         default=None,
@@ -398,7 +406,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\d{1},\d{1}(,\d{1})*",
-        }
+        },
     )
     ephemeris_name_1: Optional[str] = field(
         default=None,
@@ -406,7 +414,7 @@ class TdmMetadata:
             "name": "EPHEMERIS_NAME_1",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     ephemeris_name_2: Optional[str] = field(
         default=None,
@@ -414,7 +422,7 @@ class TdmMetadata:
             "name": "EPHEMERIS_NAME_2",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     ephemeris_name_3: Optional[str] = field(
         default=None,
@@ -422,7 +430,7 @@ class TdmMetadata:
             "name": "EPHEMERIS_NAME_3",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     ephemeris_name_4: Optional[str] = field(
         default=None,
@@ -430,7 +438,7 @@ class TdmMetadata:
             "name": "EPHEMERIS_NAME_4",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     ephemeris_name_5: Optional[str] = field(
         default=None,
@@ -438,7 +446,7 @@ class TdmMetadata:
             "name": "EPHEMERIS_NAME_5",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_band: Optional[str] = field(
         default=None,
@@ -446,7 +454,7 @@ class TdmMetadata:
             "name": "TRANSMIT_BAND",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_band: Optional[str] = field(
         default=None,
@@ -454,7 +462,7 @@ class TdmMetadata:
             "name": "RECEIVE_BAND",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     turnaround_numerator: Optional[int] = field(
         default=None,
@@ -462,7 +470,7 @@ class TdmMetadata:
             "name": "TURNAROUND_NUMERATOR",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     turnaround_denominator: Optional[int] = field(
         default=None,
@@ -470,7 +478,7 @@ class TdmMetadata:
             "name": "TURNAROUND_DENOMINATOR",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     timetag_ref: Optional[TimetagRefType] = field(
         default=None,
@@ -478,7 +486,7 @@ class TdmMetadata:
             "name": "TIMETAG_REF",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     integration_interval: Optional[Decimal] = field(
         default=None,
@@ -487,7 +495,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_exclusive": 0.0,
-        }
+        },
     )
     integration_ref: Optional[IntegrationRefType] = field(
         default=None,
@@ -495,7 +503,7 @@ class TdmMetadata:
             "name": "INTEGRATION_REF",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     freq_offset: Optional[Decimal] = field(
         default=None,
@@ -503,7 +511,7 @@ class TdmMetadata:
             "name": "FREQ_OFFSET",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     range_mode: Optional[RangemodeType] = field(
         default=None,
@@ -511,7 +519,7 @@ class TdmMetadata:
             "name": "RANGE_MODE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     range_modulus: Optional[Decimal] = field(
         default=None,
@@ -520,7 +528,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     range_units: Optional[RangeUnitsType] = field(
         default=None,
@@ -528,7 +536,7 @@ class TdmMetadata:
             "name": "RANGE_UNITS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     angle_type: Optional[AngleTypeType] = field(
         default=None,
@@ -536,7 +544,7 @@ class TdmMetadata:
             "name": "ANGLE_TYPE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     reference_frame: Optional[RefFrameType] = field(
         default=None,
@@ -544,7 +552,7 @@ class TdmMetadata:
             "name": "REFERENCE_FRAME",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     interpolation: Optional[str] = field(
         default=None,
@@ -552,7 +560,7 @@ class TdmMetadata:
             "name": "INTERPOLATION",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     interpolation_degree: Optional[int] = field(
         default=None,
@@ -560,7 +568,7 @@ class TdmMetadata:
             "name": "INTERPOLATION_DEGREE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     doppler_count_bias: Optional[Decimal] = field(
         default=None,
@@ -569,7 +577,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_exclusive": 0.0,
-        }
+        },
     )
     doppler_count_scale: Optional[int] = field(
         default=None,
@@ -577,7 +585,7 @@ class TdmMetadata:
             "name": "DOPPLER_COUNT_SCALE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     doppler_count_rollover: Optional[YesNoType] = field(
         default=None,
@@ -585,7 +593,7 @@ class TdmMetadata:
             "name": "DOPPLER_COUNT_ROLLOVER",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_delay_1: Optional[Decimal] = field(
         default=None,
@@ -594,7 +602,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     transmit_delay_2: Optional[Decimal] = field(
         default=None,
@@ -603,7 +611,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     transmit_delay_3: Optional[Decimal] = field(
         default=None,
@@ -612,7 +620,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     transmit_delay_4: Optional[Decimal] = field(
         default=None,
@@ -621,7 +629,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     transmit_delay_5: Optional[Decimal] = field(
         default=None,
@@ -630,7 +638,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     receive_delay_1: Optional[Decimal] = field(
         default=None,
@@ -639,7 +647,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     receive_delay_2: Optional[Decimal] = field(
         default=None,
@@ -648,7 +656,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     receive_delay_3: Optional[Decimal] = field(
         default=None,
@@ -657,7 +665,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     receive_delay_4: Optional[Decimal] = field(
         default=None,
@@ -666,7 +674,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     receive_delay_5: Optional[Decimal] = field(
         default=None,
@@ -675,7 +683,7 @@ class TdmMetadata:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     data_quality: Optional[DataQualityType] = field(
         default=None,
@@ -683,7 +691,7 @@ class TdmMetadata:
             "name": "DATA_QUALITY",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     correction_angle_1: Optional[Decimal] = field(
         default=None,
@@ -691,7 +699,7 @@ class TdmMetadata:
             "name": "CORRECTION_ANGLE_1",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     correction_angle_2: Optional[Decimal] = field(
         default=None,
@@ -699,7 +707,7 @@ class TdmMetadata:
             "name": "CORRECTION_ANGLE_2",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     correction_doppler: Optional[Decimal] = field(
         default=None,
@@ -707,7 +715,7 @@ class TdmMetadata:
             "name": "CORRECTION_DOPPLER",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     correction_mag: Optional[Decimal] = field(
         default=None,
@@ -715,7 +723,7 @@ class TdmMetadata:
             "name": "CORRECTION_MAG",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     correction_range: Optional[Decimal] = field(
         default=None,
@@ -723,7 +731,7 @@ class TdmMetadata:
             "name": "CORRECTION_RANGE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     correction_rcs: Optional[Decimal] = field(
         default=None,
@@ -731,7 +739,7 @@ class TdmMetadata:
             "name": "CORRECTION_RCS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     correction_receive: Optional[Decimal] = field(
         default=None,
@@ -739,7 +747,7 @@ class TdmMetadata:
             "name": "CORRECTION_RECEIVE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     correction_transmit: Optional[Decimal] = field(
         default=None,
@@ -747,7 +755,7 @@ class TdmMetadata:
             "name": "CORRECTION_TRANSMIT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     correction_aberration_yearly: Optional[Decimal] = field(
         default=None,
@@ -755,7 +763,7 @@ class TdmMetadata:
             "name": "CORRECTION_ABERRATION_YEARLY",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     correction_aberration_diurnal: Optional[Decimal] = field(
         default=None,
@@ -763,7 +771,7 @@ class TdmMetadata:
             "name": "CORRECTION_ABERRATION_DIURNAL",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     corrections_applied: Optional[YesNoType] = field(
         default=None,
@@ -771,7 +779,7 @@ class TdmMetadata:
             "name": "CORRECTIONS_APPLIED",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -839,7 +847,7 @@ class TrackingDataObservationType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     angle_1: Optional[AngleType] = field(
         default=None,
@@ -847,7 +855,7 @@ class TrackingDataObservationType:
             "name": "ANGLE_1",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     angle_2: Optional[AngleType] = field(
         default=None,
@@ -855,7 +863,7 @@ class TrackingDataObservationType:
             "name": "ANGLE_2",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     carrier_power: Optional[Decimal] = field(
         default=None,
@@ -863,7 +871,7 @@ class TrackingDataObservationType:
             "name": "CARRIER_POWER",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     clock_bias: Optional[Decimal] = field(
         default=None,
@@ -871,7 +879,7 @@ class TrackingDataObservationType:
             "name": "CLOCK_BIAS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     clock_drift: Optional[Decimal] = field(
         default=None,
@@ -879,7 +887,7 @@ class TrackingDataObservationType:
             "name": "CLOCK_DRIFT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     doppler_count: Optional[Decimal] = field(
         default=None,
@@ -887,7 +895,7 @@ class TrackingDataObservationType:
             "name": "DOPPLER_COUNT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     doppler_instantaneous: Optional[Decimal] = field(
         default=None,
@@ -895,7 +903,7 @@ class TrackingDataObservationType:
             "name": "DOPPLER_INSTANTANEOUS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     doppler_integrated: Optional[Decimal] = field(
         default=None,
@@ -903,7 +911,7 @@ class TrackingDataObservationType:
             "name": "DOPPLER_INTEGRATED",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     dor: Optional[Decimal] = field(
         default=None,
@@ -911,7 +919,7 @@ class TrackingDataObservationType:
             "name": "DOR",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     mag: Optional[Decimal] = field(
         default=None,
@@ -919,7 +927,7 @@ class TrackingDataObservationType:
             "name": "MAG",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     pc_n0: Optional[Decimal] = field(
         default=None,
@@ -927,7 +935,7 @@ class TrackingDataObservationType:
             "name": "PC_N0",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     pr_n0: Optional[Decimal] = field(
         default=None,
@@ -935,7 +943,7 @@ class TrackingDataObservationType:
             "name": "PR_N0",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     pressure: Optional[Decimal] = field(
         default=None,
@@ -943,7 +951,7 @@ class TrackingDataObservationType:
             "name": "PRESSURE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     range: Optional[Decimal] = field(
         default=None,
@@ -951,7 +959,7 @@ class TrackingDataObservationType:
             "name": "RANGE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     rcs: Optional[Decimal] = field(
         default=None,
@@ -959,7 +967,7 @@ class TrackingDataObservationType:
             "name": "RCS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_freq: Optional[Decimal] = field(
         default=None,
@@ -967,7 +975,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_FREQ",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_freq_1: Optional[Decimal] = field(
         default=None,
@@ -975,7 +983,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_FREQ_1",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_freq_2: Optional[Decimal] = field(
         default=None,
@@ -983,7 +991,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_FREQ_2",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_freq_3: Optional[Decimal] = field(
         default=None,
@@ -991,7 +999,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_FREQ_3",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_freq_4: Optional[Decimal] = field(
         default=None,
@@ -999,7 +1007,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_FREQ_4",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_freq_5: Optional[Decimal] = field(
         default=None,
@@ -1007,7 +1015,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_FREQ_5",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_phase_ct_1: Optional[Decimal] = field(
         default=None,
@@ -1015,7 +1023,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_PHASE_CT_1",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_phase_ct_2: Optional[Decimal] = field(
         default=None,
@@ -1023,7 +1031,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_PHASE_CT_2",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_phase_ct_3: Optional[Decimal] = field(
         default=None,
@@ -1031,7 +1039,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_PHASE_CT_3",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_phase_ct_4: Optional[Decimal] = field(
         default=None,
@@ -1039,7 +1047,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_PHASE_CT_4",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     receive_phase_ct_5: Optional[Decimal] = field(
         default=None,
@@ -1047,7 +1055,7 @@ class TrackingDataObservationType:
             "name": "RECEIVE_PHASE_CT_5",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     rhumidity: Optional[Decimal] = field(
         default=None,
@@ -1057,7 +1065,7 @@ class TrackingDataObservationType:
             "namespace": "",
             "min_inclusive": 0.0,
             "max_inclusive": 100.0,
-        }
+        },
     )
     stec: Optional[Decimal] = field(
         default=None,
@@ -1065,7 +1073,7 @@ class TrackingDataObservationType:
             "name": "STEC",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     temperature: Optional[Decimal] = field(
         default=None,
@@ -1074,7 +1082,7 @@ class TrackingDataObservationType:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     transmit_freq_1: Optional[Decimal] = field(
         default=None,
@@ -1083,7 +1091,7 @@ class TrackingDataObservationType:
             "type": "Element",
             "namespace": "",
             "min_exclusive": 0.0,
-        }
+        },
     )
     transmit_freq_2: Optional[Decimal] = field(
         default=None,
@@ -1092,7 +1100,7 @@ class TrackingDataObservationType:
             "type": "Element",
             "namespace": "",
             "min_exclusive": 0.0,
-        }
+        },
     )
     transmit_freq_3: Optional[Decimal] = field(
         default=None,
@@ -1101,7 +1109,7 @@ class TrackingDataObservationType:
             "type": "Element",
             "namespace": "",
             "min_exclusive": 0.0,
-        }
+        },
     )
     transmit_freq_4: Optional[Decimal] = field(
         default=None,
@@ -1110,7 +1118,7 @@ class TrackingDataObservationType:
             "type": "Element",
             "namespace": "",
             "min_exclusive": 0.0,
-        }
+        },
     )
     transmit_freq_5: Optional[Decimal] = field(
         default=None,
@@ -1119,7 +1127,7 @@ class TrackingDataObservationType:
             "type": "Element",
             "namespace": "",
             "min_exclusive": 0.0,
-        }
+        },
     )
     transmit_freq_rate_1: Optional[Decimal] = field(
         default=None,
@@ -1127,7 +1135,7 @@ class TrackingDataObservationType:
             "name": "TRANSMIT_FREQ_RATE_1",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_freq_rate_2: Optional[Decimal] = field(
         default=None,
@@ -1135,7 +1143,7 @@ class TrackingDataObservationType:
             "name": "TRANSMIT_FREQ_RATE_2",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_freq_rate_3: Optional[Decimal] = field(
         default=None,
@@ -1143,7 +1151,7 @@ class TrackingDataObservationType:
             "name": "TRANSMIT_FREQ_RATE_3",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_freq_rate_4: Optional[Decimal] = field(
         default=None,
@@ -1151,7 +1159,7 @@ class TrackingDataObservationType:
             "name": "TRANSMIT_FREQ_RATE_4",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_freq_rate_5: Optional[Decimal] = field(
         default=None,
@@ -1159,7 +1167,7 @@ class TrackingDataObservationType:
             "name": "TRANSMIT_FREQ_RATE_5",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_phase_ct_1: Optional[Decimal] = field(
         default=None,
@@ -1167,7 +1175,7 @@ class TrackingDataObservationType:
             "name": "TRANSMIT_PHASE_CT_1",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_phase_ct_2: Optional[Decimal] = field(
         default=None,
@@ -1175,7 +1183,7 @@ class TrackingDataObservationType:
             "name": "TRANSMIT_PHASE_CT_2",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_phase_ct_3: Optional[Decimal] = field(
         default=None,
@@ -1183,7 +1191,7 @@ class TrackingDataObservationType:
             "name": "TRANSMIT_PHASE_CT_3",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_phase_ct_4: Optional[Decimal] = field(
         default=None,
@@ -1191,7 +1199,7 @@ class TrackingDataObservationType:
             "name": "TRANSMIT_PHASE_CT_4",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     transmit_phase_ct_5: Optional[Decimal] = field(
         default=None,
@@ -1199,7 +1207,7 @@ class TrackingDataObservationType:
             "name": "TRANSMIT_PHASE_CT_5",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     tropo_dry: Optional[Decimal] = field(
         default=None,
@@ -1208,7 +1216,7 @@ class TrackingDataObservationType:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     tropo_wet: Optional[Decimal] = field(
         default=None,
@@ -1217,7 +1225,7 @@ class TrackingDataObservationType:
             "type": "Element",
             "namespace": "",
             "min_inclusive": 0.0,
-        }
+        },
     )
     vlbi_delay: Optional[Decimal] = field(
         default=None,
@@ -1225,7 +1233,7 @@ class TrackingDataObservationType:
             "name": "VLBI_DELAY",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -1245,7 +1253,7 @@ class TdmData:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     observation: List[TrackingDataObservationType] = field(
         default_factory=list,
@@ -1253,7 +1261,7 @@ class TdmData:
             "type": "Element",
             "namespace": "",
             "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -1273,7 +1281,7 @@ class TdmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     data: Optional[TdmData] = field(
         default=None,
@@ -1281,7 +1289,7 @@ class TdmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -1300,7 +1308,7 @@ class TdmBody:
             "type": "Element",
             "namespace": "",
             "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -1322,7 +1330,7 @@ class TdmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     body: Optional[TdmBody] = field(
         default=None,
@@ -1330,7 +1338,7 @@ class TdmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     id: str = field(
         init=False,
@@ -1338,7 +1346,7 @@ class TdmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     version: str = field(
         init=False,
@@ -1346,5 +1354,5 @@ class TdmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )

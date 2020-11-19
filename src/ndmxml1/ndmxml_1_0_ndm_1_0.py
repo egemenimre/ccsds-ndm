@@ -1,14 +1,14 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_aem_1_0 import AemType
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_apm_1_0 import ApmType
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_cdm_1_0 import CdmType
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_oem_2_0 import OemType
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_omm_2_0 import OmmType
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_opm_1_0 import OpmType
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_rdm_1_0 import RdmType
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_tdm_2_0 import TdmType
+from src.ndmxml1.ndmxml_1_0_aem_1_0 import AemType
+from src.ndmxml1.ndmxml_1_0_apm_1_0 import ApmType
+from src.ndmxml1.ndmxml_1_0_cdm_1_0 import CdmType
+from src.ndmxml1.ndmxml_1_0_oem_2_0 import OemType
+from src.ndmxml1.ndmxml_1_0_omm_2_0 import OmmType
+from src.ndmxml1.ndmxml_1_0_opm_1_0 import OpmType
+from src.ndmxml1.ndmxml_1_0_rdm_1_0 import RdmType
+from src.ndmxml1.ndmxml_1_0_tdm_2_0 import TdmType
 
 __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
@@ -36,7 +36,7 @@ class NdmType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     aem: List[AemType] = field(
         default_factory=list,
@@ -44,7 +44,7 @@ class NdmType:
             "type": "Element",
             "namespace": "",
             "sequential": True,
-        }
+        },
     )
     apm: List[ApmType] = field(
         default_factory=list,
@@ -52,7 +52,7 @@ class NdmType:
             "type": "Element",
             "namespace": "",
             "sequential": True,
-        }
+        },
     )
     cdm: List[CdmType] = field(
         default_factory=list,
@@ -60,7 +60,7 @@ class NdmType:
             "type": "Element",
             "namespace": "",
             "sequential": True,
-        }
+        },
     )
     oem: List[OemType] = field(
         default_factory=list,
@@ -68,7 +68,7 @@ class NdmType:
             "type": "Element",
             "namespace": "",
             "sequential": True,
-        }
+        },
     )
     omm: List[OmmType] = field(
         default_factory=list,
@@ -76,7 +76,7 @@ class NdmType:
             "type": "Element",
             "namespace": "",
             "sequential": True,
-        }
+        },
     )
     opm: List[OpmType] = field(
         default_factory=list,
@@ -84,7 +84,7 @@ class NdmType:
             "type": "Element",
             "namespace": "",
             "sequential": True,
-        }
+        },
     )
     rdm: List[RdmType] = field(
         default_factory=list,
@@ -92,7 +92,7 @@ class NdmType:
             "type": "Element",
             "namespace": "",
             "sequential": True,
-        }
+        },
     )
     tdm: List[TdmType] = field(
         default_factory=list,
@@ -100,5 +100,5 @@ class NdmType:
             "type": "Element",
             "namespace": "",
             "sequential": True,
-        }
+        },
     )

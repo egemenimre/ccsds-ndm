@@ -3,7 +3,7 @@ from decimal import Decimal
 from enum import Enum
 from typing import List, Optional
 
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_navwg_common import (
+from src.ndmxml1.ndmxml_1_0_navwg_common import (
     AngleType,
     DistanceType,
     GmType,
@@ -21,6 +21,7 @@ class BStarUnits(Enum):
     """
     :cvar VALUE_1_ER:
     """
+
     VALUE_1_ER = "1/ER"
 
 
@@ -29,6 +30,7 @@ class DRevUnits(Enum):
     :cvar REV_DAY_2:
     :cvar REV_DAY_2_1:
     """
+
     REV_DAY_2 = "rev/day**2"
     REV_DAY_2_1 = "REV/DAY**2"
 
@@ -38,6 +40,7 @@ class DdRevUnits(Enum):
     :cvar REV_DAY_3:
     :cvar REV_DAY_3_1:
     """
+
     REV_DAY_3 = "rev/day**3"
     REV_DAY_3_1 = "REV/DAY**3"
 
@@ -64,7 +67,7 @@ class OmmMetadata:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object_name: Optional[str] = field(
         default=None,
@@ -73,7 +76,7 @@ class OmmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     object_id: Optional[str] = field(
         default=None,
@@ -82,7 +85,7 @@ class OmmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     center_name: Optional[str] = field(
         default=None,
@@ -91,7 +94,7 @@ class OmmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ref_frame: Optional[str] = field(
         default=None,
@@ -100,7 +103,7 @@ class OmmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ref_frame_epoch: Optional[str] = field(
         default=None,
@@ -109,7 +112,7 @@ class OmmMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     time_system: Optional[str] = field(
         default=None,
@@ -118,7 +121,7 @@ class OmmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     mean_element_theory: Optional[str] = field(
         default=None,
@@ -127,7 +130,7 @@ class OmmMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -136,6 +139,7 @@ class RevUnits(Enum):
     :cvar REV_DAY:
     :cvar REV_DAY_1:
     """
+
     REV_DAY = "rev/day"
     REV_DAY_1 = "REV/DAY"
 
@@ -157,7 +161,7 @@ class BStarType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -178,7 +182,7 @@ class DRevType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -199,7 +203,7 @@ class DdRevType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -220,7 +224,7 @@ class RevType:
         default=None,
         metadata={
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -248,7 +252,7 @@ class MeanElementsType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     epoch: Optional[str] = field(
         default=None,
@@ -258,7 +262,7 @@ class MeanElementsType:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     semi_major_axis: Optional[DistanceType] = field(
         default=None,
@@ -266,7 +270,7 @@ class MeanElementsType:
             "name": "SEMI_MAJOR_AXIS",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     mean_motion: Optional[RevType] = field(
         default=None,
@@ -274,7 +278,7 @@ class MeanElementsType:
             "name": "MEAN_MOTION",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     eccentricity: Optional[Decimal] = field(
         default=None,
@@ -284,7 +288,7 @@ class MeanElementsType:
             "namespace": "",
             "required": True,
             "min_inclusive": 0.0,
-        }
+        },
     )
     inclination: Optional[InclinationType] = field(
         default=None,
@@ -293,7 +297,7 @@ class MeanElementsType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ra_of_asc_node: Optional[AngleType] = field(
         default=None,
@@ -302,7 +306,7 @@ class MeanElementsType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     arg_of_pericenter: Optional[AngleType] = field(
         default=None,
@@ -311,7 +315,7 @@ class MeanElementsType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     mean_anomaly: Optional[AngleType] = field(
         default=None,
@@ -320,7 +324,7 @@ class MeanElementsType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     gm: Optional[GmType] = field(
         default=None,
@@ -328,7 +332,7 @@ class MeanElementsType:
             "name": "GM",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -355,7 +359,7 @@ class TleParametersType:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     ephemeris_type: Optional[int] = field(
         default=None,
@@ -363,7 +367,7 @@ class TleParametersType:
             "name": "EPHEMERIS_TYPE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     classification_type: Optional[str] = field(
         default=None,
@@ -371,7 +375,7 @@ class TleParametersType:
             "name": "CLASSIFICATION_TYPE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     norad_cat_id: Optional[int] = field(
         default=None,
@@ -380,7 +384,7 @@ class TleParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     element_set_no: Optional[int] = field(
         default=None,
@@ -391,7 +395,7 @@ class TleParametersType:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 9999,
-        }
+        },
     )
     rev_at_epoch: Optional[int] = field(
         default=None,
@@ -400,7 +404,7 @@ class TleParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     bstar: Optional[BStarType] = field(
         default=None,
@@ -409,7 +413,7 @@ class TleParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     mean_motion_dot: Optional[DRevType] = field(
         default=None,
@@ -418,7 +422,7 @@ class TleParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     mean_motion_ddot: Optional[DdRevType] = field(
         default=None,
@@ -427,7 +431,7 @@ class TleParametersType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -451,7 +455,7 @@ class OmmData:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     mean_elements: Optional[MeanElementsType] = field(
         default=None,
@@ -460,7 +464,7 @@ class OmmData:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     spacecraft_parameters: Optional[SpacecraftParametersType] = field(
         default=None,
@@ -468,7 +472,7 @@ class OmmData:
             "name": "spacecraftParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     tle_parameters: Optional[TleParametersType] = field(
         default=None,
@@ -476,7 +480,7 @@ class OmmData:
             "name": "tleParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     covariance_matrix: Optional[OpmCovarianceMatrixType] = field(
         default=None,
@@ -484,7 +488,7 @@ class OmmData:
             "name": "covarianceMatrix",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     user_defined_parameters: Optional[UserDefinedType] = field(
         default=None,
@@ -492,7 +496,7 @@ class OmmData:
             "name": "userDefinedParameters",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -512,7 +516,7 @@ class OmmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     data: Optional[OmmData] = field(
         default=None,
@@ -520,7 +524,7 @@ class OmmSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -539,7 +543,7 @@ class OmmBody:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -561,7 +565,7 @@ class OmmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     body: Optional[OmmBody] = field(
         default=None,
@@ -569,7 +573,7 @@ class OmmType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     id: str = field(
         init=False,
@@ -577,7 +581,7 @@ class OmmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     version: str = field(
         init=False,
@@ -585,5 +589,5 @@ class OmmType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )

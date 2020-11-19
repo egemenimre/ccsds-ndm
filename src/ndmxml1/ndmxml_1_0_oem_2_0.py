@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from src.examples.xsdata_example.ndmxml1.ndmxml_1_0_navwg_common import (
+from src.ndmxml1.ndmxml_1_0_navwg_common import (
     NdmHeader,
     OemCovarianceMatrixType,
     StateVectorAccType,
@@ -37,7 +37,7 @@ class OemMetadata:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     object_name: Optional[str] = field(
         default=None,
@@ -46,7 +46,7 @@ class OemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     object_id: Optional[str] = field(
         default=None,
@@ -55,7 +55,7 @@ class OemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     center_name: Optional[str] = field(
         default=None,
@@ -64,7 +64,7 @@ class OemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ref_frame: Optional[str] = field(
         default=None,
@@ -73,7 +73,7 @@ class OemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     ref_frame_epoch: Optional[str] = field(
         default=None,
@@ -82,7 +82,7 @@ class OemMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     time_system: Optional[str] = field(
         default=None,
@@ -91,7 +91,7 @@ class OemMetadata:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     start_time: Optional[str] = field(
         default=None,
@@ -101,7 +101,7 @@ class OemMetadata:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     useable_start_time: Optional[str] = field(
         default=None,
@@ -110,7 +110,7 @@ class OemMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     useable_stop_time: Optional[str] = field(
         default=None,
@@ -119,7 +119,7 @@ class OemMetadata:
             "type": "Element",
             "namespace": "",
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     stop_time: Optional[str] = field(
         default=None,
@@ -129,7 +129,7 @@ class OemMetadata:
             "namespace": "",
             "required": True,
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        }
+        },
     )
     interpolation: Optional[str] = field(
         default=None,
@@ -137,7 +137,7 @@ class OemMetadata:
             "name": "INTERPOLATION",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     interpolation_degree: Optional[int] = field(
         default=None,
@@ -145,7 +145,7 @@ class OemMetadata:
             "name": "INTERPOLATION_DEGREE",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -166,7 +166,7 @@ class OemData:
             "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
     state_vector: List[StateVectorAccType] = field(
         default_factory=list,
@@ -175,7 +175,7 @@ class OemData:
             "type": "Element",
             "namespace": "",
             "min_occurs": 1,
-        }
+        },
     )
     covariance_matrix: List[OemCovarianceMatrixType] = field(
         default_factory=list,
@@ -183,7 +183,7 @@ class OemData:
             "name": "covarianceMatrix",
             "type": "Element",
             "namespace": "",
-        }
+        },
     )
 
 
@@ -203,7 +203,7 @@ class OemSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     data: Optional[OemData] = field(
         default=None,
@@ -211,7 +211,7 @@ class OemSegment:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
 
 
@@ -230,7 +230,7 @@ class OemBody:
             "type": "Element",
             "namespace": "",
             "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -252,7 +252,7 @@ class OemType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     body: Optional[OemBody] = field(
         default=None,
@@ -260,7 +260,7 @@ class OemType:
             "type": "Element",
             "namespace": "",
             "required": True,
-        }
+        },
     )
     id: str = field(
         init=False,
@@ -268,7 +268,7 @@ class OemType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
     version: str = field(
         init=False,
@@ -276,5 +276,5 @@ class OemType:
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
