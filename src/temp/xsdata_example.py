@@ -26,9 +26,7 @@ if __name__ == "__main__":
     print(f"current working directory is {os.getcwd()}.")
 
     # *** check file location ***
-    xml_read_file_path = Path(
-        os.getcwd(), "..", "sample_xml", "cdm_example_section4.xml"
-    )
+    xml_read_file_path = Path(os.getcwd(), "..", "sample_xml", "ndmxml-1.0-odm.xml")
 
     print(f"xml file path : {xml_read_file_path.resolve()}")
     print(f"file exists   : {xml_read_file_path.exists()}")
