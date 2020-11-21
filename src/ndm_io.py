@@ -15,16 +15,7 @@ from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers import XmlSerializer
 
-from src.ndmxml1 import (
-    Aem,
-    Apm,
-    Cdm,
-    Oem,
-    Omm,
-    Opm,
-    Rdm,
-    Tdm,
-)
+from src.ndmxml1 import Aem, Apm, Cdm, Oem, Omm, Opm, Rdm, Tdm
 
 
 class _NdmDataType(Enum):
@@ -86,26 +77,6 @@ class NdmIo:
         """
         self.serializer = XmlSerializer(pretty_print=True)
 
-    @staticmethod
-    def __identify_data_type(xml_data):
-        """
-        Identifies the data type (AEM, CDM etc.) of the XML data.
-
-        Parameters
-        ----------
-        xml_data
-            filename or file object containing XML data
-        Returns
-        -------
-        class
-            XML Data class
-
-        """
-        # Identify the data type
-        root = ElementTree.parse(xml_data).getroot()
-
-        return _NdmDataType.find_element(root.attrib.get("id")).clazz
-
     def from_path(self, xml_read_file_path):
         """
         Reads the file to extract contents to an object of correct type.
@@ -120,8 +91,9 @@ class NdmIo:
         object
             Object tree from the file contents
         """
-        # Identify data type
-        data_type = self.__identify_data_type(xml_read_file_path)
+        # Identify the data type of the file
+        root = ElementTree.parse(xml_read_file_path).getroot()
+        data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
 
         # lazy init parser
         if self.parser is None:
@@ -143,8 +115,9 @@ class NdmIo:
         object
             Object tree from the file contents
         """
-        # Identify data type
-        data_type = self.__identify_data_type(xml_source)
+        # Identify data type of the bytes
+        root = ElementTree.XML(xml_source)
+        data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
 
         # lazy init parser
         if self.parser is None:
@@ -166,14 +139,15 @@ class NdmIo:
         object
             Object tree from the file contents
         """
-        # Identify data type
-        data_type = self.__identify_data_type(xml_source)
+        # Identify data type of the string
+        root = ElementTree.XML(xml_source)
+        data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
 
         # lazy init parser
         if self.parser is None:
             self.__init_parser()
 
-        return self.parser.from_string(xml_source, data_type.value)
+        return self.parser.from_string(xml_source, data_type)
 
     def to_string(self, ndm_obj):
         """
