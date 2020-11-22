@@ -49,6 +49,6 @@ the code once they are made official.
     :target: https://circleci.com/gh/egemenimre/ccsds-ndm
     :alt: CCSDS-NDM CircleCI Status
 
-.. |Codecov Status| image::  https://codecov.io/gh/egemenimre/ccsds-ndm/branch/master/graph/badge.svg
+.. |Codecov Status| image:: https://codecov.io/gh/egemenimre/ccsds-ndm/branch/main/graph/badge.svg?token=Z53pKJ5agN
     :target: https://codecov.io/gh/egemenimre/ccsds-ndm
     :alt: CCSDS-NDM Codecov Status
