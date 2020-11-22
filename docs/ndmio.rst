@@ -14,6 +14,6 @@ However, it is still possible to generate a string output of the XML file throug
 
 Reference/API
 -------------
-.. automodule:: src.ndm_io.py
+.. automodule:: src.ndm_io
     :undoc-members:
     :members:
