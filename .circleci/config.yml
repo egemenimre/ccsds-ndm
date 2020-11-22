@@ -1,0 +1,52 @@
+# Python CircleCI 2.0 configuration file
+version: 2
+
+jobs:
+
+  tests:
+    docker:
+      - image: circleci/python:3.8
+
+    steps:
+      - checkout
+      - run:
+          name: Install tox
+          command: pip install tox
+      - run:
+          name: Run tests
+          command: tox -e py38-test -- -n=4
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: tr1
+
+
+  codestyle:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      #      - run:
+      #          name: Install apt packages
+      #          command: |
+      #            sudo apt update
+      #            sudo apt install -y graphviz
+      - run:
+          name: Install Python dependencies
+          command: pip install tox --user
+      - run:
+          name: Make sure style checks pass
+          command: tox -e codestyle
+#      - run:
+#          name: Build Docs
+#          command: tox -e build_docs -- -j=4
+#      - store_artifacts:
+#          path: docs/_build/html
+
+workflows:
+  version: 2
+  tests_and_codestyle:
+    jobs:
+      - codestyle
+      - tests
