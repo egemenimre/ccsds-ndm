@@ -9,9 +9,9 @@ from src.ndmxml1.ndmxml_1_0_navwg_common import (
     NdmHeader,
     QuaternionRateType,
     QuaternionType,
-    RotDirectionType,
     RotationAngleType,
     RotationRateType,
+    RotDirectionType,
     RotseqType,
     TimeSystemType,
 )
