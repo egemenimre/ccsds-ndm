@@ -1,6 +1,8 @@
 CCSDS "Navigation Data Messages" Read and Write
 ===============================================================
 
+|CircleCI Status|
+
 Description
 --------------
 The Consultative Committee for Space Data Systems (CCSDS) develops communications and data systems standards
@@ -42,3 +44,7 @@ and writing of the XML data. As such, there is no documentation generated for th
 
 Currently the published standards are at version 1.0, but version 2.0 will be out soon. They will be integrated into
 the code once they are made official.
+
+.. |CircleCI Status| image::  https://img.shields.io/circleci/build/github/egemenimre/ccsds-ndm/master?logo=circleci&label=CircleCI
+    :target: https://circleci.com/gh/ccsds-ndm/src
+    :alt: SatMAD CircleCI Status
