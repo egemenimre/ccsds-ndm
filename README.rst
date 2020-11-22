@@ -45,7 +45,7 @@ and writing of the XML data. As such, there is no documentation generated for th
 Currently the published standards are at version 1.0, but version 2.0 will be out soon. They will be integrated into
 the code once they are made official.
 
-.. |CircleCI Status| image::  https://img.shields.io/circleci/build/github/egemenimre/ccsds-ndm/master?logo=circleci&label=CircleCI
+.. |CircleCI Status| image::  https://img.shields.io/circleci/build/github/egemenimre/ccsds-ndm.svg?style=svg
     :target: https://circleci.com/gh/egemenimre/ccsds-ndm
     :alt: CCSDS-NDM CircleCI Status
 
