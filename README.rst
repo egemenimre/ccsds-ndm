@@ -1,7 +1,7 @@
 CCSDS "Navigation Data Messages" Read and Write
 ===============================================================
 
-|CircleCI Status|
+|CircleCI Status| |Codecov Status|
 
 Description
 --------------
@@ -47,4 +47,8 @@ the code once they are made official.
 
 .. |CircleCI Status| image::  https://img.shields.io/circleci/build/github/egemenimre/ccsds-ndm/master?logo=circleci&label=CircleCI
     :target: https://circleci.com/gh/egemenimre/ccsds-ndm
-    :alt: SatMAD CircleCI Status
+    :alt: CCSDS-NDM CircleCI Status
+
+.. |Codecov Status| image::  https://codecov.io/gh/egemenimre/satmad/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/egemenimre/ccsds-ndm
+    :alt: CCSDS-NDM Codecov Status
