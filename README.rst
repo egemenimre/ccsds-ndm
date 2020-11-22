@@ -46,5 +46,5 @@ Currently the published standards are at version 1.0, but version 2.0 will be ou
 the code once they are made official.
 
 .. |CircleCI Status| image::  https://img.shields.io/circleci/build/github/egemenimre/ccsds-ndm/master?logo=circleci&label=CircleCI
-    :target: https://circleci.com/gh/ccsds-ndm/src
+    :target: https://circleci.com/gh/egemenimre/ccsds-ndm
     :alt: SatMAD CircleCI Status
