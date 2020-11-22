@@ -25,6 +25,23 @@ have to fill their own attitude, orbit or trajectory objects used in their libra
 - The user fills an object tree from their own attitude, orbit or trajectory object. The `ccsds-ndm` library
 writes the NDM file using this object tree.
 
+For the first use case, reading an OEM file from `xml_read_path` is as simple as
+(file type is inferred automatically):
+
+>>> cdm = NdmIo().from_path(xml_read_path)
+
+The output `cdm` is the object tree for a Conjunction Data Message (CDM). The contents can then be reached
+going deeper in the object tree. This example shows how to reach the orbit normal position component
+of the relative state vector:
+
+>>> print(cdm.body.relative_metadata_data.relative_state_vector.relative_position_n)
+
+Finally, once filled with the relevant data, the `cdm` object can be written to `xml_write_path` with:
+
+>>> NdmIo().to_file(cdm, xml_write_path)
+
+The `ndm` object trees are not very user friendly and most probably will have to be filled by the users'
+own equivalent objects (trajectory, orbit, attitude etc.).
 
 More Information Regarding the CCSDS-NDM
 -----------------------------------------
