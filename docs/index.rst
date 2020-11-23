@@ -21,10 +21,11 @@ Usage and Examples
 -------------------
 
 There are two use cases:
-- The `ccsds-ndm` library reads the NDM file, fills an object tree and offers it to the users. The users will then
-have to fill their own attitude, orbit or trajectory objects used in their libraries.
-- The user fills an object tree from their own attitude, orbit or trajectory object. The `ccsds-ndm` library
-writes the NDM file using this object tree.
+
+-   The `ccsds-ndm` library reads the NDM file, fills an object tree and offers it to the users. The users will then
+    have to fill their own attitude, orbit or trajectory objects used in their libraries.
+-   The user fills an object tree from their own attitude, orbit or trajectory object. The `ccsds-ndm` library
+    writes the NDM file using this object tree.
 
 For the first use case, reading an OEM file from `xml_read_path` is as simple as
 (file type is inferred automatically):
