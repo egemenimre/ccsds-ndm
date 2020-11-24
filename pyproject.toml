@@ -3,7 +3,7 @@ requires = ["flit_core >=2,<4"]
 build-backend = "flit_core.buildapi"
 
 [tool.flit.metadata]
-module = "ccsds-ndm"
+module = "ccsds_ndm"
 author = "Egemen Imre"
 description-file = "README.rst"
 home-page = "https://github.com/egemenimre/ccsds-ndm/"

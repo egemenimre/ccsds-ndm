@@ -24,9 +24,9 @@ author = "Egemen Imre"
 # Version Info
 # ------------
 # The short X.Y version.
-version = "1.0_alpha"
+version = "1.0"
 # The full version, including alpha/beta/rc tags.
-release = "1.0_alpha"
+release = "1.0"
 
 # -- General configuration ---------------------------------------------------
 # By default, highlight as Python 3.
