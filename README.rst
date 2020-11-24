@@ -40,6 +40,13 @@ of the relative state vector:
 
 >>> print(cdm.body.relative_metadata_data.relative_state_vector.relative_position_n)
 
+Filling the objects with data properly requires some care. As the standard is understandably strict, the
+object tree derived from the XSD files are also rather exacting in how they accept data. The recommended
+way to fill the objects is with value and unit information:
+
+>>> # This is the proper way to write data into the object
+>>> cdm.body.relative_metadata_data.relative_state_vector.relative_position_t = LengthType(Decimal(800), LengthUnits.M)
+
 Finally, once filled with the relevant data, the `cdm` object can be written to `xml_write_path` with:
 
 >>> NdmIo().to_file(cdm, xml_write_path)

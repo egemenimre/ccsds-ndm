@@ -38,6 +38,31 @@ of the relative state vector:
 
 >>> print(cdm.body.relative_metadata_data.relative_state_vector.relative_position_n)
 
+Filling the objects with data properly requires some care. As the standard is understandably strict, the
+object tree derived from the XSD files are also rather exacting in how they accept data. Out of these three
+different ways of inserting data, the third one is invalid:
+
+>>> # This is valid but missing units information
+>>> cdm.body.relative_metadata_data.relative_state_vector.relative_position_r = LengthType(700)
+>>>
+>>> # This is the proper way to write data into the object
+>>> cdm.body.relative_metadata_data.relative_state_vector.relative_position_t = LengthType(Decimal(800), LengthUnits.M)
+>>>
+>>> # This is invalid
+>>> # cdm.body.relative_metadata_data.relative_state_vector.relative_position_r = 600
+
+The output of the above two methods is different on the XML file - the latter is properly
+transmitting important unit information:
+
+>>>      <relativeStateVector>
+>>>        <RELATIVE_POSITION_R>700</RELATIVE_POSITION_R>
+>>>        <RELATIVE_POSITION_T units="m">800</RELATIVE_POSITION_T>
+
+Therefore, care must be taken (and standard documents must be kept as a reference) when mapping
+the user objects into the object tree. Valuable information on units, models and methods can be found
+there to correctly interpret the data. Also, comments can also be used to provide supplementary information
+on how this data is generated.
+
 Finally, once filled with the relevant data, the `cdm` object can be written to `xml_write_path` with:
 
 >>> NdmIo().to_file(cdm, xml_write_path)
