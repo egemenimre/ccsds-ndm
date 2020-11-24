@@ -54,6 +54,23 @@ Finally, once filled with the relevant data, the `cdm` object can be written to 
 The `ndm` object trees are not very user friendly and most probably will have to be filled by the users'
 own equivalent objects (trajectory, orbit, attitude etc.).
 
+Installing `ccsds-ndm`
+-----------------------
+
+The `ccsds-ndm` package is on `PyPI`_ and you can install it simply by running::
+
+    pip install ccsds_ndm
+
+You can also install it via `conda-forge`_::
+
+    conda install -c conda-forge ccsds_ndm
+
+Do not install `ccsds-ndm` using `sudo`.
+
+
+.. _`PyPI`: https://pypi.org/project/ccsds_ndm/
+.. _`conda-forge`: https://anaconda.org/conda-forge/ccsds_ndm
+
 More Information Regarding the CCSDS-NDM
 -----------------------------------------
 The top-level description of the standard is given in the
@@ -73,6 +90,10 @@ and writing of the XML data. As such, there is no documentation generated for th
 Currently the published standards are at version 1.0, but version 2.0 will be out soon. They will be integrated into
 the code once they are made official.
 
+Requirements
+------------
+
+-   `xsData` is used to read and write XML files (and also to generate the object tree)
 
 License
 -------
