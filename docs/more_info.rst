@@ -31,5 +31,7 @@ object tree classes may be of use to some. Here is the procedure:
 
 >>> xsdata generate ndmxsd --package src.ndmxml1
 
+3. Copy the generated classes into the project structure.
+
 The newer versions of the NDM XML files will go to the `ndmxml2` directory, so that backwards compatibility
 is maintained.
