@@ -15,7 +15,7 @@ from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers import XmlSerializer
 
-from src.ndmxml1 import Aem, Apm, Cdm, Oem, Omm, Opm, Rdm, Tdm
+from ccsds_ndm.ndmxml1 import Aem, Apm, Cdm, Oem, Omm, Opm, Rdm, Tdm
 
 
 class _NdmDataType(Enum):

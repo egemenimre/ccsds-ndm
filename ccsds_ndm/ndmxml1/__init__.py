@@ -1,4 +1,4 @@
-from src.ndmxml1.ndmxml_1_0_aem_1_0 import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_aem_1_0 import (
     AemBody,
     AemData,
     AemMetadata,
@@ -16,7 +16,7 @@ from src.ndmxml1.ndmxml_1_0_aem_1_0 import (
     SpinNutationType,
     SpinType,
 )
-from src.ndmxml1.ndmxml_1_0_apm_1_0 import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_apm_1_0 import (
     ApmBody,
     ApmData,
     ApmMetadata,
@@ -31,7 +31,7 @@ from src.ndmxml1.ndmxml_1_0_apm_1_0 import (
     TorqueType,
     TorqueUnits,
 )
-from src.ndmxml1.ndmxml_1_0_cdm_1_0 import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_cdm_1_0 import (
     AdditionalParametersType,
     CdmBody,
     CdmCovarianceMatrixType,
@@ -76,8 +76,18 @@ from src.ndmxml1.ndmxml_1_0_cdm_1_0 import (
     WkgType,
     WkgUnits,
 )
-from src.ndmxml1.ndmxml_1_0_master import Aem, Apm, Cdm, Ndm, Oem, Omm, Opm, Rdm, Tdm
-from src.ndmxml1.ndmxml_1_0_navwg_common import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_master import (
+    Aem,
+    Apm,
+    Cdm,
+    Ndm,
+    Oem,
+    Omm,
+    Opm,
+    Rdm,
+    Tdm,
+)
+from ccsds_ndm.ndmxml1.ndmxml_1_0_navwg_common import (
     AccType,
     AccUnits,
     AltType,
@@ -167,15 +177,15 @@ from src.ndmxml1.ndmxml_1_0_navwg_common import (
     VelocityUnits,
     YesNoType,
 )
-from src.ndmxml1.ndmxml_1_0_ndm_1_0 import NdmType
-from src.ndmxml1.ndmxml_1_0_oem_2_0 import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_ndm_1_0 import NdmType
+from ccsds_ndm.ndmxml1.ndmxml_1_0_oem_2_0 import (
     OemBody,
     OemData,
     OemMetadata,
     OemSegment,
     OemType,
 )
-from src.ndmxml1.ndmxml_1_0_omm_2_0 import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_omm_2_0 import (
     BStarType,
     BStarUnits,
     DdRevType,
@@ -192,7 +202,7 @@ from src.ndmxml1.ndmxml_1_0_omm_2_0 import (
     RevUnits,
     TleParametersType,
 )
-from src.ndmxml1.ndmxml_1_0_opm_1_0 import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_opm_1_0 import (
     KeplerianElementsType,
     ManeuverParametersType,
     OpmBody,
@@ -201,7 +211,7 @@ from src.ndmxml1.ndmxml_1_0_opm_1_0 import (
     OpmSegment,
     OpmType,
 )
-from src.ndmxml1.ndmxml_1_0_rdm_1_0 import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_rdm_1_0 import (
     RdmBody,
     RdmData,
     RdmHeader,
@@ -209,7 +219,7 @@ from src.ndmxml1.ndmxml_1_0_rdm_1_0 import (
     RdmSegment,
     RdmType,
 )
-from src.ndmxml1.ndmxml_1_0_tdm_2_0 import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_tdm_2_0 import (
     AngleTypeType,
     DataQualityType,
     IntegrationRefType,

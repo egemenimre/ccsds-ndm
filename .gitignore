@@ -130,4 +130,4 @@ dmypy.json
 /.idea/
 
 # Internal temp dirs
-/src/temp/
+/ccsds_ndm/temp/

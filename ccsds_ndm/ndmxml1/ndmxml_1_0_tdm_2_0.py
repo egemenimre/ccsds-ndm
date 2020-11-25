@@ -3,7 +3,11 @@ from decimal import Decimal
 from enum import Enum
 from typing import List, Optional
 
-from src.ndmxml1.ndmxml_1_0_navwg_common import AngleType, TimeSystemType, YesNoType
+from ccsds_ndm.ndmxml1.ndmxml_1_0_navwg_common import (
+    AngleType,
+    TimeSystemType,
+    YesNoType,
+)
 
 __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 

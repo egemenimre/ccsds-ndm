@@ -1,65 +1,36 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
-from enum import Enum
 from typing import List, Optional
 
-from src.ndmxml1.ndmxml_1_0_navwg_common import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_navwg_common import (
     AngleType,
+    DeltamassType,
     DistanceType,
+    DurationType,
     GmType,
     InclinationType,
     NdmHeader,
-    OpmCovarianceMatrixType,
     SpacecraftParametersType,
-    UserDefinedType,
+    StateVectorType,
+    VelocityType,
 )
 
 __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 
-class BStarUnits(Enum):
-    """
-    :cvar VALUE_1_ER:
-    """
-
-    VALUE_1_ER = "1/ER"
-
-
-class DRevUnits(Enum):
-    """
-    :cvar REV_DAY_2:
-    :cvar REV_DAY_2_1:
-    """
-
-    REV_DAY_2 = "rev/day**2"
-    REV_DAY_2_1 = "REV/DAY**2"
-
-
-class DdRevUnits(Enum):
-    """
-    :cvar REV_DAY_3:
-    :cvar REV_DAY_3_1:
-    """
-
-    REV_DAY_3 = "rev/day**3"
-    REV_DAY_3_1 = "REV/DAY**3"
-
-
 @dataclass
-class OmmMetadata:
+class OpmMetadata:
     """
     :ivar comment:
     :ivar object_name:
     :ivar object_id:
     :ivar center_name:
     :ivar ref_frame:
-    :ivar ref_frame_epoch:
     :ivar time_system:
-    :ivar mean_element_theory:
     """
 
     class Meta:
-        name = "ommMetadata"
+        name = "opmMetadata"
 
     comment: List[str] = field(
         default_factory=list,
@@ -105,15 +76,6 @@ class OmmMetadata:
             "required": True,
         },
     )
-    ref_frame_epoch: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "REF_FRAME_EPOCH",
-            "type": "Element",
-            "namespace": "",
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        },
-    )
     time_system: Optional[str] = field(
         default=None,
         metadata={
@@ -123,128 +85,24 @@ class OmmMetadata:
             "required": True,
         },
     )
-    mean_element_theory: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "MEAN_ELEMENT_THEORY",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-
-
-class RevUnits(Enum):
-    """
-    :cvar REV_DAY:
-    :cvar REV_DAY_1:
-    """
-
-    REV_DAY = "rev/day"
-    REV_DAY_1 = "REV/DAY"
 
 
 @dataclass
-class BStarType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
-    class Meta:
-        name = "bStarType"
-
-    value: Optional[Decimal] = field(
-        default=None,
-    )
-    units: Optional[BStarUnits] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-        },
-    )
-
-
-@dataclass
-class DRevType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
-    class Meta:
-        name = "dRevType"
-
-    value: Optional[Decimal] = field(
-        default=None,
-    )
-    units: Optional[DRevUnits] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-        },
-    )
-
-
-@dataclass
-class DdRevType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
-    class Meta:
-        name = "ddRevType"
-
-    value: Optional[Decimal] = field(
-        default=None,
-    )
-    units: Optional[DdRevUnits] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-        },
-    )
-
-
-@dataclass
-class RevType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
-    class Meta:
-        name = "revType"
-
-    value: Optional[Decimal] = field(
-        default=None,
-    )
-    units: Optional[RevUnits] = field(
-        default=None,
-        metadata={
-            "type": "Attribute",
-        },
-    )
-
-
-@dataclass
-class MeanElementsType:
+class KeplerianElementsType:
     """
     :ivar comment:
-    :ivar epoch:
     :ivar semi_major_axis:
-    :ivar mean_motion:
     :ivar eccentricity:
     :ivar inclination:
     :ivar ra_of_asc_node:
     :ivar arg_of_pericenter:
+    :ivar true_anomaly:
     :ivar mean_anomaly:
     :ivar gm:
     """
 
     class Meta:
-        name = "meanElementsType"
+        name = "keplerianElementsType"
 
     comment: List[str] = field(
         default_factory=list,
@@ -254,30 +112,13 @@ class MeanElementsType:
             "namespace": "",
         },
     )
-    epoch: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "EPOCH",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        },
-    )
     semi_major_axis: Optional[DistanceType] = field(
         default=None,
         metadata={
             "name": "SEMI_MAJOR_AXIS",
             "type": "Element",
             "namespace": "",
-        },
-    )
-    mean_motion: Optional[RevType] = field(
-        default=None,
-        metadata={
-            "name": "MEAN_MOTION",
-            "type": "Element",
-            "namespace": "",
+            "required": True,
         },
     )
     eccentricity: Optional[Decimal] = field(
@@ -317,13 +158,20 @@ class MeanElementsType:
             "required": True,
         },
     )
+    true_anomaly: Optional[AngleType] = field(
+        default=None,
+        metadata={
+            "name": "TRUE_ANOMALY",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
     mean_anomaly: Optional[AngleType] = field(
         default=None,
         metadata={
             "name": "MEAN_ANOMALY",
             "type": "Element",
             "namespace": "",
-            "required": True,
         },
     )
     gm: Optional[GmType] = field(
@@ -332,26 +180,26 @@ class MeanElementsType:
             "name": "GM",
             "type": "Element",
             "namespace": "",
+            "required": True,
         },
     )
 
 
 @dataclass
-class TleParametersType:
+class ManeuverParametersType:
     """
     :ivar comment:
-    :ivar ephemeris_type:
-    :ivar classification_type:
-    :ivar norad_cat_id:
-    :ivar element_set_no:
-    :ivar rev_at_epoch:
-    :ivar bstar:
-    :ivar mean_motion_dot:
-    :ivar mean_motion_ddot:
+    :ivar man_epoch_ignition:
+    :ivar man_duration:
+    :ivar man_delta_mass:
+    :ivar man_ref_frame:
+    :ivar man_dv_1:
+    :ivar man_dv_2:
+    :ivar man_dv_3:
     """
 
     class Meta:
-        name = "tleParametersType"
+        name = "maneuverParametersType"
 
     comment: List[str] = field(
         default_factory=list,
@@ -361,73 +209,65 @@ class TleParametersType:
             "namespace": "",
         },
     )
-    ephemeris_type: Optional[int] = field(
+    man_epoch_ignition: Optional[str] = field(
         default=None,
         metadata={
-            "name": "EPHEMERIS_TYPE",
+            "name": "MAN_EPOCH_IGNITION",
             "type": "Element",
             "namespace": "",
+            "required": True,
+            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
         },
     )
-    classification_type: Optional[str] = field(
+    man_duration: Optional[DurationType] = field(
         default=None,
         metadata={
-            "name": "CLASSIFICATION_TYPE",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-    norad_cat_id: Optional[int] = field(
-        default=None,
-        metadata={
-            "name": "NORAD_CAT_ID",
+            "name": "MAN_DURATION",
             "type": "Element",
             "namespace": "",
             "required": True,
         },
     )
-    element_set_no: Optional[int] = field(
+    man_delta_mass: Optional[DeltamassType] = field(
         default=None,
         metadata={
-            "name": "ELEMENT_SET_NO",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-            "min_inclusive": 0,
-            "max_inclusive": 9999,
-        },
-    )
-    rev_at_epoch: Optional[int] = field(
-        default=None,
-        metadata={
-            "name": "REV_AT_EPOCH",
+            "name": "MAN_DELTA_MASS",
             "type": "Element",
             "namespace": "",
             "required": True,
         },
     )
-    bstar: Optional[BStarType] = field(
+    man_ref_frame: Optional[str] = field(
         default=None,
         metadata={
-            "name": "BSTAR",
+            "name": "MAN_REF_FRAME",
             "type": "Element",
             "namespace": "",
             "required": True,
         },
     )
-    mean_motion_dot: Optional[DRevType] = field(
+    man_dv_1: Optional[VelocityType] = field(
         default=None,
         metadata={
-            "name": "MEAN_MOTION_DOT",
+            "name": "MAN_DV_1",
             "type": "Element",
             "namespace": "",
             "required": True,
         },
     )
-    mean_motion_ddot: Optional[DdRevType] = field(
+    man_dv_2: Optional[VelocityType] = field(
         default=None,
         metadata={
-            "name": "MEAN_MOTION_DDOT",
+            "name": "MAN_DV_2",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    man_dv_3: Optional[VelocityType] = field(
+        default=None,
+        metadata={
+            "name": "MAN_DV_3",
             "type": "Element",
             "namespace": "",
             "required": True,
@@ -436,18 +276,17 @@ class TleParametersType:
 
 
 @dataclass
-class OmmData:
+class OpmData:
     """
     :ivar comment:
-    :ivar mean_elements:
+    :ivar state_vector:
+    :ivar keplerian_elements:
     :ivar spacecraft_parameters:
-    :ivar tle_parameters:
-    :ivar covariance_matrix:
-    :ivar user_defined_parameters:
+    :ivar maneuver_parameters:
     """
 
     class Meta:
-        name = "ommData"
+        name = "opmData"
 
     comment: List[str] = field(
         default_factory=list,
@@ -457,13 +296,21 @@ class OmmData:
             "namespace": "",
         },
     )
-    mean_elements: Optional[MeanElementsType] = field(
+    state_vector: Optional[StateVectorType] = field(
         default=None,
         metadata={
-            "name": "meanElements",
+            "name": "stateVector",
             "type": "Element",
             "namespace": "",
             "required": True,
+        },
+    )
+    keplerian_elements: Optional[KeplerianElementsType] = field(
+        default=None,
+        metadata={
+            "name": "keplerianElements",
+            "type": "Element",
+            "namespace": "",
         },
     )
     spacecraft_parameters: Optional[SpacecraftParametersType] = field(
@@ -472,28 +319,13 @@ class OmmData:
             "name": "spacecraftParameters",
             "type": "Element",
             "namespace": "",
+            "required": True,
         },
     )
-    tle_parameters: Optional[TleParametersType] = field(
-        default=None,
+    maneuver_parameters: List[ManeuverParametersType] = field(
+        default_factory=list,
         metadata={
-            "name": "tleParameters",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-    covariance_matrix: Optional[OpmCovarianceMatrixType] = field(
-        default=None,
-        metadata={
-            "name": "covarianceMatrix",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-    user_defined_parameters: Optional[UserDefinedType] = field(
-        default=None,
-        metadata={
-            "name": "userDefinedParameters",
+            "name": "maneuverParameters",
             "type": "Element",
             "namespace": "",
         },
@@ -501,16 +333,16 @@ class OmmData:
 
 
 @dataclass
-class OmmSegment:
+class OpmSegment:
     """
     :ivar metadata:
     :ivar data:
     """
 
     class Meta:
-        name = "ommSegment"
+        name = "opmSegment"
 
-    metadata: Optional[OmmMetadata] = field(
+    metadata: Optional[OpmMetadata] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -518,7 +350,7 @@ class OmmSegment:
             "required": True,
         },
     )
-    data: Optional[OmmData] = field(
+    data: Optional[OpmData] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -529,15 +361,15 @@ class OmmSegment:
 
 
 @dataclass
-class OmmBody:
+class OpmBody:
     """
     :ivar segment:
     """
 
     class Meta:
-        name = "ommBody"
+        name = "opmBody"
 
-    segment: Optional[OmmSegment] = field(
+    segment: Optional[OpmSegment] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -548,7 +380,7 @@ class OmmBody:
 
 
 @dataclass
-class OmmType:
+class OpmType:
     """
     :ivar header:
     :ivar body:
@@ -557,7 +389,7 @@ class OmmType:
     """
 
     class Meta:
-        name = "ommType"
+        name = "opmType"
 
     header: Optional[NdmHeader] = field(
         default=None,
@@ -567,7 +399,7 @@ class OmmType:
             "required": True,
         },
     )
-    body: Optional[OmmBody] = field(
+    body: Optional[OpmBody] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -577,7 +409,7 @@ class OmmType:
     )
     id: str = field(
         init=False,
-        default="CCSDS_OMM_VERS",
+        default="CCSDS_OPM_VERS",
         metadata={
             "type": "Attribute",
             "required": True,
@@ -585,7 +417,7 @@ class OmmType:
     )
     version: str = field(
         init=False,
-        default="2.0",
+        default="1.0",
         metadata={
             "type": "Attribute",
             "required": True,

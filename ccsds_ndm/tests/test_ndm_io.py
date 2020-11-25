@@ -10,7 +10,7 @@ Tests for the NDM File I/O Operations.
 
 from pathlib import Path
 
-from src.ndm_io import NdmIo
+from ccsds_ndm.ndm_io import NdmIo
 
 extra_path = Path("src", "tests")
 

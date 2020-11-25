@@ -3,7 +3,7 @@ from decimal import Decimal
 from enum import Enum
 from typing import List, Optional
 
-from src.ndmxml1.ndmxml_1_0_navwg_common import (
+from ccsds_ndm.ndmxml1.ndmxml_1_0_navwg_common import (
     AreaType,
     LengthType,
     MassType,
