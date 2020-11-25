@@ -12,7 +12,7 @@ from pathlib import Path
 
 from ccsds_ndm.ndm_io import NdmIo
 
-extra_path = Path("src", "tests")
+extra_path = Path("ccsds_ndm", "tests")
 
 xml_file_paths = {
     "AEMv1": None,
