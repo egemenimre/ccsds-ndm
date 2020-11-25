@@ -92,6 +92,16 @@ Requirements
 
 -   `xsData` is used to read and write XML files (and also to generate the object tree)
 
+Changelog
+---------
+
+Version 1.1 (2020/11/24): First release
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+- Modified the internal directory structure to prevent problems with packaging
+
+Version 1.0 (2020/11/24)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+- First release
 
 .. toctree::
     :maxdepth: 1
