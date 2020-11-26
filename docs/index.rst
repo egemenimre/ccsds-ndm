@@ -95,14 +95,12 @@ Requirements
 Changelog
 ---------
 
-Version 1.1 (2020/11/24): First release
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- Modified the internal directory structure to prevent problems with packaging
-(`#9 <https://github.com/egemenimre/ccsds-ndm/issues/9>`_)
+- Version 1.1 (2020/11/25)
+    - Modified the internal directory structure to prevent problems with packaging
+      (`#9 <https://github.com/egemenimre/ccsds-ndm/issues/9>`_)
 
-Version 1.0 (2020/11/24)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-- First release
+- Version 1.0 (2020/11/24)
+    - First release
 
 Table of Contents
 ------------------
