@@ -23,7 +23,7 @@ xml_file_paths = {
     "OPMv1": None,
     "RDMv1": None,
     "TDMv1": None,
-    "NDMv1": Path("data", "omm_celestrak.xml"),
+    "NDMv1": Path("data", "omm_combined.xml"),
 }
 
 
