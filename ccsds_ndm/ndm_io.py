@@ -16,6 +16,7 @@ from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers import XmlSerializer
 
 from ccsds_ndm.ndmxml1 import Aem, Apm, Cdm, Oem, Omm, Opm, Rdm, Tdm
+from ndmxml1 import Ndm
 
 
 class _NdmDataType(Enum):
@@ -92,8 +93,12 @@ class NdmIo:
             Object tree from the file contents
         """
         # Identify the data type of the file
-        root = ElementTree.parse(xml_read_file_path).getroot()
-        data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
+        try:
+            root = ElementTree.parse(xml_read_file_path).getroot()
+            data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
+        except:
+            # auto identify failed, try NDM (Combined Instantiation)
+            data_type = Ndm
 
         # lazy init parser
         if self.parser is None:

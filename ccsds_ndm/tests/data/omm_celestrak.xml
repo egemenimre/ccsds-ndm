@@ -1,0 +1,41 @@
+<ndm xsi:noNamespaceSchemaLocation="https://sanaregistry.org/r/ndmxml/ndmxml-1.0-master.xsd">
+    <omm id="CCSDS_OMM_VERS" version="2.0">
+        <header>
+            <CREATION_DATE/>
+            <ORIGINATOR/>
+        </header>
+        <body>
+            <segment>
+                <metadata>
+                    <OBJECT_NAME>NUSAT-8 (MARIE)</OBJECT_NAME>
+                    <OBJECT_ID>2020-003C</OBJECT_ID>
+                    <CENTER_NAME>EARTH</CENTER_NAME>
+                    <REF_FRAME>TEME</REF_FRAME>
+                    <TIME_SYSTEM>UTC</TIME_SYSTEM>
+                    <MEAN_ELEMENT_THEORY>SGP4</MEAN_ELEMENT_THEORY>
+                </metadata>
+                <data>
+                    <meanElements>
+                        <EPOCH>2020-11-26T10:16:15.146112</EPOCH>
+                        <MEAN_MOTION>15.27818638</MEAN_MOTION>
+                        <ECCENTRICITY>.0010696</ECCENTRICITY>
+                        <INCLINATION>97.3007</INCLINATION>
+                        <RA_OF_ASC_NODE>34.3606</RA_OF_ASC_NODE>
+                        <ARG_OF_PERICENTER>223.1268</ARG_OF_PERICENTER>
+                        <MEAN_ANOMALY>267.1114</MEAN_ANOMALY>
+                    </meanElements>
+                    <tleParameters>
+                        <EPHEMERIS_TYPE>0</EPHEMERIS_TYPE>
+                        <CLASSIFICATION_TYPE>U</CLASSIFICATION_TYPE>
+                        <NORAD_CAT_ID>45018</NORAD_CAT_ID>
+                        <ELEMENT_SET_NO>999</ELEMENT_SET_NO>
+                        <REV_AT_EPOCH>4827</REV_AT_EPOCH>
+                        <BSTAR>.10864E-3</BSTAR>
+                        <MEAN_MOTION_DOT>2.882E-5</MEAN_MOTION_DOT>
+                        <MEAN_MOTION_DDOT>0</MEAN_MOTION_DDOT>
+                    </tleParameters>
+                </data>
+            </segment>
+        </body>
+    </omm>
+</ndm>
