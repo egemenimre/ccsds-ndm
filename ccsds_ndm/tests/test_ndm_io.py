@@ -45,19 +45,25 @@ def test_read_string_and_bytes():
     """Tests reading XML data as string and bytes."""
 
     # check path and correct if necessary
-    xml_path = Path.cwd().joinpath(xml_file_paths.get("APMv1"))
-    if not Path.cwd().joinpath(xml_path).exists():
-        xml_path = Path.cwd().joinpath(extra_path).joinpath(xml_file_paths.get("APMv1"))
+    xml_path_apm = Path.cwd().joinpath(xml_file_paths.get("APMv1"))
+    if not Path.cwd().joinpath(xml_path_apm).exists():
+        xml_path_apm = (
+            Path.cwd().joinpath(extra_path).joinpath(xml_file_paths.get("APMv1"))
+        )
+
+    xml_path_ndm = Path.cwd().joinpath(xml_file_paths.get("NDMv1"))
+    if not Path.cwd().joinpath(xml_path_ndm).exists():
+        xml_path_ndm = (
+            Path.cwd().joinpath(extra_path).joinpath(xml_file_paths.get("NDMv1"))
+        )
 
     # read XML file as text
-    xml_text = xml_path.read_text()
-
-    NdmIo().from_string(xml_text)
+    NdmIo().from_string(xml_path_apm.read_text())
+    NdmIo().from_string(xml_path_ndm.read_text())
 
     # read XML file as bytes
-    xml_bytes = xml_path.read_bytes()
-
-    NdmIo().from_bytes(xml_bytes)
+    NdmIo().from_bytes(xml_path_apm.read_bytes())
+    NdmIo().from_bytes(xml_path_ndm.read_bytes())
 
 
 def __text_to_list(text):
