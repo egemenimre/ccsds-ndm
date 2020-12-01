@@ -15,8 +15,7 @@ from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers import XmlSerializer
 
-from ccsds_ndm.ndmxml1 import Aem, Apm, Cdm, Oem, Omm, Opm, Rdm, Tdm
-from ndmxml1 import Ndm
+from ccsds_ndm.ndmxml1 import Aem, Apm, Cdm, Ndm, Oem, Omm, Opm, Rdm, Tdm
 
 
 class _NdmDataType(Enum):
@@ -96,7 +95,7 @@ class NdmIo:
         try:
             root = ElementTree.parse(xml_read_file_path).getroot()
             data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
-        except:
+        except ElementTree.ParseError:
             # auto identify failed, try NDM (Combined Instantiation)
             data_type = Ndm
 
@@ -124,7 +123,7 @@ class NdmIo:
         try:
             root = ElementTree.XML(xml_source)
             data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
-        except:
+        except ElementTree.ParseError:
             # auto identify failed, try NDM (Combined Instantiation)
             data_type = Ndm
 
@@ -152,7 +151,7 @@ class NdmIo:
         try:
             root = ElementTree.XML(xml_source)
             data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
-        except:
+        except ElementTree.ParseError:
             # auto identify failed, try NDM (Combined Instantiation)
             data_type = Ndm
 
