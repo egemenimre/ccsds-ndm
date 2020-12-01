@@ -121,8 +121,12 @@ class NdmIo:
             Object tree from the file contents
         """
         # Identify data type of the bytes
-        root = ElementTree.XML(xml_source)
-        data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
+        try:
+            root = ElementTree.XML(xml_source)
+            data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
+        except:
+            # auto identify failed, try NDM (Combined Instantiation)
+            data_type = Ndm
 
         # lazy init parser
         if self.parser is None:
@@ -145,8 +149,12 @@ class NdmIo:
             Object tree from the file contents
         """
         # Identify data type of the string
-        root = ElementTree.XML(xml_source)
-        data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
+        try:
+            root = ElementTree.XML(xml_source)
+            data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
+        except:
+            # auto identify failed, try NDM (Combined Instantiation)
+            data_type = Ndm
 
         # lazy init parser
         if self.parser is None:
