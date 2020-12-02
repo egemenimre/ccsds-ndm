@@ -95,6 +95,10 @@ Requirements
 Changelog
 ---------
 
+- Version 1.2 (2020/12/02)
+    - Added support for Combined Instantiation NDM files
+      (`#10 <https://github.com/egemenimre/ccsds-ndm/issues/10>`_)
+
 - Version 1.1 (2020/11/25)
     - Modified the internal directory structure to prevent problems with packaging
       (`#9 <https://github.com/egemenimre/ccsds-ndm/issues/9>`_)
