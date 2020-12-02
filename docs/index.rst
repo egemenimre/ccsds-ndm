@@ -38,6 +38,14 @@ of the relative state vector:
 
 >>> print(cdm.body.relative_metadata_data.relative_state_vector.relative_position_n)
 
+The data can sometimes be of type NDM Combined Instantiation. This means that there are multiple NDM data bodies
+(e.g. 2 AEMs, 3 OEMs and one OMM) within a single file. The file reader supports these types as well and they are
+kept within the `Ndm` object as individual lists for each of the file types. The following example retrieves the
+second `Omm` object in the NDM file and then continues to dive deeper into the object tree to retrieve the
+eccentricity value.
+
+>>> print(ndm.omm[1].body.segment.data.mean_elements.eccentricity)
+
 Filling the objects with data properly requires some care. As the standard is understandably strict, the
 object tree derived from the XSD files are also rather exacting in how they accept data. Out of these three
 different ways of inserting data, the third one is invalid:
