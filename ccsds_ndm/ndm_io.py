@@ -77,6 +77,37 @@ class NdmIo:
         """
         self.serializer = XmlSerializer(pretty_print=True)
 
+    def __strip_multi_ndm(self, ndm):
+        """
+        Identifies whether the Combined Instantiation NDM actually contains
+        a single element (OMM, APM etc.) with a single member and,
+        if so, returns this element. Otherwise returns this Combined
+        Instantiation NDM.
+
+        Returns
+        -------
+        ndm_elem : NDM element
+            Identified and stripped NDM element or the original Combi-NDM
+        """
+        # Find the elements that have non-zero members (omit the "comment" tag)
+        non_zero_elem_list = list(
+            filter(
+                lambda elem: len(vars(ndm)[elem]) > 0 and elem != "comment", vars(ndm)
+            )
+        )
+
+        if len(non_zero_elem_list) == 1:
+            # single element available, check number of members
+            ndm_elem = vars(ndm)[non_zero_elem_list[0]]
+            if len(ndm_elem) == 1:
+                # single element available, return it
+                return ndm_elem[0]
+            # multiple elements available, return them
+            return ndm
+        else:
+            # multiple elements available, return them
+            return ndm
+
     def from_path(self, xml_read_file_path):
         """
         Reads the file to extract contents to an object of correct type.
@@ -91,6 +122,7 @@ class NdmIo:
         object
             Object tree from the file contents
         """
+        ndm_combi = False
         # Identify the data type of the file
         try:
             root = ElementTree.parse(xml_read_file_path).getroot()
@@ -98,12 +130,22 @@ class NdmIo:
         except ElementTree.ParseError:
             # auto identify failed, try NDM (Combined Instantiation)
             data_type = Ndm
+            ndm_combi = True
 
         # lazy init parser
         if self.parser is None:
             self.__init_parser()
 
-        return self.parser.from_path(xml_read_file_path, data_type)
+        # parse file
+        ndm = self.parser.from_path(xml_read_file_path, data_type)
+
+        if ndm_combi is False:
+            # Usual single element file
+            return ndm
+        else:
+            # File is NDM Combined Instantiation
+            # If it actually has a single element, strip the ndm tags
+            return self.__strip_multi_ndm(ndm)
 
     def from_bytes(self, xml_source):
         """
@@ -119,6 +161,7 @@ class NdmIo:
         object
             Object tree from the file contents
         """
+        ndm_combi = False
         # Identify data type of the bytes
         try:
             root = ElementTree.XML(xml_source)
@@ -126,12 +169,21 @@ class NdmIo:
         except ElementTree.ParseError:
             # auto identify failed, try NDM (Combined Instantiation)
             data_type = Ndm
+            ndm_combi = True
 
         # lazy init parser
         if self.parser is None:
             self.__init_parser()
 
-        return self.parser.from_bytes(xml_source, data_type)
+        ndm = self.parser.from_bytes(xml_source, data_type)
+
+        if ndm_combi is False:
+            # Usual single element file
+            return ndm
+        else:
+            # File is NDM Combined Instantiation
+            # If it actually has a single element, strip the ndm tags
+            return self.__strip_multi_ndm(ndm)
 
     def from_string(self, xml_source):
         """
@@ -147,6 +199,7 @@ class NdmIo:
         object
             Object tree from the file contents
         """
+        ndm_combi = False
         # Identify data type of the string
         try:
             root = ElementTree.XML(xml_source)
@@ -154,12 +207,21 @@ class NdmIo:
         except ElementTree.ParseError:
             # auto identify failed, try NDM (Combined Instantiation)
             data_type = Ndm
+            ndm_combi = True
 
         # lazy init parser
         if self.parser is None:
             self.__init_parser()
 
-        return self.parser.from_string(xml_source, data_type)
+        ndm = self.parser.from_string(xml_source, data_type)
+
+        if ndm_combi is False:
+            # Usual single element file
+            return ndm
+        else:
+            # File is NDM Combined Instantiation
+            # If it actually has a single element, strip the ndm tags
+            return self.__strip_multi_ndm(ndm)
 
     def to_string(self, ndm_obj):
         """

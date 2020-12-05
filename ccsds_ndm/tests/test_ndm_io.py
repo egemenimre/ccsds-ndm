@@ -11,6 +11,7 @@ Tests for the NDM File I/O Operations.
 from pathlib import Path
 
 from ccsds_ndm.ndm_io import NdmIo
+from ccsds_ndm.ndmxml1.ndmxml_1_0_omm_2_0 import OmmType
 
 extra_path = Path("ccsds_ndm", "tests")
 
@@ -24,6 +25,7 @@ xml_file_paths = {
     "RDMv1": None,
     "TDMv1": None,
     "NDMv1": Path("data", "omm_combined.xml"),
+    "NDMv1_strip": Path("data", "omm_single_ndm.xml"),
 }
 
 
@@ -39,6 +41,22 @@ def test_read_files():
                 xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
 
             NdmIo().from_path(xml_path)
+
+
+def test_strip_ndm_combi():
+    """Tests stripping the single instantiation from the NDM
+    Combined Instantiation file."""
+
+    # *** read XML file ***
+    path = xml_file_paths.get("NDMv1_strip")
+    xml_path = Path.cwd().joinpath(path)
+    if not Path.cwd().joinpath(xml_path).exists():
+        xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
+
+    omm = NdmIo().from_path(xml_path)
+
+    # End result should be an OMM file, not NDM
+    assert isinstance(omm, OmmType)
 
 
 def test_read_string_and_bytes():
