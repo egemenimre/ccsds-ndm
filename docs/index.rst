@@ -107,7 +107,7 @@ Changelog
 ---------
 
 - Version 1.3 (2020/12/06)
-    - Started stripping for Combined Instantiation NDM files
+    - Started stripping single-data Combined Instantiation NDM files
       (`#12 <https://github.com/egemenimre/ccsds-ndm/issues/12>`_)
 
 - Version 1.2 (2020/12/02)
