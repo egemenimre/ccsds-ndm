@@ -121,6 +121,14 @@ Changelog
 - Version 1.0 (2020/11/24)
     - First release
 
+Known Issues
+------------
+-   Some browsers (at least Firefox 82.0 in Dec 2020) strip the namespace information from the XML
+    file when the file is viewed. However, when the file is downloaded directly (e.g. through wget),
+    the namespace information is kept intact. While neither case causes issues with `ccsds-ndm`, the
+    former case may result in the XML viewers to report namespace errors.
+    (Hat tip to Juan Luis Cano Rodríguez for spotting this)
+
 Table of Contents
 ------------------
 
