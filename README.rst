@@ -48,6 +48,9 @@ eccentricity value.
 
 >>> print(ndm.omm[1].body.segment.data.mean_elements.eccentricity)
 
+If the file is of the type NDM Combined Instantiation but there is only a single data (e.g. OMM) in it,
+the ndm tags are stripped and only the single data is presented to the user.
+
 Filling the objects with data properly requires some care. As the standard is understandably strict, the
 object tree derived from the XSD files are also rather exacting in how they accept data. The recommended
 way to fill the objects is with value and unit information:
