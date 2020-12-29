@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<oem id="CCSDS_OEM_VERS" version="2.0">
+<oem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation="http://cwe.ccsds.org/moims/docs/MOIMS-NAV/Schemas/ndmxml-1.0-master.xsd"
+     id="CCSDS_OEM_VERS" version="2.0">
   <header>
     <CREATION_DATE>2004-281T17:26:06</CREATION_DATE>
     <ORIGINATOR>me</ORIGINATOR>

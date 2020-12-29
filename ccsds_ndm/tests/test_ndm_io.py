@@ -134,7 +134,11 @@ def test_write_file():
 
     # read XML file into object and write to file
     ndm = NdmIo().from_path(xml_read_path)
-    NdmIo().to_file(ndm, xml_write_path)
+    NdmIo().to_file(
+        ndm,
+        xml_write_path,
+        no_namespace_schema_location="http://cwe.ccsds.org/moims/docs/MOIMS-NAV/Schemas/ndmxml-1.0-master.xsd",
+    )
 
     # read written XML file as text
     xml_text_out = __text_to_list(xml_write_path.read_text())

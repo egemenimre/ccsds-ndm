@@ -10,7 +10,8 @@ through :meth:`.NdmIo.from_bytes`.
 
 Similarly, writing an XML file through :meth:`.NdmIo.to_file` is probably the most common operation.
 However, it is still possible to generate a string output of the XML file through
-:meth:`.NdmIo.to_string`.
+:meth:`.NdmIo.to_string`. Through the options `schema_location` or `no_namespace_schema_location`,
+the URL for the schema can be provided.
 
 Reference/API
 -------------
