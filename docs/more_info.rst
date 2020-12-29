@@ -29,7 +29,7 @@ object tree classes may be of use to some. Here is the procedure:
 1. Download the xsd files from `SANA NDM XML Schema Registry <https://sanaregistry.org/r/ndmxml>`_
 2. Run `xsData` just outside the xsd directory to generate the classes
 
->>> xsdata generate ndmxsd --package src.ndmxml1
+>>> xsdata generate --docstring-style NumPy ndmxsd --package ccsds_ndm.ndmxml1
 
 3. Copy the generated classes into the project structure.
 
