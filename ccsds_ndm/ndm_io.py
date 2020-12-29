@@ -142,7 +142,7 @@ class NdmIo:
         try:
             root = ElementTree.parse(xml_read_file_path).getroot()
             data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
-        except ElementTree.ParseError:
+        except (ElementTree.ParseError, AttributeError):
             # auto identify failed, try NDM (Combined Instantiation)
             data_type = Ndm
             ndm_combi = True
@@ -181,7 +181,7 @@ class NdmIo:
         try:
             root = ElementTree.XML(xml_source)
             data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
-        except ElementTree.ParseError:
+        except (ElementTree.ParseError, AttributeError):
             # auto identify failed, try NDM (Combined Instantiation)
             data_type = Ndm
             ndm_combi = True
@@ -219,7 +219,7 @@ class NdmIo:
         try:
             root = ElementTree.XML(xml_source)
             data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
-        except ElementTree.ParseError:
+        except (ElementTree.ParseError, AttributeError):
             # auto identify failed, try NDM (Combined Instantiation)
             data_type = Ndm
             ndm_combi = True
