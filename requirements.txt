@@ -1,1 +1,1 @@
-xsdata
+xsdata>=20.12

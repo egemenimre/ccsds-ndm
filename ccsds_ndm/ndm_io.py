@@ -72,11 +72,24 @@ class NdmIo:
         config = ParserConfig(fail_on_unknown_properties=True)
         self.parser = XmlParser(config=config)
 
-    def __init_serializer(self):
+    def __init_serializer(
+        self, schema_location=None, no_namespace_schema_location=None
+    ):
         """
         Inits the internal serializer.
+
+        Parameters
+        ----------
+        schema_location: str
+            Specify the xsi:schemaLocation attribute value
+        no_namespace_schema_location: str
+            Specify the xsi:noNamespaceSchemaLocation attribute value
         """
-        config = SerializerConfig(pretty_print=True)
+        config = SerializerConfig(
+            pretty_print=True,
+            schema_location=schema_location,
+            no_namespace_schema_location=no_namespace_schema_location,
+        )
         self.serializer = XmlSerializer(config=config)
 
     def __strip_multi_ndm(self, ndm):
@@ -225,7 +238,9 @@ class NdmIo:
             # If it actually has a single element, strip the ndm tags
             return self.__strip_multi_ndm(ndm)
 
-    def to_string(self, ndm_obj):
+    def to_string(
+        self, ndm_obj, schema_location=None, no_namespace_schema_location=None
+    ):
         """
         Convert and return the given object tree as xml string.
 
@@ -233,6 +248,10 @@ class NdmIo:
         ----------
         ndm_obj
             input object tree
+        schema_location: str
+            Specify the xsi:schemaLocation attribute value
+        no_namespace_schema_location: str
+            Specify the xsi:noNamespaceSchemaLocation attribute value
 
         Returns
         -------
@@ -241,11 +260,20 @@ class NdmIo:
         """
         # lazy init serializer
         if self.serializer is None:
-            self.__init_serializer()
+            self.__init_serializer(
+                no_namespace_schema_location=no_namespace_schema_location,
+                schema_location=schema_location,
+            )
 
         return self.serializer.render(ndm_obj)
 
-    def to_file(self, ndm_obj, xml_write_file_path):
+    def to_file(
+        self,
+        ndm_obj,
+        xml_write_file_path,
+        schema_location=None,
+        no_namespace_schema_location=None,
+    ):
         """
         Convert and return the given object tree as xml file.
 
@@ -255,6 +283,14 @@ class NdmIo:
             input object tree
         xml_write_file_path : Path
             Path of the XML file to be written
+        schema_location: str
+            Specify the xsi:schemaLocation attribute value
+        no_namespace_schema_location: str
+            Specify the xsi:noNamespaceSchemaLocation attribute value
         """
-        xml_txt = self.to_string(ndm_obj)
+        xml_txt = self.to_string(
+            ndm_obj,
+            no_namespace_schema_location=no_namespace_schema_location,
+            schema_location=schema_location,
+        )
         xml_write_file_path.write_text(xml_txt)

@@ -106,6 +106,11 @@ Requirements
 Changelog
 ---------
 
+- Development Version
+    - Updated `xsdata` to 20.12 (and solved compatibility issues with the new version)
+    - Added optional schema file location
+      (`#8 <https://github.com/egemenimre/ccsds-ndm/issues/8>`_)
+
 - Version 1.3 (2020/12/06)
     - Started stripping single-data Combined Instantiation NDM files
       (`#12 <https://github.com/egemenimre/ccsds-ndm/issues/12>`_)
