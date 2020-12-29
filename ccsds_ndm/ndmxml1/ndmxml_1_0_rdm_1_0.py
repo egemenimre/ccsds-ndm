@@ -23,13 +23,6 @@ __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 @dataclass
 class RdmHeader:
-    """
-    :ivar comment:
-    :ivar creation_date:
-    :ivar originator:
-    :ivar message_id:
-    """
-
     class Meta:
         name = "rdmHeader"
 
@@ -73,17 +66,6 @@ class RdmHeader:
 
 @dataclass
 class RdmData:
-    """
-    :ivar comment:
-    :ivar atmospheric_reentry_parameters:
-    :ivar ground_impact_parameters:
-    :ivar state_vector:
-    :ivar covariance_matrix:
-    :ivar spacecraft_parameters:
-    :ivar od_parameters:
-    :ivar user_defined_parameters:
-    """
-
     class Meta:
         name = "rdmData"
 
@@ -156,39 +138,6 @@ class RdmData:
 
 @dataclass
 class RdmMetadata:
-    """
-    :ivar comment:
-    :ivar object_name:
-    :ivar international_designator:
-    :ivar catalog_name:
-    :ivar object_designator:
-    :ivar object_type:
-    :ivar object_owner:
-    :ivar object_operator:
-    :ivar controlled_reentry:
-    :ivar center_name:
-    :ivar time_system:
-    :ivar epoch_tzero:
-    :ivar ref_frame:
-    :ivar ref_frame_epoch:
-    :ivar ephemeris_name:
-    :ivar gravity_model:
-    :ivar atmospheric_model:
-    :ivar solar_flux_prediction:
-    :ivar n_body_perturbations:
-    :ivar solar_rad_pressure:
-    :ivar earth_tides:
-    :ivar intrack_thrust:
-    :ivar drag_parameters_source:
-    :ivar drag_parameters_altitude:
-    :ivar reentry_uncertainty_method:
-    :ivar reentry_disintegration:
-    :ivar impact_uncertainty_method:
-    :ivar previous_message_id:
-    :ivar previous_message_epoch:
-    :ivar next_message_epoch:
-    """
-
     class Meta:
         name = "rdmMetadata"
 
@@ -446,11 +395,6 @@ class RdmMetadata:
 
 @dataclass
 class RdmSegment:
-    """
-    :ivar metadata:
-    :ivar data:
-    """
-
     class Meta:
         name = "rdmSegment"
 
@@ -474,10 +418,6 @@ class RdmSegment:
 
 @dataclass
 class RdmBody:
-    """
-    :ivar segment:
-    """
-
     class Meta:
         name = "rdmBody"
 
@@ -493,13 +433,6 @@ class RdmBody:
 
 @dataclass
 class RdmType:
-    """
-    :ivar header:
-    :ivar body:
-    :ivar id:
-    :ivar version:
-    """
-
     class Meta:
         name = "rdmType"
 

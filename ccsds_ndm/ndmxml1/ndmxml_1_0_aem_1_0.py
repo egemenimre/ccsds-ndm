@@ -20,13 +20,6 @@ __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 
 class AemRateFrameType(Enum):
-    """
-    :cvar REF_FRAME_A:
-    :cvar REF_FRAME_A_1:
-    :cvar REF_FRAME_B:
-    :cvar REF_FRAME_B_1:
-    """
-
     REF_FRAME_A = "ref_frame_a"
     REF_FRAME_A_1 = "REF_FRAME_A"
     REF_FRAME_B = "ref_frame_b"
@@ -34,23 +27,6 @@ class AemRateFrameType(Enum):
 
 
 class AttitudeTypeType(Enum):
-    """
-    :cvar QUATERNION:
-    :cvar QUATERNION_1:
-    :cvar QUATERNION_DERIVATIVE:
-    :cvar QUATERNION_DERIVATIVE_1:
-    :cvar QUATERNION_RATE:
-    :cvar QUATERNION_RATE_1:
-    :cvar EULER_ANGLE:
-    :cvar EULER_ANGLE_1:
-    :cvar EULER_ANGLE_RATE:
-    :cvar EULER_ANGLE_RATE_1:
-    :cvar SPIN:
-    :cvar SPIN_1:
-    :cvar SPIN_NUTATION:
-    :cvar SPIN_NUTATION_1:
-    """
-
     QUATERNION = "quaternion"
     QUATERNION_1 = "QUATERNION"
     QUATERNION_DERIVATIVE = "quaternion/derivative"
@@ -68,13 +44,6 @@ class AttitudeTypeType(Enum):
 
 
 class QuaternionTypeType(Enum):
-    """
-    :cvar FIRST:
-    :cvar FIRST_1:
-    :cvar LAST:
-    :cvar LAST_1:
-    """
-
     FIRST = "first"
     FIRST_1 = "FIRST"
     LAST = "last"
@@ -83,27 +52,6 @@ class QuaternionTypeType(Enum):
 
 @dataclass
 class AemMetadata:
-    """
-    :ivar comment:
-    :ivar object_name:
-    :ivar object_id:
-    :ivar center_name:
-    :ivar ref_frame_a:
-    :ivar ref_frame_b:
-    :ivar attitude_dir:
-    :ivar time_system:
-    :ivar start_time:
-    :ivar useable_start_time:
-    :ivar useable_stop_time:
-    :ivar stop_time:
-    :ivar attitude_type:
-    :ivar quaternion_type:
-    :ivar euler_rot_seq:
-    :ivar rate_frame:
-    :ivar interpolation_method:
-    :ivar interpolation_degree:
-    """
-
     class Meta:
         name = "aemMetadata"
 
@@ -268,12 +216,6 @@ class AemMetadata:
 
 @dataclass
 class EulerAngleRateType:
-    """
-    :ivar epoch:
-    :ivar rotation_angles:
-    :ivar rotation_rates:
-    """
-
     class Meta:
         name = "eulerAngleRateType"
 
@@ -307,11 +249,6 @@ class EulerAngleRateType:
 
 @dataclass
 class EulerAngleType:
-    """
-    :ivar epoch:
-    :ivar rotation_angles:
-    """
-
     class Meta:
         name = "eulerAngleType"
 
@@ -337,12 +274,6 @@ class EulerAngleType:
 
 @dataclass
 class QuaternionDerivativeType:
-    """
-    :ivar epoch:
-    :ivar quaternion:
-    :ivar quaternion_rate:
-    """
-
     class Meta:
         name = "quaternionDerivativeType"
 
@@ -377,11 +308,6 @@ class QuaternionDerivativeType:
 
 @dataclass
 class QuaternionEphemerisType:
-    """
-    :ivar epoch:
-    :ivar quaternion:
-    """
-
     class Meta:
         name = "quaternionEphemerisType"
 
@@ -407,12 +333,6 @@ class QuaternionEphemerisType:
 
 @dataclass
 class QuaternionEulerRateType:
-    """
-    :ivar epoch:
-    :ivar quaternion:
-    :ivar rotation_rates:
-    """
-
     class Meta:
         name = "quaternionEulerRateType"
 
@@ -446,17 +366,6 @@ class QuaternionEulerRateType:
 
 @dataclass
 class SpinNutationType:
-    """
-    :ivar epoch:
-    :ivar spin_alpha:
-    :ivar spin_delta:
-    :ivar spin_angle:
-    :ivar spin_angle_vel:
-    :ivar nutation:
-    :ivar nutation_per:
-    :ivar nutation_phase:
-    """
-
     class Meta:
         name = "spinNutationType"
 
@@ -537,14 +446,6 @@ class SpinNutationType:
 
 @dataclass
 class SpinType:
-    """
-    :ivar epoch:
-    :ivar spin_alpha:
-    :ivar spin_delta:
-    :ivar spin_angle:
-    :ivar spin_angle_vel:
-    """
-
     class Meta:
         name = "spinType"
 
@@ -598,16 +499,6 @@ class SpinType:
 
 @dataclass
 class AttitudeStateType:
-    """
-    :ivar quaternion_state:
-    :ivar quaternion_derivative:
-    :ivar quaternion_euler_rate:
-    :ivar euler_angle:
-    :ivar euler_angle_rate:
-    :ivar spin:
-    :ivar spin_nutation:
-    """
-
     class Meta:
         name = "attitudeStateType"
 
@@ -670,11 +561,6 @@ class AttitudeStateType:
 
 @dataclass
 class AemData:
-    """
-    :ivar comment:
-    :ivar attitude_state:
-    """
-
     class Meta:
         name = "aemData"
 
@@ -699,11 +585,6 @@ class AemData:
 
 @dataclass
 class AemSegment:
-    """
-    :ivar metadata:
-    :ivar data:
-    """
-
     class Meta:
         name = "aemSegment"
 
@@ -727,10 +608,6 @@ class AemSegment:
 
 @dataclass
 class AemBody:
-    """
-    :ivar segment:
-    """
-
     class Meta:
         name = "aemBody"
 
@@ -746,13 +623,6 @@ class AemBody:
 
 @dataclass
 class AemType:
-    """
-    :ivar header:
-    :ivar body:
-    :ivar id:
-    :ivar version:
-    """
-
     class Meta:
         name = "aemType"
 

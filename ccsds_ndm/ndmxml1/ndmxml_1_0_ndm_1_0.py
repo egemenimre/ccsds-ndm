@@ -15,18 +15,6 @@ __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 @dataclass
 class NdmType:
-    """
-    :ivar comment:
-    :ivar aem:
-    :ivar apm:
-    :ivar cdm:
-    :ivar oem:
-    :ivar omm:
-    :ivar opm:
-    :ivar rdm:
-    :ivar tdm:
-    """
-
     class Meta:
         name = "ndmType"
 

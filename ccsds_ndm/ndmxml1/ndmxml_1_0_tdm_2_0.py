@@ -13,17 +13,6 @@ __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 
 class AngleTypeType(Enum):
-    """
-    :cvar AZEL:
-    :cvar AZEL_1:
-    :cvar RADEC:
-    :cvar RADEC_1:
-    :cvar XEYN:
-    :cvar XEYN_1:
-    :cvar XSYE:
-    :cvar XSYE_1:
-    """
-
     AZEL = "AZEL"
     AZEL_1 = "azel"
     RADEC = "RADEC"
@@ -35,15 +24,6 @@ class AngleTypeType(Enum):
 
 
 class DataQualityType(Enum):
-    """
-    :cvar RAW:
-    :cvar RAW_1:
-    :cvar VALIDATED:
-    :cvar VALIDATED_1:
-    :cvar DEGRADED:
-    :cvar DEGRADED_1:
-    """
-
     RAW = "raw"
     RAW_1 = "RAW"
     VALIDATED = "validated"
@@ -53,15 +33,6 @@ class DataQualityType(Enum):
 
 
 class IntegrationRefType(Enum):
-    """
-    :cvar START:
-    :cvar START_1:
-    :cvar MIDDLE:
-    :cvar MIDDLE_1:
-    :cvar END:
-    :cvar END_1:
-    """
-
     START = "START"
     START_1 = "start"
     MIDDLE = "MIDDLE"
@@ -71,13 +42,6 @@ class IntegrationRefType(Enum):
 
 
 class ModeType(Enum):
-    """
-    :cvar SEQUENTIAL:
-    :cvar SEQUENTIAL_1:
-    :cvar SINGLE_DIFF:
-    :cvar SINGLE_DIFF_1:
-    """
-
     SEQUENTIAL = "SEQUENTIAL"
     SEQUENTIAL_1 = "sequential"
     SINGLE_DIFF = "SINGLE_DIFF"
@@ -85,15 +49,6 @@ class ModeType(Enum):
 
 
 class RangeUnitsType(Enum):
-    """
-    :cvar KM:
-    :cvar KM_1:
-    :cvar RU:
-    :cvar RU_1:
-    :cvar S:
-    :cvar S_1:
-    """
-
     KM = "km"
     KM_1 = "KM"
     RU = "ru"
@@ -103,15 +58,6 @@ class RangeUnitsType(Enum):
 
 
 class RangemodeType(Enum):
-    """
-    :cvar COHERENT:
-    :cvar COHERENT_1:
-    :cvar CONSTANT:
-    :cvar CONSTANT_1:
-    :cvar ONE_WAY:
-    :cvar ONE_WAY_1:
-    """
-
     COHERENT = "coherent"
     COHERENT_1 = "COHERENT"
     CONSTANT = "constant"
@@ -121,21 +67,6 @@ class RangemodeType(Enum):
 
 
 class RefFrameType(Enum):
-    """
-    :cvar EME2000:
-    :cvar EME2000_1:
-    :cvar ICRF:
-    :cvar ICRF_1:
-    :cvar ITRF2000:
-    :cvar ITRF2000_1:
-    :cvar ITRF_93:
-    :cvar ITRF_93_1:
-    :cvar ITRF_97:
-    :cvar ITRF_97_1:
-    :cvar TOD:
-    :cvar TOD_1:
-    """
-
     EME2000 = "EME2000"
     EME2000_1 = "eme2000"
     ICRF = "ICRF"
@@ -152,13 +83,6 @@ class RefFrameType(Enum):
 
 @dataclass
 class TdmHeader:
-    """
-    :ivar comment:
-    :ivar creation_date:
-    :ivar originator:
-    :ivar message_id:
-    """
-
     class Meta:
         name = "tdmHeader"
 
@@ -200,13 +124,6 @@ class TdmHeader:
 
 
 class TimetagRefType(Enum):
-    """
-    :cvar TRANSMIT:
-    :cvar TRANSMIT_1:
-    :cvar RECEIVE:
-    :cvar RECEIVE_1:
-    """
-
     TRANSMIT = "TRANSMIT"
     TRANSMIT_1 = "transmit"
     RECEIVE = "RECEIVE"
@@ -215,69 +132,6 @@ class TimetagRefType(Enum):
 
 @dataclass
 class TdmMetadata:
-    """
-    :ivar comment:
-    :ivar track_id:
-    :ivar data_types:
-    :ivar time_system:
-    :ivar start_time:
-    :ivar stop_time:
-    :ivar participant_1:
-    :ivar participant_2:
-    :ivar participant_3:
-    :ivar participant_4:
-    :ivar participant_5:
-    :ivar mode:
-    :ivar path:
-    :ivar path_1:
-    :ivar path_2:
-    :ivar ephemeris_name_1:
-    :ivar ephemeris_name_2:
-    :ivar ephemeris_name_3:
-    :ivar ephemeris_name_4:
-    :ivar ephemeris_name_5:
-    :ivar transmit_band:
-    :ivar receive_band:
-    :ivar turnaround_numerator:
-    :ivar turnaround_denominator:
-    :ivar timetag_ref:
-    :ivar integration_interval:
-    :ivar integration_ref:
-    :ivar freq_offset:
-    :ivar range_mode:
-    :ivar range_modulus:
-    :ivar range_units:
-    :ivar angle_type:
-    :ivar reference_frame:
-    :ivar interpolation:
-    :ivar interpolation_degree:
-    :ivar doppler_count_bias:
-    :ivar doppler_count_scale:
-    :ivar doppler_count_rollover:
-    :ivar transmit_delay_1:
-    :ivar transmit_delay_2:
-    :ivar transmit_delay_3:
-    :ivar transmit_delay_4:
-    :ivar transmit_delay_5:
-    :ivar receive_delay_1:
-    :ivar receive_delay_2:
-    :ivar receive_delay_3:
-    :ivar receive_delay_4:
-    :ivar receive_delay_5:
-    :ivar data_quality:
-    :ivar correction_angle_1:
-    :ivar correction_angle_2:
-    :ivar correction_doppler:
-    :ivar correction_mag:
-    :ivar correction_range:
-    :ivar correction_rcs:
-    :ivar correction_receive:
-    :ivar correction_transmit:
-    :ivar correction_aberration_yearly:
-    :ivar correction_aberration_diurnal:
-    :ivar corrections_applied:
-    """
-
     class Meta:
         name = "tdmMetadata"
 
@@ -785,57 +639,6 @@ class TdmMetadata:
 
 @dataclass
 class TrackingDataObservationType:
-    """
-    :ivar epoch:
-    :ivar angle_1:
-    :ivar angle_2:
-    :ivar carrier_power:
-    :ivar clock_bias:
-    :ivar clock_drift:
-    :ivar doppler_count:
-    :ivar doppler_instantaneous:
-    :ivar doppler_integrated:
-    :ivar dor:
-    :ivar mag:
-    :ivar pc_n0:
-    :ivar pr_n0:
-    :ivar pressure:
-    :ivar range:
-    :ivar rcs:
-    :ivar receive_freq:
-    :ivar receive_freq_1:
-    :ivar receive_freq_2:
-    :ivar receive_freq_3:
-    :ivar receive_freq_4:
-    :ivar receive_freq_5:
-    :ivar receive_phase_ct_1:
-    :ivar receive_phase_ct_2:
-    :ivar receive_phase_ct_3:
-    :ivar receive_phase_ct_4:
-    :ivar receive_phase_ct_5:
-    :ivar rhumidity:
-    :ivar stec:
-    :ivar temperature:
-    :ivar transmit_freq_1:
-    :ivar transmit_freq_2:
-    :ivar transmit_freq_3:
-    :ivar transmit_freq_4:
-    :ivar transmit_freq_5:
-    :ivar transmit_freq_rate_1:
-    :ivar transmit_freq_rate_2:
-    :ivar transmit_freq_rate_3:
-    :ivar transmit_freq_rate_4:
-    :ivar transmit_freq_rate_5:
-    :ivar transmit_phase_ct_1:
-    :ivar transmit_phase_ct_2:
-    :ivar transmit_phase_ct_3:
-    :ivar transmit_phase_ct_4:
-    :ivar transmit_phase_ct_5:
-    :ivar tropo_dry:
-    :ivar tropo_wet:
-    :ivar vlbi_delay:
-    """
-
     class Meta:
         name = "trackingDataObservationType"
 
@@ -1239,11 +1042,6 @@ class TrackingDataObservationType:
 
 @dataclass
 class TdmData:
-    """
-    :ivar comment:
-    :ivar observation:
-    """
-
     class Meta:
         name = "tdmData"
 
@@ -1267,11 +1065,6 @@ class TdmData:
 
 @dataclass
 class TdmSegment:
-    """
-    :ivar metadata:
-    :ivar data:
-    """
-
     class Meta:
         name = "tdmSegment"
 
@@ -1295,10 +1088,6 @@ class TdmSegment:
 
 @dataclass
 class TdmBody:
-    """
-    :ivar segment:
-    """
-
     class Meta:
         name = "tdmBody"
 
@@ -1314,13 +1103,6 @@ class TdmBody:
 
 @dataclass
 class TdmType:
-    """
-    :ivar header:
-    :ivar body:
-    :ivar id:
-    :ivar version:
-    """
-
     class Meta:
         name = "tdmType"
 

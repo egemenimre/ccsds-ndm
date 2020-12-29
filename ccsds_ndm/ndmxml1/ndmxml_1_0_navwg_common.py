@@ -7,79 +7,38 @@ __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 
 class AccUnits(Enum):
-    """
-    :cvar KM_S_2:
-    """
-
     KM_S_2 = "km/s**2"
 
 
 class AngleKeywordType(Enum):
-    """
-    :cvar X_ANGLE:
-    :cvar Y_ANGLE:
-    :cvar Z_ANGLE:
-    """
-
     X_ANGLE = "X_ANGLE"
     Y_ANGLE = "Y_ANGLE"
     Z_ANGLE = "Z_ANGLE"
 
 
 class AngleRateKeywordType(Enum):
-    """
-    :cvar X_RATE:
-    :cvar Y_RATE:
-    :cvar Z_RATE:
-    """
-
     X_RATE = "X_RATE"
     Y_RATE = "Y_RATE"
     Z_RATE = "Z_RATE"
 
 
 class AngleRateUnits(Enum):
-    """
-    :cvar DEG_S:
-    """
-
     DEG_S = "deg/s"
 
 
 class AngleUnits(Enum):
-    """
-    :cvar DEG:
-    """
-
     DEG = "deg"
 
 
 class AreaUnits(Enum):
-    """
-    :cvar M_2:
-    """
-
     M_2 = "m**2"
 
 
 class BallisticCoeffUnitsType(Enum):
-    """
-    :cvar KG_M_2:
-    """
-
     KG_M_2 = "kg/m**2"
 
 
 class ControlledType(Enum):
-    """
-    :cvar YES:
-    :cvar YES_1:
-    :cvar NO:
-    :cvar NO_1:
-    :cvar UNKNOWN:
-    :cvar UNKNOWN_1:
-    """
-
     YES = "YES"
     YES_1 = "yes"
     NO = "NO"
@@ -89,21 +48,10 @@ class ControlledType(Enum):
 
 
 class DayIntervalUnits(Enum):
-    """
-    :cvar D:
-    """
-
     D = "d"
 
 
 class DisintegrationType(Enum):
-    """
-    :cvar NONE_VALUE:
-    :cvar MASS_LOSS:
-    :cvar BREAK_UP:
-    :cvar MASS_LOSS_BREAK_UP:
-    """
-
     NONE_VALUE = "NONE"
     MASS_LOSS = "MASS-LOSS"
     BREAK_UP = "BREAK-UP"
@@ -111,31 +59,15 @@ class DisintegrationType(Enum):
 
 
 class FrequencyUnits(Enum):
-    """
-    :cvar HZ:
-    """
-
     HZ = "Hz"
 
 
 class GmUnits(Enum):
-    """
-    :cvar KM_3_S_2:
-    :cvar KM_3_S_2_1:
-    """
-
     KM_3_S_2 = "km**3/s**2"
     KM_3_S_2_1 = "KM**3/S**2"
 
 
 class ImpactUncertaintyType(Enum):
-    """
-    :cvar NONE_VALUE:
-    :cvar ANALYTICAL:
-    :cvar STOCHASTIC:
-    :cvar EMPIRICAL:
-    """
-
     NONE_VALUE = "NONE"
     ANALYTICAL = "ANALYTICAL"
     STOCHASTIC = "STOCHASTIC"
@@ -143,77 +75,39 @@ class ImpactUncertaintyType(Enum):
 
 
 class Km2Units(Enum):
-    """
-    :cvar KM_2:
-    """
-
     KM_2 = "km**2"
 
 
 class Km2S2Units(Enum):
-    """
-    :cvar KM_2_S_2:
-    """
-
     KM_2_S_2 = "km**2/s**2"
 
 
 class Km2SUnits(Enum):
-    """
-    :cvar KM_2_S:
-    """
-
     KM_2_S = "km**2/s"
 
 
 class LatLonUnits(Enum):
-    """
-    :cvar DEG:
-    """
-
     DEG = "deg"
 
 
 class LengthUnits(Enum):
-    """
-    :cvar M:
-    """
-
     M = "m"
 
 
 class MassUnits(Enum):
-    """
-    :cvar KG:
-    """
-
     KG = "kg"
 
 
 class MomentUnits(Enum):
-    """
-    :cvar KG_M_2:
-    """
-
     KG_M_2 = "kg*m**2"
 
 
 class Ms2Units(Enum):
-    """
-    :cvar M_S_2:
-    """
-
     M_S_2 = "m/s**2"
 
 
 @dataclass
 class NdmHeader:
-    """
-    :ivar comment:
-    :ivar creation_date:
-    :ivar originator:
-    """
-
     class Meta:
         name = "ndmHeader"
 
@@ -247,21 +141,6 @@ class NdmHeader:
 
 
 class ObjectDescriptionType(Enum):
-    """
-    :cvar PAYLOAD:
-    :cvar PAYLOAD_1:
-    :cvar ROCKET_BODY:
-    :cvar ROCKET_BODY_1:
-    :cvar UPPER_STAGE:
-    :cvar UPPER_STAGE_1:
-    :cvar DEBRIS:
-    :cvar DEBRIS_1:
-    :cvar UNKNOWN:
-    :cvar UNKNOWN_1:
-    :cvar OTHER:
-    :cvar OTHER_1:
-    """
-
     PAYLOAD = "PAYLOAD"
     PAYLOAD_1 = "payload"
     ROCKET_BODY = "ROCKET BODY"
@@ -278,12 +157,6 @@ class ObjectDescriptionType(Enum):
 
 @dataclass
 class OemCovarianceMatrixAbstractType:
-    """
-    :ivar comment:
-    :ivar epoch:
-    :ivar cov_ref_frame:
-    """
-
     class Meta:
         name = "oemCovarianceMatrixAbstractType"
 
@@ -317,11 +190,6 @@ class OemCovarianceMatrixAbstractType:
 
 @dataclass
 class OpmCovarianceMatrixAbstractType:
-    """
-    :ivar comment:
-    :ivar cov_ref_frame:
-    """
-
     class Meta:
         name = "opmCovarianceMatrixAbstractType"
 
@@ -344,54 +212,27 @@ class OpmCovarianceMatrixAbstractType:
 
 
 class PercentageUnits(Enum):
-    """
-    :cvar VALUE:
-    """
-
     VALUE = "%"
 
 
 class PositionCovarianceUnits(Enum):
-    """
-    :cvar KM_2:
-    """
-
     KM_2 = "km**2"
 
 
 class PositionUnits(Enum):
-    """
-    :cvar KM:
-    """
-
     KM = "km"
 
 
 class PositionVelocityCovarianceUnits(Enum):
-    """
-    :cvar KM_2_S:
-    """
-
     KM_2_S = "km**2/s"
 
 
 class QuaternionDotUnits(Enum):
-    """
-    :cvar VALUE_1_S:
-    """
-
     VALUE_1_S = "1/s"
 
 
 @dataclass
 class QuaternionType:
-    """
-    :ivar qc:
-    :ivar q1:
-    :ivar q2:
-    :ivar q3:
-    """
-
     class Meta:
         name = "quaternionType"
 
@@ -442,13 +283,6 @@ class QuaternionType:
 
 
 class ReentryUncertaintyMethodType(Enum):
-    """
-    :cvar NONE_VALUE:
-    :cvar ANALYTICAL:
-    :cvar STOCHASTIC:
-    :cvar EMPIRICAL:
-    """
-
     NONE_VALUE = "NONE"
     ANALYTICAL = "ANALYTICAL"
     STOCHASTIC = "STOCHASTIC"
@@ -456,31 +290,11 @@ class ReentryUncertaintyMethodType(Enum):
 
 
 class RotDirectionType(Enum):
-    """
-    :cvar A2_B:
-    :cvar B2_A:
-    """
-
     A2_B = "A2B"
     B2_A = "B2A"
 
 
 class RotseqType(Enum):
-    """
-    :cvar VALUE_121:
-    :cvar VALUE_123:
-    :cvar VALUE_131:
-    :cvar VALUE_132:
-    :cvar VALUE_212:
-    :cvar VALUE_213:
-    :cvar VALUE_231:
-    :cvar VALUE_232:
-    :cvar VALUE_312:
-    :cvar VALUE_313:
-    :cvar VALUE_321:
-    :cvar VALUE_323:
-    """
-
     VALUE_121 = "121"
     VALUE_123 = "123"
     VALUE_131 = "131"
@@ -496,29 +310,6 @@ class RotseqType(Enum):
 
 
 class TimeSystemType(Enum):
-    """
-    :cvar GMST:
-    :cvar GMST_1:
-    :cvar GPS:
-    :cvar GPS_1:
-    :cvar SCLK:
-    :cvar SCLK_1:
-    :cvar TAI:
-    :cvar TAI_1:
-    :cvar TCB:
-    :cvar TCB_1:
-    :cvar TDB:
-    :cvar TDB_1:
-    :cvar TOD:
-    :cvar TOD_1:
-    :cvar TT:
-    :cvar TT_1:
-    :cvar UT1:
-    :cvar UT1_1:
-    :cvar UTC:
-    :cvar UTC_1:
-    """
-
     GMST = "GMST"
     GMST_1 = "gmst"
     GPS = "GPS"
@@ -542,20 +333,11 @@ class TimeSystemType(Enum):
 
 
 class TimeUnits(Enum):
-    """
-    :cvar S:
-    """
-
     S = "s"
 
 
 @dataclass
 class UserDefinedParameterType:
-    """
-    :ivar value:
-    :ivar parameter:
-    """
-
     class Meta:
         name = "userDefinedParameterType"
 
@@ -572,29 +354,14 @@ class UserDefinedParameterType:
 
 
 class VelocityCovarianceUnits(Enum):
-    """
-    :cvar KM_2_S_2:
-    """
-
     KM_2_S_2 = "km**2/s**2"
 
 
 class VelocityUnits(Enum):
-    """
-    :cvar KM_S:
-    """
-
     KM_S = "km/s"
 
 
 class YesNoType(Enum):
-    """
-    :cvar YES:
-    :cvar YES_1:
-    :cvar NO:
-    :cvar NO_1:
-    """
-
     YES = "YES"
     YES_1 = "yes"
     NO = "NO"
@@ -603,11 +370,6 @@ class YesNoType(Enum):
 
 @dataclass
 class AccType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "accType"
 
@@ -624,11 +386,6 @@ class AccType:
 
 @dataclass
 class AltType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "altType"
 
@@ -649,11 +406,6 @@ class AltType:
 
 @dataclass
 class AngleRateType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "angleRateType"
 
@@ -670,11 +422,6 @@ class AngleRateType:
 
 @dataclass
 class AngleType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "angleType"
 
@@ -695,11 +442,6 @@ class AngleType:
 
 @dataclass
 class AreaType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "areaType"
 
@@ -719,11 +461,6 @@ class AreaType:
 
 @dataclass
 class BallisticCoeffType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "ballisticCoeffType"
 
@@ -743,11 +480,6 @@ class BallisticCoeffType:
 
 @dataclass
 class DayIntervalType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "dayIntervalType"
 
@@ -768,11 +500,6 @@ class DayIntervalType:
 
 @dataclass
 class DeltamassType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "deltamassType"
 
@@ -792,11 +519,6 @@ class DeltamassType:
 
 @dataclass
 class DistanceType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "distanceType"
 
@@ -813,11 +535,6 @@ class DistanceType:
 
 @dataclass
 class DurationType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "durationType"
 
@@ -837,11 +554,6 @@ class DurationType:
 
 @dataclass
 class FrequencyType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "frequencyType"
 
@@ -861,11 +573,6 @@ class FrequencyType:
 
 @dataclass
 class GmType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "gmType"
 
@@ -885,11 +592,6 @@ class GmType:
 
 @dataclass
 class InclinationType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "inclinationType"
 
@@ -911,11 +613,6 @@ class InclinationType:
 
 @dataclass
 class Km2Type:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "km2Type"
 
@@ -932,11 +629,6 @@ class Km2Type:
 
 @dataclass
 class Km2S2Type:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "km2s2Type"
 
@@ -953,11 +645,6 @@ class Km2S2Type:
 
 @dataclass
 class Km2SType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "km2sType"
 
@@ -974,11 +661,6 @@ class Km2SType:
 
 @dataclass
 class LatType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "latType"
 
@@ -1000,11 +682,6 @@ class LatType:
 
 @dataclass
 class LengthType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "lengthType"
 
@@ -1022,11 +699,6 @@ class LengthType:
 
 @dataclass
 class LonType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "lonType"
 
@@ -1048,11 +720,6 @@ class LonType:
 
 @dataclass
 class MassType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "massType"
 
@@ -1072,11 +739,6 @@ class MassType:
 
 @dataclass
 class MomentType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "momentType"
 
@@ -1093,11 +755,6 @@ class MomentType:
 
 @dataclass
 class Ms2Type:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "ms2Type"
 
@@ -1115,11 +772,6 @@ class Ms2Type:
 
 @dataclass
 class PercentageType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "percentageType"
 
@@ -1141,11 +793,6 @@ class PercentageType:
 
 @dataclass
 class PositionCovarianceType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "positionCovarianceType"
 
@@ -1162,11 +809,6 @@ class PositionCovarianceType:
 
 @dataclass
 class PositionType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "positionType"
 
@@ -1183,11 +825,6 @@ class PositionType:
 
 @dataclass
 class PositionVelocityCovarianceType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "positionVelocityCovarianceType"
 
@@ -1204,11 +841,6 @@ class PositionVelocityCovarianceType:
 
 @dataclass
 class QuaternionDotType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "quaternionDotType"
 
@@ -1225,11 +857,6 @@ class QuaternionDotType:
 
 @dataclass
 class RdmPositionType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "rdmPositionType"
 
@@ -1247,11 +874,6 @@ class RdmPositionType:
 
 @dataclass
 class RdmVelocityType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "rdmVelocityType"
 
@@ -1269,12 +891,6 @@ class RdmVelocityType:
 
 @dataclass
 class RotationAngleComponentType:
-    """
-    :ivar value:
-    :ivar angle:
-    :ivar units:
-    """
-
     class Meta:
         name = "rotationAngleComponentType"
 
@@ -1302,12 +918,6 @@ class RotationAngleComponentType:
 
 @dataclass
 class RotationAngleComponentTypeold:
-    """
-    :ivar units:
-    :ivar angle:
-    :ivar value:
-    """
-
     class Meta:
         name = "rotationAngleComponentTypeold"
 
@@ -1337,12 +947,6 @@ class RotationAngleComponentTypeold:
 
 @dataclass
 class RotationRateComponentType:
-    """
-    :ivar value:
-    :ivar rate:
-    :ivar units:
-    """
-
     class Meta:
         name = "rotationRateComponentType"
 
@@ -1366,12 +970,6 @@ class RotationRateComponentType:
 
 @dataclass
 class RotationRateComponentTypeOld:
-    """
-    :ivar units:
-    :ivar rate:
-    :ivar value:
-    """
-
     class Meta:
         name = "rotationRateComponentTypeOLD"
 
@@ -1399,11 +997,6 @@ class RotationRateComponentTypeOld:
 
 @dataclass
 class UserDefinedType:
-    """
-    :ivar comment:
-    :ivar user_defined:
-    """
-
     class Meta:
         name = "userDefinedType"
 
@@ -1429,11 +1022,6 @@ class UserDefinedType:
 
 @dataclass
 class VelocityCovarianceType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "velocityCovarianceType"
 
@@ -1450,11 +1038,6 @@ class VelocityCovarianceType:
 
 @dataclass
 class VelocityType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "velocityType"
 
@@ -1471,18 +1054,6 @@ class VelocityType:
 
 @dataclass
 class AtmosphericReentryParametersType:
-    """
-    :ivar comment:
-    :ivar orbit_lifetime:
-    :ivar reentry_altitude:
-    :ivar orbit_lifetime_window_start:
-    :ivar orbit_lifetime_window_end:
-    :ivar nominal_reentry_epoch:
-    :ivar reentry_window_start:
-    :ivar reentry_window_end:
-    :ivar orbit_lifetime_confidence_level:
-    """
-
     class Meta:
         name = "atmosphericReentryParametersType"
 
@@ -1567,40 +1138,6 @@ class AtmosphericReentryParametersType:
 
 @dataclass
 class GroundImpactParametersType:
-    """
-    :ivar comment:
-    :ivar probability_of_impact:
-    :ivar probability_of_burn_up:
-    :ivar probability_of_break_up:
-    :ivar probability_of_land_impact:
-    :ivar probability_of_casualty:
-    :ivar nominal_impact_epoch:
-    :ivar impact_window_start:
-    :ivar impact_window_end:
-    :ivar impact_ref_frame:
-    :ivar nominal_impact_lon:
-    :ivar nominal_impact_lat:
-    :ivar nominal_impact_alt:
-    :ivar impact_1_confidence:
-    :ivar impact_1_start_lon:
-    :ivar impact_1_start_lat:
-    :ivar impact_1_stop_lon:
-    :ivar impact_1_stop_lat:
-    :ivar impact_1_cross_track:
-    :ivar impact_2_confidence:
-    :ivar impact_2_start_lon:
-    :ivar impact_2_start_lat:
-    :ivar impact_2_stop_lon:
-    :ivar impact_2_stop_lat:
-    :ivar impact_2_cross_track:
-    :ivar impact_3_confidence:
-    :ivar impact_3_start_lon:
-    :ivar impact_3_start_lat:
-    :ivar impact_3_stop_lon:
-    :ivar impact_3_stop_lat:
-    :ivar impact_3_cross_track:
-    """
-
     class Meta:
         name = "groundImpactParametersType"
 
@@ -1869,20 +1406,6 @@ class GroundImpactParametersType:
 
 @dataclass
 class OdParametersType:
-    """
-    :ivar comment:
-    :ivar time_lastob_start:
-    :ivar time_lastob_end:
-    :ivar recommended_od_span:
-    :ivar actual_od_span:
-    :ivar obs_available:
-    :ivar obs_used:
-    :ivar tracks_available:
-    :ivar tracks_used:
-    :ivar residuals_accepted:
-    :ivar weighted_rms:
-    """
-
     class Meta:
         name = "odParametersType"
 
@@ -1981,30 +1504,6 @@ class OdParametersType:
 
 @dataclass
 class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
-    """
-    :ivar cx_x:
-    :ivar cy_x:
-    :ivar cy_y:
-    :ivar cz_x:
-    :ivar cz_y:
-    :ivar cz_z:
-    :ivar cx_dot_x:
-    :ivar cx_dot_y:
-    :ivar cx_dot_z:
-    :ivar cx_dot_x_dot:
-    :ivar cy_dot_x:
-    :ivar cy_dot_y:
-    :ivar cy_dot_z:
-    :ivar cy_dot_x_dot:
-    :ivar cy_dot_y_dot:
-    :ivar cz_dot_x:
-    :ivar cz_dot_y:
-    :ivar cz_dot_z:
-    :ivar cz_dot_x_dot:
-    :ivar cz_dot_y_dot:
-    :ivar cz_dot_z_dot:
-    """
-
     class Meta:
         name = "oemCovarianceMatrixType"
 
@@ -2201,30 +1700,6 @@ class OemCovarianceMatrixType(OemCovarianceMatrixAbstractType):
 
 @dataclass
 class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
-    """
-    :ivar cx_x:
-    :ivar cy_x:
-    :ivar cy_y:
-    :ivar cz_x:
-    :ivar cz_y:
-    :ivar cz_z:
-    :ivar cx_dot_x:
-    :ivar cx_dot_y:
-    :ivar cx_dot_z:
-    :ivar cx_dot_x_dot:
-    :ivar cy_dot_x:
-    :ivar cy_dot_y:
-    :ivar cy_dot_z:
-    :ivar cy_dot_x_dot:
-    :ivar cy_dot_y_dot:
-    :ivar cz_dot_x:
-    :ivar cz_dot_y:
-    :ivar cz_dot_z:
-    :ivar cz_dot_x_dot:
-    :ivar cz_dot_y_dot:
-    :ivar cz_dot_z_dot:
-    """
-
     class Meta:
         name = "opmCovarianceMatrixType"
 
@@ -2421,13 +1896,6 @@ class OpmCovarianceMatrixType(OpmCovarianceMatrixAbstractType):
 
 @dataclass
 class QuaternionRateType:
-    """
-    :ivar qc_dot:
-    :ivar q1_dot:
-    :ivar q2_dot:
-    :ivar q3_dot:
-    """
-
     class Meta:
         name = "quaternionRateType"
 
@@ -2471,20 +1939,6 @@ class QuaternionRateType:
 
 @dataclass
 class RdmSpacecraftParametersType:
-    """
-    :ivar comment:
-    :ivar wet_mass:
-    :ivar dry_mass:
-    :ivar hazardous_substances:
-    :ivar solar_rad_area:
-    :ivar solar_rad_coeff:
-    :ivar drag_area:
-    :ivar drag_coeff:
-    :ivar rcs:
-    :ivar ballistic_coeff:
-    :ivar thrust_acceleration:
-    """
-
     class Meta:
         name = "rdmSpacecraftParametersType"
 
@@ -2582,12 +2036,6 @@ class RdmSpacecraftParametersType:
 
 @dataclass
 class RotationAngleType:
-    """
-    :ivar rotation1:
-    :ivar rotation2:
-    :ivar rotation3:
-    """
-
     class Meta:
         name = "rotationAngleType"
 
@@ -2619,12 +2067,6 @@ class RotationAngleType:
 
 @dataclass
 class RotationRateType:
-    """
-    :ivar rotation1:
-    :ivar rotation2:
-    :ivar rotation3:
-    """
-
     class Meta:
         name = "rotationRateType"
 
@@ -2656,15 +2098,6 @@ class RotationRateType:
 
 @dataclass
 class SpacecraftParametersType:
-    """
-    :ivar comment:
-    :ivar mass:
-    :ivar solar_rad_area:
-    :ivar solar_rad_coeff:
-    :ivar drag_area:
-    :ivar drag_coeff:
-    """
-
     class Meta:
         name = "spacecraftParametersType"
 
@@ -2727,19 +2160,6 @@ class SpacecraftParametersType:
 
 @dataclass
 class StateVectorAccType:
-    """
-    :ivar epoch:
-    :ivar x:
-    :ivar y:
-    :ivar z:
-    :ivar x_dot:
-    :ivar y_dot:
-    :ivar z_dot:
-    :ivar x_ddot:
-    :ivar y_ddot:
-    :ivar z_ddot:
-    """
-
     class Meta:
         name = "stateVectorAccType"
 
@@ -2835,17 +2255,6 @@ class StateVectorAccType:
 
 @dataclass
 class StateVectorType:
-    """
-    :ivar comment:
-    :ivar epoch:
-    :ivar x:
-    :ivar y:
-    :ivar z:
-    :ivar x_dot:
-    :ivar y_dot:
-    :ivar z_dot:
-    """
-
     class Meta:
         name = "stateVectorType"
 

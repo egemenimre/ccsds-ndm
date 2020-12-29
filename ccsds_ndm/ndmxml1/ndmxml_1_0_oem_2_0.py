@@ -12,22 +12,6 @@ __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 @dataclass
 class OemMetadata:
-    """
-    :ivar comment:
-    :ivar object_name:
-    :ivar object_id:
-    :ivar center_name:
-    :ivar ref_frame:
-    :ivar ref_frame_epoch:
-    :ivar time_system:
-    :ivar start_time:
-    :ivar useable_start_time:
-    :ivar useable_stop_time:
-    :ivar stop_time:
-    :ivar interpolation:
-    :ivar interpolation_degree:
-    """
-
     class Meta:
         name = "oemMetadata"
 
@@ -151,12 +135,6 @@ class OemMetadata:
 
 @dataclass
 class OemData:
-    """
-    :ivar comment:
-    :ivar state_vector:
-    :ivar covariance_matrix:
-    """
-
     class Meta:
         name = "oemData"
 
@@ -189,11 +167,6 @@ class OemData:
 
 @dataclass
 class OemSegment:
-    """
-    :ivar metadata:
-    :ivar data:
-    """
-
     class Meta:
         name = "oemSegment"
 
@@ -217,10 +190,6 @@ class OemSegment:
 
 @dataclass
 class OemBody:
-    """
-    :ivar segment:
-    """
-
     class Meta:
         name = "oemBody"
 
@@ -236,13 +205,6 @@ class OemBody:
 
 @dataclass
 class OemType:
-    """
-    :ivar header:
-    :ivar body:
-    :ivar id:
-    :ivar version:
-    """
-
     class Meta:
         name = "oemType"
 

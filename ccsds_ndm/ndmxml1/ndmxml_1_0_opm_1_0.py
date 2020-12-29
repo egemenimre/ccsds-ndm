@@ -20,15 +20,6 @@ __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 @dataclass
 class OpmMetadata:
-    """
-    :ivar comment:
-    :ivar object_name:
-    :ivar object_id:
-    :ivar center_name:
-    :ivar ref_frame:
-    :ivar time_system:
-    """
-
     class Meta:
         name = "opmMetadata"
 
@@ -89,18 +80,6 @@ class OpmMetadata:
 
 @dataclass
 class KeplerianElementsType:
-    """
-    :ivar comment:
-    :ivar semi_major_axis:
-    :ivar eccentricity:
-    :ivar inclination:
-    :ivar ra_of_asc_node:
-    :ivar arg_of_pericenter:
-    :ivar true_anomaly:
-    :ivar mean_anomaly:
-    :ivar gm:
-    """
-
     class Meta:
         name = "keplerianElementsType"
 
@@ -187,17 +166,6 @@ class KeplerianElementsType:
 
 @dataclass
 class ManeuverParametersType:
-    """
-    :ivar comment:
-    :ivar man_epoch_ignition:
-    :ivar man_duration:
-    :ivar man_delta_mass:
-    :ivar man_ref_frame:
-    :ivar man_dv_1:
-    :ivar man_dv_2:
-    :ivar man_dv_3:
-    """
-
     class Meta:
         name = "maneuverParametersType"
 
@@ -277,14 +245,6 @@ class ManeuverParametersType:
 
 @dataclass
 class OpmData:
-    """
-    :ivar comment:
-    :ivar state_vector:
-    :ivar keplerian_elements:
-    :ivar spacecraft_parameters:
-    :ivar maneuver_parameters:
-    """
-
     class Meta:
         name = "opmData"
 
@@ -334,11 +294,6 @@ class OpmData:
 
 @dataclass
 class OpmSegment:
-    """
-    :ivar metadata:
-    :ivar data:
-    """
-
     class Meta:
         name = "opmSegment"
 
@@ -362,10 +317,6 @@ class OpmSegment:
 
 @dataclass
 class OpmBody:
-    """
-    :ivar segment:
-    """
-
     class Meta:
         name = "opmBody"
 
@@ -381,13 +332,6 @@ class OpmBody:
 
 @dataclass
 class OpmType:
-    """
-    :ivar header:
-    :ivar body:
-    :ivar id:
-    :ivar version:
-    """
-
     class Meta:
         name = "opmType"
 

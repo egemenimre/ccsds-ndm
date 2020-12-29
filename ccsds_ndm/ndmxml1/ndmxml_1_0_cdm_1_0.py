@@ -20,14 +20,6 @@ __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 @dataclass
 class CdmHeader:
-    """
-    :ivar comment:
-    :ivar creation_date:
-    :ivar originator:
-    :ivar message_for:
-    :ivar message_id:
-    """
-
     class Meta:
         name = "cdmHeader"
 
@@ -78,13 +70,6 @@ class CdmHeader:
 
 
 class CovarianceMethodType(Enum):
-    """
-    :cvar CALCULATED:
-    :cvar CALCULATED_1:
-    :cvar DEFAULT:
-    :cvar DEFAULT_1:
-    """
-
     CALCULATED = "CALCULATED"
     CALCULATED_1 = "calculated"
     DEFAULT = "DEFAULT"
@@ -92,103 +77,50 @@ class CovarianceMethodType(Enum):
 
 
 class DvUnits(Enum):
-    """
-    :cvar M_S:
-    """
-
     M_S = "m/s"
 
 
 class M2Units(Enum):
-    """
-    :cvar M_2:
-    """
-
     M_2 = "m**2"
 
 
 class M2KgUnits(Enum):
-    """
-    :cvar M_2_KG:
-    """
-
     M_2_KG = "m**2/kg"
 
 
 class M2S2Units(Enum):
-    """
-    :cvar M_2_S_2:
-    """
-
     M_2_S_2 = "m**2/s**2"
 
 
 class M2S3Units(Enum):
-    """
-    :cvar M_2_S_3:
-    """
-
     M_2_S_3 = "m**2/s**3"
 
 
 class M2S4Units(Enum):
-    """
-    :cvar M_2_S_4:
-    """
-
     M_2_S_4 = "m**2/s**4"
 
 
 class M2SUnits(Enum):
-    """
-    :cvar M_2_S:
-    """
-
     M_2_S = "m**2/s"
 
 
 class M3KgUnits(Enum):
-    """
-    :cvar M_3_KG:
-    """
-
     M_3_KG = "m**3/kg"
 
 
 class M3Kgs2Units(Enum):
-    """
-    :cvar M_3_KG_S_2:
-    """
-
     M_3_KG_S_2 = "m**3/(kg*s**2)"
 
 
 class M3KgsUnits(Enum):
-    """
-    :cvar M_3_KG_S:
-    """
-
     M_3_KG_S = "m**3/(kg*s)"
 
 
 class M4Kg2Units(Enum):
-    """
-    :cvar M_4_KG_2:
-    """
-
     M_4_KG_2 = "m**4/kg**2"
 
 
 class ManeuverableType(Enum):
-    """
-    :cvar YES:
-    :cvar YES_1:
-    :cvar NO:
-    :cvar NO_1:
-    :cvar N_A:
-    :cvar N_A_1:
-    """
-
     YES = "YES"
     YES_1 = "yes"
     NO = "NO"
@@ -198,13 +130,6 @@ class ManeuverableType(Enum):
 
 
 class ObjectType(Enum):
-    """
-    :cvar OBJECT1:
-    :cvar OBJECT1_1:
-    :cvar OBJECT2:
-    :cvar OBJECT2_1:
-    """
-
     OBJECT1 = "OBJECT1"
     OBJECT1_1 = "object1"
     OBJECT2 = "OBJECT2"
@@ -212,15 +137,6 @@ class ObjectType(Enum):
 
 
 class ReferenceFrameType(Enum):
-    """
-    :cvar EME2000:
-    :cvar EME2000_1:
-    :cvar GCRF:
-    :cvar GCRF_1:
-    :cvar ITRF:
-    :cvar ITRF_1:
-    """
-
     EME2000 = "EME2000"
     EME2000_1 = "eme2000"
     GCRF = "GCRF"
@@ -230,13 +146,6 @@ class ReferenceFrameType(Enum):
 
 
 class ScreenVolumeFrameType(Enum):
-    """
-    :cvar RTN:
-    :cvar RTN_1:
-    :cvar TVN:
-    :cvar TVN_1:
-    """
-
     RTN = "RTN"
     RTN_1 = "rtn"
     TVN = "TVN"
@@ -244,13 +153,6 @@ class ScreenVolumeFrameType(Enum):
 
 
 class ScreenVolumeShapeType(Enum):
-    """
-    :cvar ELLIPSOID:
-    :cvar ELLIPSOID_1:
-    :cvar BOX:
-    :cvar BOX_1:
-    """
-
     ELLIPSOID = "ELLIPSOID"
     ELLIPSOID_1 = "ellipsoid"
     BOX = "BOX"
@@ -258,40 +160,11 @@ class ScreenVolumeShapeType(Enum):
 
 
 class WkgUnits(Enum):
-    """
-    :cvar W_KG:
-    """
-
     W_KG = "W/kg"
 
 
 @dataclass
 class CdmMetadata:
-    """
-    :ivar comment:
-    :ivar object:
-    :ivar object_designator:
-    :ivar catalog_name:
-    :ivar object_name:
-    :ivar international_designator:
-    :ivar object_type:
-    :ivar operator_contact_position:
-    :ivar operator_organization:
-    :ivar operator_phone:
-    :ivar operator_email:
-    :ivar ephemeris_name:
-    :ivar covariance_method:
-    :ivar maneuverable:
-    :ivar orbit_center:
-    :ivar ref_frame:
-    :ivar gravity_model:
-    :ivar atmospheric_model:
-    :ivar n_body_perturbations:
-    :ivar solar_rad_pressure:
-    :ivar earth_tides:
-    :ivar intrack_thrust:
-    """
-
     class Meta:
         name = "cdmMetadata"
 
@@ -484,11 +357,6 @@ class CdmMetadata:
 
 @dataclass
 class CdmPositionType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "cdmPositionType"
 
@@ -506,11 +374,6 @@ class CdmPositionType:
 
 @dataclass
 class CdmVelocityType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "cdmVelocityType"
 
@@ -528,11 +391,6 @@ class CdmVelocityType:
 
 @dataclass
 class DvType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "dvType"
 
@@ -550,11 +408,6 @@ class DvType:
 
 @dataclass
 class M2Type:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "m2Type"
 
@@ -572,11 +425,6 @@ class M2Type:
 
 @dataclass
 class M2KgType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "m2kgType"
 
@@ -597,11 +445,6 @@ class M2KgType:
 
 @dataclass
 class M2S2Type:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "m2s2Type"
 
@@ -619,11 +462,6 @@ class M2S2Type:
 
 @dataclass
 class M2S3Type:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "m2s3Type"
 
@@ -641,11 +479,6 @@ class M2S3Type:
 
 @dataclass
 class M2S4Type:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "m2s4Type"
 
@@ -663,11 +496,6 @@ class M2S4Type:
 
 @dataclass
 class M2SType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "m2sType"
 
@@ -685,11 +513,6 @@ class M2SType:
 
 @dataclass
 class M3KgType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "m3kgType"
 
@@ -707,11 +530,6 @@ class M3KgType:
 
 @dataclass
 class M3Kgs2Type:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "m3kgs2Type"
 
@@ -729,11 +547,6 @@ class M3Kgs2Type:
 
 @dataclass
 class M3KgsType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "m3kgsType"
 
@@ -751,11 +564,6 @@ class M3KgsType:
 
 @dataclass
 class M4Kg2Type:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "m4kg2Type"
 
@@ -773,11 +581,6 @@ class M4Kg2Type:
 
 @dataclass
 class WkgType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "wkgType"
 
@@ -798,18 +601,6 @@ class WkgType:
 
 @dataclass
 class AdditionalParametersType:
-    """
-    :ivar comment:
-    :ivar area_pc:
-    :ivar area_drg:
-    :ivar area_srp:
-    :ivar mass:
-    :ivar cd_area_over_mass:
-    :ivar cr_area_over_mass:
-    :ivar thrust_acceleration:
-    :ivar sedr:
-    """
-
     class Meta:
         name = "additionalParametersType"
 
@@ -889,55 +680,6 @@ class AdditionalParametersType:
 
 @dataclass
 class CdmCovarianceMatrixType:
-    """
-    :ivar comment:
-    :ivar cr_r:
-    :ivar ct_r:
-    :ivar ct_t:
-    :ivar cn_r:
-    :ivar cn_t:
-    :ivar cn_n:
-    :ivar crdot_r:
-    :ivar crdot_t:
-    :ivar crdot_n:
-    :ivar crdot_rdot:
-    :ivar ctdot_r:
-    :ivar ctdot_t:
-    :ivar ctdot_n:
-    :ivar ctdot_rdot:
-    :ivar ctdot_tdot:
-    :ivar cndot_r:
-    :ivar cndot_t:
-    :ivar cndot_n:
-    :ivar cndot_rdot:
-    :ivar cndot_tdot:
-    :ivar cndot_ndot:
-    :ivar cdrg_r:
-    :ivar cdrg_t:
-    :ivar cdrg_n:
-    :ivar cdrg_rdot:
-    :ivar cdrg_tdot:
-    :ivar cdrg_ndot:
-    :ivar cdrg_drg:
-    :ivar csrp_r:
-    :ivar csrp_t:
-    :ivar csrp_n:
-    :ivar csrp_rdot:
-    :ivar csrp_tdot:
-    :ivar csrp_ndot:
-    :ivar csrp_drg:
-    :ivar csrp_srp:
-    :ivar cthr_r:
-    :ivar cthr_t:
-    :ivar cthr_n:
-    :ivar cthr_rdot:
-    :ivar cthr_tdot:
-    :ivar cthr_ndot:
-    :ivar cthr_drg:
-    :ivar cthr_srp:
-    :ivar cthr_thr:
-    """
-
     class Meta:
         name = "cdmCovarianceMatrixType"
 
@@ -1334,16 +1076,6 @@ class CdmCovarianceMatrixType:
 
 @dataclass
 class CdmStateVectorType:
-    """
-    :ivar comment:
-    :ivar x:
-    :ivar y:
-    :ivar z:
-    :ivar x_dot:
-    :ivar y_dot:
-    :ivar z_dot:
-    """
-
     class Meta:
         name = "cdmStateVectorType"
 
@@ -1413,15 +1145,6 @@ class CdmStateVectorType:
 
 @dataclass
 class RelativeStateVectorType:
-    """
-    :ivar relative_position_r:
-    :ivar relative_position_t:
-    :ivar relative_position_n:
-    :ivar relative_velocity_r:
-    :ivar relative_velocity_t:
-    :ivar relative_velocity_n:
-    """
-
     class Meta:
         name = "relativeStateVectorType"
 
@@ -1483,14 +1206,6 @@ class RelativeStateVectorType:
 
 @dataclass
 class CdmData:
-    """
-    :ivar comment:
-    :ivar od_parameters:
-    :ivar additional_parameters:
-    :ivar state_vector:
-    :ivar covariance_matrix:
-    """
-
     class Meta:
         name = "cdmData"
 
@@ -1540,25 +1255,6 @@ class CdmData:
 
 @dataclass
 class RelativeMetadataData:
-    """
-    :ivar comment:
-    :ivar tca:
-    :ivar miss_distance:
-    :ivar relative_speed:
-    :ivar relative_state_vector:
-    :ivar start_screen_period:
-    :ivar stop_screen_period:
-    :ivar screen_volume_frame:
-    :ivar screen_volume_shape:
-    :ivar screen_volume_x:
-    :ivar screen_volume_y:
-    :ivar screen_volume_z:
-    :ivar screen_entry_time:
-    :ivar screen_exit_time:
-    :ivar collision_probability:
-    :ivar collision_probability_method:
-    """
-
     class Meta:
         name = "relativeMetadataData"
 
@@ -1703,11 +1399,6 @@ class RelativeMetadataData:
 
 @dataclass
 class CdmSegment:
-    """
-    :ivar metadata:
-    :ivar data:
-    """
-
     class Meta:
         name = "cdmSegment"
 
@@ -1731,11 +1422,6 @@ class CdmSegment:
 
 @dataclass
 class CdmBody:
-    """
-    :ivar relative_metadata_data:
-    :ivar segment:
-    """
-
     class Meta:
         name = "cdmBody"
 
@@ -1761,13 +1447,6 @@ class CdmBody:
 
 @dataclass
 class CdmType:
-    """
-    :ivar header:
-    :ivar body:
-    :ivar id:
-    :ivar version:
-    """
-
     class Meta:
         name = "cdmType"
 

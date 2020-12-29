@@ -22,33 +22,16 @@ __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 
 class ApmRateFrameType(Enum):
-    """
-    :cvar EULER_FRAME_A:
-    :cvar EULER_FRAME_B:
-    """
-
     EULER_FRAME_A = "EULER_FRAME_A"
     EULER_FRAME_B = "EULER_FRAME_B"
 
 
 class TorqueUnits(Enum):
-    """
-    :cvar N_M:
-    """
-
     N_M = "N*m"
 
 
 @dataclass
 class ApmMetadata:
-    """
-    :ivar comment:
-    :ivar object_name:
-    :ivar object_id:
-    :ivar center_name:
-    :ivar time_system:
-    """
-
     class Meta:
         name = "apmMetadata"
 
@@ -99,17 +82,6 @@ class ApmMetadata:
 
 @dataclass
 class AttSpacecraftParametersType:
-    """
-    :ivar comment:
-    :ivar inertia_ref_frame:
-    :ivar i11:
-    :ivar i22:
-    :ivar i33:
-    :ivar i12:
-    :ivar i13:
-    :ivar i23:
-    """
-
     class Meta:
         name = "attSpacecraftParametersType"
 
@@ -187,20 +159,6 @@ class AttSpacecraftParametersType:
 
 @dataclass
 class EulerElementsSpinType:
-    """
-    :ivar comment:
-    :ivar spin_frame_a:
-    :ivar spin_frame_b:
-    :ivar spin_dir:
-    :ivar spin_alpha:
-    :ivar spin_delta:
-    :ivar spin_angle:
-    :ivar spin_angle_vel:
-    :ivar nutation:
-    :ivar nutation_per:
-    :ivar nutation_phase:
-    """
-
     class Meta:
         name = "eulerElementsSpinType"
 
@@ -298,17 +256,6 @@ class EulerElementsSpinType:
 
 @dataclass
 class EulerElementsThreeType:
-    """
-    :ivar comment:
-    :ivar euler_frame_a:
-    :ivar euler_frame_b:
-    :ivar euler_dir:
-    :ivar euler_rot_seq:
-    :ivar rate_frame:
-    :ivar rotation_angles:
-    :ivar rotation_rates:
-    """
-
     class Meta:
         name = "eulerElementsThreeType"
 
@@ -380,16 +327,6 @@ class EulerElementsThreeType:
 
 @dataclass
 class QuaternionStateType:
-    """
-    :ivar comment:
-    :ivar epoch:
-    :ivar q_frame_a:
-    :ivar q_frame_b:
-    :ivar q_dir:
-    :ivar quaternion:
-    :ivar quaternion_rate:
-    """
-
     class Meta:
         name = "quaternionStateType"
 
@@ -458,11 +395,6 @@ class QuaternionStateType:
 
 @dataclass
 class TorqueType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "torqueType"
 
@@ -479,16 +411,6 @@ class TorqueType:
 
 @dataclass
 class AttManeuverParametersType:
-    """
-    :ivar comment:
-    :ivar man_epoch_start:
-    :ivar man_duration:
-    :ivar man_ref_frame:
-    :ivar man_tor_1:
-    :ivar man_tor_2:
-    :ivar man_tor_3:
-    """
-
     class Meta:
         name = "attManeuverParametersType"
 
@@ -559,15 +481,6 @@ class AttManeuverParametersType:
 
 @dataclass
 class ApmData:
-    """
-    :ivar comment:
-    :ivar quaternion_state:
-    :ivar euler_elements_three:
-    :ivar euler_elements_spin:
-    :ivar spacecraft_parameters:
-    :ivar maneuver_parameters:
-    """
-
     class Meta:
         name = "apmData"
 
@@ -624,11 +537,6 @@ class ApmData:
 
 @dataclass
 class ApmSegment:
-    """
-    :ivar metadata:
-    :ivar data:
-    """
-
     class Meta:
         name = "apmSegment"
 
@@ -652,10 +560,6 @@ class ApmSegment:
 
 @dataclass
 class ApmBody:
-    """
-    :ivar segment:
-    """
-
     class Meta:
         name = "apmBody"
 
@@ -671,13 +575,6 @@ class ApmBody:
 
 @dataclass
 class ApmType:
-    """
-    :ivar header:
-    :ivar body:
-    :ivar id:
-    :ivar version:
-    """
-
     class Meta:
         name = "apmType"
 
