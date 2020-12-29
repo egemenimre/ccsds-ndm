@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 requires = [
-    "xsdata"
+    "xsdata >=20.12"
 ]
 
 [tool.flit.metadata.requires-extra]
