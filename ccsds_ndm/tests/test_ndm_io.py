@@ -17,15 +17,15 @@ extra_path = Path("ccsds_ndm", "tests")
 
 xml_file_paths = {
     "AEMv1": None,
-    "APMv1": Path("data", "NDMXML-P1.0.1-figure-B-3.xml"),
-    "CDMv1": Path("data", "cdm_example_section4.xml"),
-    "OEMv1": Path("data", "ndmxml-1.0-oem-2.0-single.xml"),
-    "OMMv1": Path("data", "ndmxml-1.0-omm-2.0.xml"),
+    "APMv1": Path("data", "xml", "NDMXML-P1.0.1-figure-B-3.xml"),
+    "CDMv1": Path("data", "xml", "cdm_example_section4.xml"),
+    "OEMv1": Path("data", "xml", "ndmxml-1.0-oem-2.0-single.xml"),
+    "OMMv1": Path("data", "xml", "ndmxml-1.0-omm-2.0.xml"),
     "OPMv1": None,
     "RDMv1": None,
     "TDMv1": None,
-    "NDMv1": Path("data", "omm_combined.xml"),
-    "NDMv1_strip": Path("data", "omm_single_ndm.xml"),
+    "NDMv1": Path("data", "xml", "omm_combined.xml"),
+    "NDMv1_strip": Path("data", "xml", "omm_single_ndm.xml"),
 }
 
 
@@ -127,7 +127,7 @@ def test_write_file():
 
     xml_read_path = working_dir.joinpath(xml_file_paths.get("OEMv1"))
 
-    xml_write_path = working_dir.joinpath(Path("data", "write_test.xml"))
+    xml_write_path = working_dir.joinpath(Path("data", "xml", "write_test.xml"))
 
     # read XML file as text
     xml_text = __text_to_list(xml_read_path.read_text())
