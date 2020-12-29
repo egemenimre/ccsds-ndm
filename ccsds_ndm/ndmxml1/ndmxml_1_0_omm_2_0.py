@@ -18,46 +18,21 @@ __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 
 class BStarUnits(Enum):
-    """
-    :cvar VALUE_1_ER:
-    """
-
     VALUE_1_ER = "1/ER"
 
 
 class DRevUnits(Enum):
-    """
-    :cvar REV_DAY_2:
-    :cvar REV_DAY_2_1:
-    """
-
     REV_DAY_2 = "rev/day**2"
     REV_DAY_2_1 = "REV/DAY**2"
 
 
 class DdRevUnits(Enum):
-    """
-    :cvar REV_DAY_3:
-    :cvar REV_DAY_3_1:
-    """
-
     REV_DAY_3 = "rev/day**3"
     REV_DAY_3_1 = "REV/DAY**3"
 
 
 @dataclass
 class OmmMetadata:
-    """
-    :ivar comment:
-    :ivar object_name:
-    :ivar object_id:
-    :ivar center_name:
-    :ivar ref_frame:
-    :ivar ref_frame_epoch:
-    :ivar time_system:
-    :ivar mean_element_theory:
-    """
-
     class Meta:
         name = "ommMetadata"
 
@@ -135,22 +110,12 @@ class OmmMetadata:
 
 
 class RevUnits(Enum):
-    """
-    :cvar REV_DAY:
-    :cvar REV_DAY_1:
-    """
-
     REV_DAY = "rev/day"
     REV_DAY_1 = "REV/DAY"
 
 
 @dataclass
 class BStarType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "bStarType"
 
@@ -167,11 +132,6 @@ class BStarType:
 
 @dataclass
 class DRevType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "dRevType"
 
@@ -188,11 +148,6 @@ class DRevType:
 
 @dataclass
 class DdRevType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "ddRevType"
 
@@ -209,11 +164,6 @@ class DdRevType:
 
 @dataclass
 class RevType:
-    """
-    :ivar value:
-    :ivar units:
-    """
-
     class Meta:
         name = "revType"
 
@@ -230,19 +180,6 @@ class RevType:
 
 @dataclass
 class MeanElementsType:
-    """
-    :ivar comment:
-    :ivar epoch:
-    :ivar semi_major_axis:
-    :ivar mean_motion:
-    :ivar eccentricity:
-    :ivar inclination:
-    :ivar ra_of_asc_node:
-    :ivar arg_of_pericenter:
-    :ivar mean_anomaly:
-    :ivar gm:
-    """
-
     class Meta:
         name = "meanElementsType"
 
@@ -338,18 +275,6 @@ class MeanElementsType:
 
 @dataclass
 class TleParametersType:
-    """
-    :ivar comment:
-    :ivar ephemeris_type:
-    :ivar classification_type:
-    :ivar norad_cat_id:
-    :ivar element_set_no:
-    :ivar rev_at_epoch:
-    :ivar bstar:
-    :ivar mean_motion_dot:
-    :ivar mean_motion_ddot:
-    """
-
     class Meta:
         name = "tleParametersType"
 
@@ -437,15 +362,6 @@ class TleParametersType:
 
 @dataclass
 class OmmData:
-    """
-    :ivar comment:
-    :ivar mean_elements:
-    :ivar spacecraft_parameters:
-    :ivar tle_parameters:
-    :ivar covariance_matrix:
-    :ivar user_defined_parameters:
-    """
-
     class Meta:
         name = "ommData"
 
@@ -502,11 +418,6 @@ class OmmData:
 
 @dataclass
 class OmmSegment:
-    """
-    :ivar metadata:
-    :ivar data:
-    """
-
     class Meta:
         name = "ommSegment"
 
@@ -530,10 +441,6 @@ class OmmSegment:
 
 @dataclass
 class OmmBody:
-    """
-    :ivar segment:
-    """
-
     class Meta:
         name = "ommBody"
 
@@ -549,13 +456,6 @@ class OmmBody:
 
 @dataclass
 class OmmType:
-    """
-    :ivar header:
-    :ivar body:
-    :ivar id:
-    :ivar version:
-    """
-
     class Meta:
         name = "ommType"
 
