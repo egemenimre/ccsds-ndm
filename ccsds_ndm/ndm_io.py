@@ -14,6 +14,7 @@ from enum import Enum
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers import XmlSerializer
+from xsdata.formats.dataclass.serializers.config import SerializerConfig
 
 from ccsds_ndm.ndmxml1 import Aem, Apm, Cdm, Ndm, Oem, Omm, Opm, Rdm, Tdm
 
@@ -75,7 +76,8 @@ class NdmIo:
         """
         Inits the internal serializer.
         """
-        self.serializer = XmlSerializer(pretty_print=True)
+        config = SerializerConfig(pretty_print=True)
+        self.serializer = XmlSerializer(config=config)
 
     def __strip_multi_ndm(self, ndm):
         """
