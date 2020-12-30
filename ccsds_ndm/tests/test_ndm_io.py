@@ -10,8 +10,8 @@ Tests for the NDM File I/O Operations.
 
 from pathlib import Path
 
+from ccsds_ndm.models.ndmxml1.ndmxml_1_0_omm_2_0 import OmmType
 from ccsds_ndm.ndm_io import NdmIo
-from ccsds_ndm.ndmxml1.ndmxml_1_0_omm_2_0 import OmmType
 
 extra_path = Path("ccsds_ndm", "tests")
 

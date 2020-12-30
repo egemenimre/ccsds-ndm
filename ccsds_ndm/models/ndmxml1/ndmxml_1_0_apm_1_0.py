@@ -1,11 +1,13 @@
 from dataclasses import dataclass, field
+from decimal import Decimal
 from enum import Enum
 from typing import List, Optional
 
-from ccsds_ndm.ndmxml1.ndmxml_1_0_navwg_common import (
+from ccsds_ndm.models.ndmxml1.ndmxml_1_0_navwg_common import (
     AngleRateType,
     AngleType,
     DurationType,
+    MomentType,
     NdmHeader,
     QuaternionRateType,
     QuaternionType,
@@ -19,41 +21,19 @@ from ccsds_ndm.ndmxml1.ndmxml_1_0_navwg_common import (
 __NAMESPACE__ = "urn:ccsds:recommendation:navigation:schema:ndmxml"
 
 
-class AemRateFrameType(Enum):
-    REF_FRAME_A = "ref_frame_a"
-    REF_FRAME_A_1 = "REF_FRAME_A"
-    REF_FRAME_B = "ref_frame_b"
-    REF_FRAME_B_1 = "REF_FRAME_B"
+class ApmRateFrameType(Enum):
+    EULER_FRAME_A = "EULER_FRAME_A"
+    EULER_FRAME_B = "EULER_FRAME_B"
 
 
-class AttitudeTypeType(Enum):
-    QUATERNION = "quaternion"
-    QUATERNION_1 = "QUATERNION"
-    QUATERNION_DERIVATIVE = "quaternion/derivative"
-    QUATERNION_DERIVATIVE_1 = "QUATERNION/DERIVATIVE"
-    QUATERNION_RATE = "quaternion/rate"
-    QUATERNION_RATE_1 = "QUATERNION/RATE"
-    EULER_ANGLE = "euler_angle"
-    EULER_ANGLE_1 = "EULER_ANGLE"
-    EULER_ANGLE_RATE = "euler_angle/rate"
-    EULER_ANGLE_RATE_1 = "EULER_ANGLE/RATE"
-    SPIN = "spin"
-    SPIN_1 = "SPIN"
-    SPIN_NUTATION = "spin/nutation"
-    SPIN_NUTATION_1 = "SPIN/NUTATION"
-
-
-class QuaternionTypeType(Enum):
-    FIRST = "first"
-    FIRST_1 = "FIRST"
-    LAST = "last"
-    LAST_1 = "LAST"
+class TorqueUnits(Enum):
+    N_M = "N*m"
 
 
 @dataclass
-class AemMetadata:
+class ApmMetadata:
     class Meta:
-        name = "aemMetadata"
+        name = "apmMetadata"
 
     comment: List[str] = field(
         default_factory=list,
@@ -89,33 +69,6 @@ class AemMetadata:
             "namespace": "",
         },
     )
-    ref_frame_a: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "REF_FRAME_A",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    ref_frame_b: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "REF_FRAME_B",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    attitude_dir: Optional[RotDirectionType] = field(
-        default=None,
-        metadata={
-            "name": "ATTITUDE_DIR",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
     time_system: Optional[TimeSystemType] = field(
         default=None,
         metadata={
@@ -125,57 +78,215 @@ class AemMetadata:
             "required": True,
         },
     )
-    start_time: Optional[str] = field(
-        default=None,
+
+
+@dataclass
+class AttSpacecraftParametersType:
+    class Meta:
+        name = "attSpacecraftParametersType"
+
+    comment: List[str] = field(
+        default_factory=list,
         metadata={
-            "name": "START_TIME",
+            "name": "COMMENT",
             "type": "Element",
             "namespace": "",
-            "required": True,
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
         },
     )
-    useable_start_time: Optional[str] = field(
+    inertia_ref_frame: Optional[str] = field(
         default=None,
         metadata={
-            "name": "USEABLE_START_TIME",
+            "name": "INERTIA_REF_FRAME",
             "type": "Element",
             "namespace": "",
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
         },
     )
-    useable_stop_time: Optional[str] = field(
+    i11: Optional[MomentType] = field(
         default=None,
         metadata={
-            "name": "USEABLE_STOP_TIME",
-            "type": "Element",
-            "namespace": "",
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        },
-    )
-    stop_time: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "STOP_TIME",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        },
-    )
-    attitude_type: Optional[AttitudeTypeType] = field(
-        default=None,
-        metadata={
-            "name": "ATTITUDE_TYPE",
+            "name": "I11",
             "type": "Element",
             "namespace": "",
             "required": True,
         },
     )
-    quaternion_type: Optional[QuaternionTypeType] = field(
+    i22: Optional[MomentType] = field(
         default=None,
         metadata={
-            "name": "QUATERNION_TYPE",
+            "name": "I22",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    i33: Optional[MomentType] = field(
+        default=None,
+        metadata={
+            "name": "I33",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    i12: Optional[MomentType] = field(
+        default=None,
+        metadata={
+            "name": "I12",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    i13: Optional[MomentType] = field(
+        default=None,
+        metadata={
+            "name": "I13",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    i23: Optional[MomentType] = field(
+        default=None,
+        metadata={
+            "name": "I23",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+
+
+@dataclass
+class EulerElementsSpinType:
+    class Meta:
+        name = "eulerElementsSpinType"
+
+    comment: List[str] = field(
+        default_factory=list,
+        metadata={
+            "name": "COMMENT",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    spin_frame_a: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "SPIN_FRAME_A",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    spin_frame_b: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "SPIN_FRAME_B",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    spin_dir: Optional[RotDirectionType] = field(
+        default=None,
+        metadata={
+            "name": "SPIN_DIR",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    spin_alpha: Optional[AngleType] = field(
+        default=None,
+        metadata={
+            "name": "SPIN_ALPHA",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    spin_delta: Optional[AngleType] = field(
+        default=None,
+        metadata={
+            "name": "SPIN_DELTA",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    spin_angle: Optional[AngleType] = field(
+        default=None,
+        metadata={
+            "name": "SPIN_ANGLE",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    spin_angle_vel: Optional[AngleRateType] = field(
+        default=None,
+        metadata={
+            "name": "SPIN_ANGLE_VEL",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    nutation: Optional[AngleType] = field(
+        default=None,
+        metadata={
+            "name": "NUTATION",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    nutation_per: Optional[DurationType] = field(
+        default=None,
+        metadata={
+            "name": "NUTATION_PER",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    nutation_phase: Optional[AngleType] = field(
+        default=None,
+        metadata={
+            "name": "NUTATION_PHASE",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+
+
+@dataclass
+class EulerElementsThreeType:
+    class Meta:
+        name = "eulerElementsThreeType"
+
+    comment: List[str] = field(
+        default_factory=list,
+        metadata={
+            "name": "COMMENT",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    euler_frame_a: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "EULER_FRAME_A",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    euler_frame_b: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "EULER_FRAME_B",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    euler_dir: Optional[RotDirectionType] = field(
+        default=None,
+        metadata={
+            "name": "EULER_DIR",
             "type": "Element",
             "namespace": "",
         },
@@ -188,45 +299,12 @@ class AemMetadata:
             "namespace": "",
         },
     )
-    rate_frame: Optional[AemRateFrameType] = field(
+    rate_frame: Optional[ApmRateFrameType] = field(
         default=None,
         metadata={
             "name": "RATE_FRAME",
             "type": "Element",
             "namespace": "",
-        },
-    )
-    interpolation_method: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "INTERPOLATION_METHOD",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-    interpolation_degree: Optional[int] = field(
-        default=None,
-        metadata={
-            "name": "INTERPOLATION_DEGREE",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-
-
-@dataclass
-class EulerAngleRateType:
-    class Meta:
-        name = "eulerAngleRateType"
-
-    epoch: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "EPOCH",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
         },
     )
     rotation_angles: Optional[RotationAngleType] = field(
@@ -248,10 +326,18 @@ class EulerAngleRateType:
 
 
 @dataclass
-class EulerAngleType:
+class QuaternionStateType:
     class Meta:
-        name = "eulerAngleType"
+        name = "quaternionStateType"
 
+    comment: List[str] = field(
+        default_factory=list,
+        metadata={
+            "name": "COMMENT",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
     epoch: Optional[str] = field(
         default=None,
         metadata={
@@ -262,29 +348,31 @@ class EulerAngleType:
             "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
         },
     )
-    rotation_angles: Optional[RotationAngleType] = field(
+    q_frame_a: Optional[str] = field(
         default=None,
         metadata={
-            "name": "rotationAngles",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-
-
-@dataclass
-class QuaternionDerivativeType:
-    class Meta:
-        name = "quaternionDerivativeType"
-
-    epoch: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "EPOCH",
+            "name": "Q_FRAME_A",
             "type": "Element",
             "namespace": "",
             "required": True,
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
+        },
+    )
+    q_frame_b: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "Q_FRAME_B",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    q_dir: Optional[RotDirectionType] = field(
+        default=None,
+        metadata={
+            "name": "Q_DIR",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
         },
     )
     quaternion: Optional[QuaternionType] = field(
@@ -301,268 +389,30 @@ class QuaternionDerivativeType:
             "name": "quaternionRate",
             "type": "Element",
             "namespace": "",
-            "required": True,
         },
     )
 
 
 @dataclass
-class QuaternionEphemerisType:
+class TorqueType:
     class Meta:
-        name = "quaternionEphemerisType"
+        name = "torqueType"
 
-    epoch: Optional[str] = field(
+    value: Optional[Decimal] = field(
         default=None,
-        metadata={
-            "name": "EPOCH",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        },
     )
-    quaternion: Optional[QuaternionType] = field(
+    units: Optional[TorqueUnits] = field(
         default=None,
         metadata={
-            "type": "Element",
-            "namespace": "",
-            "required": True,
+            "type": "Attribute",
         },
     )
 
 
 @dataclass
-class QuaternionEulerRateType:
+class AttManeuverParametersType:
     class Meta:
-        name = "quaternionEulerRateType"
-
-    epoch: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "EPOCH",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        },
-    )
-    quaternion: Optional[QuaternionType] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    rotation_rates: Optional[RotationRateType] = field(
-        default=None,
-        metadata={
-            "name": "rotationRates",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-
-
-@dataclass
-class SpinNutationType:
-    class Meta:
-        name = "spinNutationType"
-
-    epoch: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "EPOCH",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        },
-    )
-    spin_alpha: Optional[AngleType] = field(
-        default=None,
-        metadata={
-            "name": "SPIN_ALPHA",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    spin_delta: Optional[AngleType] = field(
-        default=None,
-        metadata={
-            "name": "SPIN_DELTA",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    spin_angle: Optional[AngleType] = field(
-        default=None,
-        metadata={
-            "name": "SPIN_ANGLE",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    spin_angle_vel: Optional[AngleRateType] = field(
-        default=None,
-        metadata={
-            "name": "SPIN_ANGLE_VEL",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    nutation: Optional[AngleType] = field(
-        default=None,
-        metadata={
-            "name": "NUTATION",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    nutation_per: Optional[DurationType] = field(
-        default=None,
-        metadata={
-            "name": "NUTATION_PER",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    nutation_phase: Optional[AngleType] = field(
-        default=None,
-        metadata={
-            "name": "NUTATION_PHASE",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-
-
-@dataclass
-class SpinType:
-    class Meta:
-        name = "spinType"
-
-    epoch: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "EPOCH",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
-        },
-    )
-    spin_alpha: Optional[AngleType] = field(
-        default=None,
-        metadata={
-            "name": "SPIN_ALPHA",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    spin_delta: Optional[AngleType] = field(
-        default=None,
-        metadata={
-            "name": "SPIN_DELTA",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    spin_angle: Optional[AngleType] = field(
-        default=None,
-        metadata={
-            "name": "SPIN_ANGLE",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-    spin_angle_vel: Optional[AngleRateType] = field(
-        default=None,
-        metadata={
-            "name": "SPIN_ANGLE_VEL",
-            "type": "Element",
-            "namespace": "",
-            "required": True,
-        },
-    )
-
-
-@dataclass
-class AttitudeStateType:
-    class Meta:
-        name = "attitudeStateType"
-
-    quaternion_state: Optional[QuaternionEphemerisType] = field(
-        default=None,
-        metadata={
-            "name": "quaternionState",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-    quaternion_derivative: Optional[QuaternionDerivativeType] = field(
-        default=None,
-        metadata={
-            "name": "quaternionDerivative",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-    quaternion_euler_rate: Optional[QuaternionEulerRateType] = field(
-        default=None,
-        metadata={
-            "name": "quaternionEulerRate",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-    euler_angle: Optional[EulerAngleType] = field(
-        default=None,
-        metadata={
-            "name": "eulerAngle",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-    euler_angle_rate: Optional[EulerAngleRateType] = field(
-        default=None,
-        metadata={
-            "name": "eulerAngleRate",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-    spin: Optional[SpinType] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-    spin_nutation: Optional[SpinNutationType] = field(
-        default=None,
-        metadata={
-            "name": "spinNutation",
-            "type": "Element",
-            "namespace": "",
-        },
-    )
-
-
-@dataclass
-class AemData:
-    class Meta:
-        name = "aemData"
+        name = "attManeuverParametersType"
 
     comment: List[str] = field(
         default_factory=list,
@@ -572,23 +422,125 @@ class AemData:
             "namespace": "",
         },
     )
-    attitude_state: List[AttitudeStateType] = field(
-        default_factory=list,
+    man_epoch_start: Optional[str] = field(
+        default=None,
         metadata={
-            "name": "attitudeState",
+            "name": "MAN_EPOCH_START",
             "type": "Element",
             "namespace": "",
-            "min_occurs": 1,
+            "required": True,
+            "pattern": r"\-?\d{4}\d*-((\d{2}\-\d{2})|\d{3})T\d{2}:\d{2}:\d{2}(\.\d*)?(Z|[+|\-]\d{2}:\d{2})?|[+|\-]?\d*(\.\d*)?",
+        },
+    )
+    man_duration: Optional[DurationType] = field(
+        default=None,
+        metadata={
+            "name": "MAN_DURATION",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    man_ref_frame: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "MAN_REF_FRAME",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    man_tor_1: Optional[TorqueType] = field(
+        default=None,
+        metadata={
+            "name": "MAN_TOR_1",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    man_tor_2: Optional[TorqueType] = field(
+        default=None,
+        metadata={
+            "name": "MAN_TOR_2",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    man_tor_3: Optional[TorqueType] = field(
+        default=None,
+        metadata={
+            "name": "MAN_TOR_3",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
         },
     )
 
 
 @dataclass
-class AemSegment:
+class ApmData:
     class Meta:
-        name = "aemSegment"
+        name = "apmData"
 
-    metadata: Optional[AemMetadata] = field(
+    comment: List[str] = field(
+        default_factory=list,
+        metadata={
+            "name": "COMMENT",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    quaternion_state: Optional[QuaternionStateType] = field(
+        default=None,
+        metadata={
+            "name": "quaternionState",
+            "type": "Element",
+            "namespace": "",
+            "required": True,
+        },
+    )
+    euler_elements_three: Optional[EulerElementsThreeType] = field(
+        default=None,
+        metadata={
+            "name": "eulerElementsThree",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    euler_elements_spin: Optional[EulerElementsSpinType] = field(
+        default=None,
+        metadata={
+            "name": "eulerElementsSpin",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    spacecraft_parameters: Optional[AttSpacecraftParametersType] = field(
+        default=None,
+        metadata={
+            "name": "spacecraftParameters",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+    maneuver_parameters: List[AttManeuverParametersType] = field(
+        default_factory=list,
+        metadata={
+            "name": "maneuverParameters",
+            "type": "Element",
+            "namespace": "",
+        },
+    )
+
+
+@dataclass
+class ApmSegment:
+    class Meta:
+        name = "apmSegment"
+
+    metadata: Optional[ApmMetadata] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -596,7 +548,7 @@ class AemSegment:
             "required": True,
         },
     )
-    data: Optional[AemData] = field(
+    data: Optional[ApmData] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -607,24 +559,24 @@ class AemSegment:
 
 
 @dataclass
-class AemBody:
+class ApmBody:
     class Meta:
-        name = "aemBody"
+        name = "apmBody"
 
-    segment: List[AemSegment] = field(
-        default_factory=list,
+    segment: Optional[ApmSegment] = field(
+        default=None,
         metadata={
             "type": "Element",
             "namespace": "",
-            "min_occurs": 1,
+            "required": True,
         },
     )
 
 
 @dataclass
-class AemType:
+class ApmType:
     class Meta:
-        name = "aemType"
+        name = "apmType"
 
     header: Optional[NdmHeader] = field(
         default=None,
@@ -634,7 +586,7 @@ class AemType:
             "required": True,
         },
     )
-    body: Optional[AemBody] = field(
+    body: Optional[ApmBody] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -644,7 +596,7 @@ class AemType:
     )
     id: str = field(
         init=False,
-        default="CCSDS_AEM_VERS",
+        default="CCSDS_APM_VERS",
         metadata={
             "type": "Attribute",
             "required": True,

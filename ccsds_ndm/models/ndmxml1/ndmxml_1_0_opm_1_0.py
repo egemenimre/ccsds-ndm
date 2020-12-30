@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import List, Optional
 
-from ccsds_ndm.ndmxml1.ndmxml_1_0_navwg_common import (
+from ccsds_ndm.models.ndmxml1.ndmxml_1_0_navwg_common import (
     AngleType,
     DeltamassType,
     DistanceType,
