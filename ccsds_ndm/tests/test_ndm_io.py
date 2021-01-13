@@ -10,8 +10,8 @@ Tests for the NDM File I/O Operations.
 
 from pathlib import Path
 
-from ccsds_ndm.models.ndmxml1.ndmxml_1_0_omm_2_0 import OmmType
 from ccsds_ndm.ndm_io import NdmIo
+from models.ndmxml1 import Omm
 
 extra_path = Path("ccsds_ndm", "tests")
 
@@ -56,7 +56,7 @@ def test_strip_ndm_combi():
     omm = NdmIo().from_path(xml_path)
 
     # End result should be an OMM file, not NDM
-    assert isinstance(omm, OmmType)
+    assert isinstance(omm, Omm)
 
 
 def test_read_string_and_bytes():

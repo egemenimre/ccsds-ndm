@@ -154,6 +154,15 @@ class NdmIo:
         # parse file
         ndm = self.parser.from_path(xml_read_file_path, data_type)
 
+        # if the file is NDM, downcast the elements to their respective subclasses
+        if isinstance(ndm, Ndm):
+            for tag, ndm_item_list in vars(ndm).items():
+                if tag == "comment":
+                    continue
+                for i, ndm_item in enumerate(ndm_item_list):
+                    subclazz = type(ndm_item).__subclasses__()[0]
+                    ndm_item.__class__ = subclazz
+
         if ndm_combi is False:
             # Usual single element file
             return ndm
