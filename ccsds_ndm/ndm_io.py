@@ -207,7 +207,7 @@ class NdmIo:
         Parameters
         ----------
         xml_source : str
-            input bytes array
+            input string data
 
         Returns
         -------
