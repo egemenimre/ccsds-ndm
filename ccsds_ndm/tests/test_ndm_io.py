@@ -84,7 +84,7 @@ def test_read_string_and_bytes():
     NdmIo().from_bytes(xml_path_ndm.read_bytes())
 
 
-def __text_to_list(text):
+def _text_to_list(text):
     """Converts text to list."""
     stripped_list = [x.strip() for x in text.split("\n")]
     return [x for x in stripped_list if x]
@@ -109,8 +109,8 @@ def test_write_string():
     xml_text_out = NdmIo().to_string(ndm)
 
     # Prepare texts for comparison (convert lines to list, delete empty items)
-    xml_text = __text_to_list(xml_text)
-    xml_text_out = __text_to_list(xml_text_out)
+    xml_text = _text_to_list(xml_text)
+    xml_text_out = _text_to_list(xml_text_out)
 
     # compare strings
     assert xml_text[4:] == xml_text_out[2:]
@@ -130,7 +130,7 @@ def test_write_file():
     xml_write_path = working_dir.joinpath(Path("data", "xml", "write_test.xml"))
 
     # read XML file as text
-    xml_text = __text_to_list(xml_read_path.read_text())
+    xml_text = _text_to_list(xml_read_path.read_text())
 
     # read XML file into object and write to file
     ndm = NdmIo().from_path(xml_read_path)
@@ -141,7 +141,7 @@ def test_write_file():
     )
 
     # read written XML file as text
-    xml_text_out = __text_to_list(xml_write_path.read_text())
+    xml_text_out = _text_to_list(xml_write_path.read_text())
 
     # compare strings
     assert xml_text[4:] == xml_text_out[2:]
