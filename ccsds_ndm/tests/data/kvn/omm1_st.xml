@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ndm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation="http://sanaregistry.org/r/ndmxml/ndmxml-1.0-master.xsd">
+    <omm id="CCSDS_OMM_VERS" version="2.0">
+        <header>
+            <COMMENT>GENERATED VIA SPACE-TRACK.ORG API</COMMENT>
+            <CREATION_DATE>2020-12-29T06:26:10</CREATION_DATE>
+            <ORIGINATOR>18 SPCS</ORIGINATOR>
+        </header>
+        <body>
+            <segment>
+                <metadata>
+                    <OBJECT_NAME>NUSAT-8 (MARIE)</OBJECT_NAME>
+                    <OBJECT_ID>2020-003C</OBJECT_ID>
+                    <CENTER_NAME>EARTH</CENTER_NAME>
+                    <REF_FRAME>TEME</REF_FRAME>
+                    <TIME_SYSTEM>UTC</TIME_SYSTEM>
+                    <MEAN_ELEMENT_THEORY>SGP4</MEAN_ELEMENT_THEORY>
+                </metadata>
+                <data>
+                    <meanElements>
+                        <EPOCH>2020-12-29T03:57:59.406624</EPOCH>
+                        <MEAN_MOTION>15.27989249</MEAN_MOTION>
+                        <ECCENTRICITY>0.00133560</ECCENTRICITY>
+                        <INCLINATION>97.2970</INCLINATION>
+                        <RA_OF_ASC_NODE>66.4161</RA_OF_ASC_NODE>
+                        <ARG_OF_PERICENTER>110.6345</ARG_OF_PERICENTER>
+                        <MEAN_ANOMALY>334.7107</MEAN_ANOMALY>
+                    </meanElements>
+                    <tleParameters>
+                        <EPHEMERIS_TYPE>0</EPHEMERIS_TYPE>
+                        <CLASSIFICATION_TYPE>U</CLASSIFICATION_TYPE>
+                        <NORAD_CAT_ID>45018</NORAD_CAT_ID>
+                        <ELEMENT_SET_NO>999</ELEMENT_SET_NO>
+                        <REV_AT_EPOCH>5327</REV_AT_EPOCH>
+                        <BSTAR>0.00008455300000</BSTAR>
+                        <MEAN_MOTION_DOT>0.00002241</MEAN_MOTION_DOT>
+                        <MEAN_MOTION_DDOT>0.0000000000000</MEAN_MOTION_DDOT>
+                    </tleParameters>
+                    <userDefinedParameters>
+                        <USER_DEFINED parameter="SEMIMAJOR_AXIS">6859.961</USER_DEFINED>
+                        <USER_DEFINED parameter="PERIOD">94.242</USER_DEFINED>
+                        <USER_DEFINED parameter="APOAPSIS">490.988</USER_DEFINED>
+                        <USER_DEFINED parameter="PERIAPSIS">472.664</USER_DEFINED>
+                        <USER_DEFINED parameter="OBJECT_TYPE">PAYLOAD</USER_DEFINED>
+                        <USER_DEFINED parameter="RCS_SIZE">MEDIUM</USER_DEFINED>
+                        <USER_DEFINED parameter="COUNTRY_CODE">ARGN</USER_DEFINED>
+                        <USER_DEFINED parameter="LAUNCH_DATE">2020-01-15</USER_DEFINED>
+                        <USER_DEFINED parameter="SITE">TSC</USER_DEFINED>
+                        <USER_DEFINED parameter="DECAY_DATE"/>
+                        <USER_DEFINED parameter="FILE">2911831</USER_DEFINED>
+                        <USER_DEFINED parameter="GP_ID">168552672</USER_DEFINED>
+                    </userDefinedParameters>
+                </data>
+            </segment>
+        </body>
+    </omm>
+</ndm>
