@@ -160,7 +160,7 @@ class NdmKvnIo:
 
         Parameters
         ----------
-        root_class : type
+        root_class
             Root class of type Omm, Aem, Cdm etc.
 
         """
