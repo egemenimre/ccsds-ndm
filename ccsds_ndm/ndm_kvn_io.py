@@ -42,8 +42,6 @@ class NdmKvnIo:
     """
 
     def __init__(self, ndm_class):
-        # self.field_list = []
-        # self.name_class_dict = {}
         self._init_object_map(ndm_class)
 
     def from_path(self, kvn_read_file_path):
@@ -79,18 +77,11 @@ class NdmKvnIo:
         object
             Object tree from the file contents
         """
-        # TODO auto-identify file type
-
         # parse file to fill lines and keys lists
         self._pre_process_kvn_data(kvn_source)
 
         # identify the segments
-        # self.limits = self._identify_segments()
-
         self._identify_segments()
-
-        # build the data
-        # return self._build_data(self.limits)
 
         # build the object
         return self._build_object()
@@ -191,7 +182,6 @@ class NdmKvnIo:
             NDM object tree
 
         """
-
         kw_list = [kw for kw in _get_ccsds_kw_list(root_class) if kw.isupper()]
 
         subname_list = [key for key in vars(root_class)["__dataclass_fields__"].keys()]
@@ -233,7 +223,6 @@ class NdmKvnIo:
         """
 
         root_ndm_elem = self.object_tree
-
         self.__identify_sub_segments(root_ndm_elem)
 
         # print(root_ndm_elem)
@@ -267,8 +256,6 @@ class NdmKvnIo:
         root_ndm_elem.min_max = _get_min_max_indices(
             root_ndm_elem.kw_list, init_index, self._keys, prefix=prefix
         )
-
-        # print(root_ndm_elem.name, root_ndm_elem.min_max)
 
         # set index to end of keywords
         init_index = root_ndm_elem.min_max.max
@@ -309,7 +296,6 @@ class NdmKvnIo:
         parser = XmlParser(config=ParserConfig(fail_on_unknown_properties=True))
 
         root_ndm_elem = self.object_tree
-
         ndm_object = self._build_object_tree(root_ndm_elem, parser)
 
         return ndm_object
@@ -319,7 +305,6 @@ class NdmKvnIo:
         Converts the lists to an XML string and fills the corresponding object tree.
 
         """
-
         # check for prefix
         if root_ndm_elem.clazz == UserDefinedType:
             prefix = "USER_DEFINED"
