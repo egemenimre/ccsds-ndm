@@ -9,9 +9,8 @@ Tests for the NDM File I/O Operations for KVN.
 """
 from pathlib import Path
 
-from models.ndmxml1 import Cdm, Omm
-from ndm_io import NdmIo
-from ndm_kvn_io import NdmKvnIo
+from ccsds_ndm.ndm_io import NDMFileFormats, NdmIo
+from ccsds_ndm.ndm_kvn_io import NdmKvnIo
 
 extra_path = Path("ccsds_ndm", "tests")
 
@@ -31,7 +30,7 @@ kvn_file_paths = {
 
 
 def test_read_file():
-    # TODO bu zımbırtı fixture ile yapılmalı
+    # TODO implement this with a fixture
     # *** read KVN files ***
     working_dir = Path.cwd()
 
@@ -41,21 +40,15 @@ def test_read_file():
             if not working_dir.joinpath(kvn_path).exists():
                 kvn_path = working_dir.joinpath(extra_path).joinpath(path)
 
-            # TODO correct this once auto file detection is in place
-            if ndm_key.startswith("CDM"):
-                clazz = Cdm
-            else:
-                clazz = Omm
-
             # read KVN file
-            ndm = NdmKvnIo(clazz).from_path(kvn_path)
+            ndm = NdmKvnIo().from_path(kvn_path)
 
             # read equivalent XML file
             ndm_truth = NdmIo().from_path(kvn_path.with_suffix(".xml"))
 
             # export both files to kml and compare
-            xml_text = NdmIo().to_string(ndm)
-            xml_text_truth = NdmIo().to_string(ndm_truth)
+            xml_text = NdmIo().to_string(ndm, NDMFileFormats.XML)
+            xml_text_truth = NdmIo().to_string(ndm_truth, NDMFileFormats.XML)
 
             # NdmIo().to_file(
             #     ndm, working_dir.joinpath(Path("data", "kvn", "deneme_cdm.xml"))
