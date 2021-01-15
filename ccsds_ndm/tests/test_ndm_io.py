@@ -10,8 +10,8 @@ Tests for the NDM File I/O Operations.
 
 from pathlib import Path
 
-from ccsds_ndm.ndm_io import NdmIo
-from models.ndmxml1 import Omm
+from ccsds_ndm.models.ndmxml1 import Omm
+from ccsds_ndm.ndm_io import NdmIo, NDMFileFormats
 
 extra_path = Path("ccsds_ndm", "tests")
 
@@ -40,7 +40,8 @@ def test_read_files():
             if not Path.cwd().joinpath(xml_path).exists():
                 xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
 
-            NdmIo().from_path(xml_path)
+            # try a string rather than a path
+            NdmIo().from_path(str(xml_path))
 
 
 def test_strip_ndm_combi():
@@ -106,7 +107,7 @@ def test_write_string():
 
     # read XML file into object and write to string
     ndm = NdmIo().from_path(xml_path)
-    xml_text_out = NdmIo().to_string(ndm)
+    xml_text_out = NdmIo().to_string(ndm, NDMFileFormats.XML)
 
     # Prepare texts for comparison (convert lines to list, delete empty items)
     xml_text = _text_to_list(xml_text)
@@ -136,6 +137,7 @@ def test_write_file():
     ndm = NdmIo().from_path(xml_read_path)
     NdmIo().to_file(
         ndm,
+        NDMFileFormats.XML,
         xml_write_path,
         no_namespace_schema_location="http://cwe.ccsds.org/moims/docs/MOIMS-NAV/Schemas/ndmxml-1.0-master.xsd",
     )

@@ -8,248 +8,103 @@ CCSDS Navigation Data Messages XML File I/O.
 
 """
 
-import xml.etree.ElementTree as ElementTree
-from enum import Enum
+from enum import Enum, auto
+from pathlib import Path
 
-from xsdata.formats.dataclass.parsers import XmlParser
-from xsdata.formats.dataclass.parsers.config import ParserConfig
-from xsdata.formats.dataclass.serializers import XmlSerializer
-from xsdata.formats.dataclass.serializers.config import SerializerConfig
-
-from ccsds_ndm.models.ndmxml1 import Aem, Apm, Cdm, Ndm, Oem, Omm, Opm, Rdm, Tdm
+from ndm_kvn_io import NdmKvnIo
+from ndm_xml_io import NdmXmlIo
 
 
-class _NdmDataType(Enum):
+class NDMFileFormats(Enum):
     """
-    NDM Data Type (e.g. OEM or AEM).
+    NDM file formats.
     """
 
-    AEMv1 = (Aem.id, Aem)
-    APMv1 = (Apm.id, Apm)
-    CDMv1 = (Cdm.id, Cdm)
-    OEMv1 = (Oem.id, Oem)
-    OMMv1 = (Omm.id, Omm)
-    OPMv1 = (Opm.id, Opm)
-    RDMv1 = (Rdm.id, Rdm)
-    TDMv1 = (Tdm.id, Tdm)
-
-    def __init__(self, ndm_id, clazz):
-        self.clazz = clazz
-        self.ndm_id = ndm_id
-
-    @staticmethod
-    def find_element(ndm_id):
-        """
-        Finds the NDM Data Type corresponding to the requested id.
-
-        Parameters
-        ----------
-        ndm_id : str
-            NDM data id (e.g. `CCSDS_AEM_VERS`)
-        Returns
-        -------
-        ndm_data_type
-            correct `_NdmDataType` enum corresponding to the id
-        """
-        for ndm_data in _NdmDataType:
-            if ndm_data.ndm_id == ndm_id:
-                return ndm_data
+    XML = auto()
+    KVN = auto()
+    JSON = auto()
 
 
 class NdmIo:
     """
-    Navigation Data Message.
+    Unified I/O Model for CCSDS Navigation Data Message (NDM) input and output.
     """
 
-    def __init__(self):
-        self.parser = None
-        self.serializer = None
-
-    def __init_parser(self):
-        """
-        Inits the internal parser.
-        """
-        config = ParserConfig(fail_on_unknown_properties=True)
-        self.parser = XmlParser(config=config)
-
-    def __init_serializer(
-        self, schema_location=None, no_namespace_schema_location=None
-    ):
-        """
-        Inits the internal serializer.
-
-        Parameters
-        ----------
-        schema_location: str
-            Specify the xsi:schemaLocation attribute value
-        no_namespace_schema_location: str
-            Specify the xsi:noNamespaceSchemaLocation attribute value
-        """
-        config = SerializerConfig(
-            pretty_print=True,
-            schema_location=schema_location,
-            no_namespace_schema_location=no_namespace_schema_location,
-        )
-        self.serializer = XmlSerializer(config=config)
-
-    def __strip_multi_ndm(self, ndm):
-        """
-        Identifies whether the Combined Instantiation NDM actually contains
-        a single element (OMM, APM etc.) with a single member and,
-        if so, returns this element. Otherwise returns this Combined
-        Instantiation NDM.
-
-        Returns
-        -------
-        ndm_elem : NDM element
-            Identified and stripped NDM element or the original Combi-NDM
-        """
-        # Find the elements that have non-zero members (omit the "comment" tag)
-        non_zero_elem_list = list(
-            filter(
-                lambda elem: len(vars(ndm)[elem]) > 0 and elem != "comment", vars(ndm)
-            )
-        )
-
-        if len(non_zero_elem_list) == 1:
-            # single element available, check number of members
-            ndm_elem = vars(ndm)[non_zero_elem_list[0]]
-            if len(ndm_elem) == 1:
-                # single element available, return it
-                return ndm_elem[0]
-            # multiple elements available, return them
-            return ndm
-        else:
-            # multiple elements available, return them
-            return ndm
-
-    def from_path(self, xml_read_file_path):
+    def from_path(self, input_file_path):
         """
         Reads the file to extract contents to an object of correct type.
 
         Parameters
         ----------
-        xml_read_file_path : Path
-            Path of the XML file to be read
+        input_file_path : Path or AnyStr
+            Path of the file to be read (path or pathlike accepted)
 
         Returns
         -------
         object
-            Object tree from the file contents
+            NDM Object tree from the file contents
         """
-        ndm_combi = False
-        # Identify the data type of the file
-        try:
-            root = ElementTree.parse(xml_read_file_path).getroot()
-            data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
-        except (ElementTree.ParseError, AttributeError):
-            # auto identify failed, try NDM (Combined Instantiation)
-            data_type = Ndm
-            ndm_combi = True
+        # read file contents as text
+        file_contents = Path(input_file_path).read_text()
 
-        # lazy init parser
-        if self.parser is None:
-            self.__init_parser()
+        # parse as `from_string()`
+        return self.from_string(file_contents)
 
-        # parse file
-        ndm = self.parser.from_path(xml_read_file_path, data_type)
-
-        # if the file is NDM, downcast the elements to their respective subclasses
-        if isinstance(ndm, Ndm):
-            for tag, ndm_item_list in vars(ndm).items():
-                if tag == "comment":
-                    continue
-                for i, ndm_item in enumerate(ndm_item_list):
-                    subclazz = type(ndm_item).__subclasses__()[0]
-                    ndm_item.__class__ = subclazz
-
-        if ndm_combi is False:
-            # Usual single element file
-            return ndm
-        else:
-            # File is NDM Combined Instantiation
-            # If it actually has a single element, strip the ndm tags
-            return self.__strip_multi_ndm(ndm)
-
-    def from_bytes(self, xml_source):
+    def from_bytes(self, ndm_data_source):
         """
         Reads the input bytes array to extract contents to an object of correct type.
 
         Parameters
         ----------
-        xml_source : bytes
-            input bytes array
+        ndm_data_source : bytes
+            NDM data as input bytes array
 
         Returns
         -------
         object
-            Object tree from the file contents
+            NDM Object tree from the file contents
         """
-        ndm_combi = False
-        # Identify data type of the bytes
-        try:
-            root = ElementTree.XML(xml_source)
-            data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
-        except (ElementTree.ParseError, AttributeError):
-            # auto identify failed, try NDM (Combined Instantiation)
-            data_type = Ndm
-            ndm_combi = True
+        # decode bytes and parse as `from_string()`
+        return self.from_string(ndm_data_source.decode())
 
-        # lazy init parser
-        if self.parser is None:
-            self.__init_parser()
-
-        ndm = self.parser.from_bytes(xml_source, data_type)
-
-        if ndm_combi is False:
-            # Usual single element file
-            return ndm
-        else:
-            # File is NDM Combined Instantiation
-            # If it actually has a single element, strip the ndm tags
-            return self.__strip_multi_ndm(ndm)
-
-    def from_string(self, xml_source):
+    def from_string(self, ndm_data_source):
         """
         Reads the input string to extract contents to an object of correct type.
 
         Parameters
         ----------
-        xml_source : str
+        ndm_data_source : str
             input string data
+
+        Raises
+        ------
+        NotImplementedError
+            JSON input not implemented in CCSDS NDM Standard yet.
 
         Returns
         -------
         object
-            Object tree from the file contents
+            NDM Object tree from the file contents
         """
-        ndm_combi = False
-        # Identify data type of the string
-        try:
-            root = ElementTree.XML(xml_source)
-            data_type = _NdmDataType.find_element(root.attrib.get("id")).clazz
-        except (ElementTree.ParseError, AttributeError):
-            # auto identify failed, try NDM (Combined Instantiation)
-            data_type = Ndm
-            ndm_combi = True
+        # Identify data format
+        data_format = _identify_data_format(ndm_data_source)
 
-        # lazy init parser
-        if self.parser is None:
-            self.__init_parser()
+        if data_format is NDMFileFormats.XML:
+            return NdmXmlIo().from_string(ndm_data_source)
 
-        ndm = self.parser.from_string(xml_source, data_type)
+        if data_format is NDMFileFormats.KVN:
+            return NdmKvnIo().from_string(ndm_data_source)
 
-        if ndm_combi is False:
-            # Usual single element file
-            return ndm
+        if data_format is NDMFileFormats.JSON:
+            raise NotImplementedError(
+                "JSON input has not been defined in the CCSDS standard."
+            )
         else:
-            # File is NDM Combined Instantiation
-            # If it actually has a single element, strip the ndm tags
-            return self.__strip_multi_ndm(ndm)
+            raise ValueError(
+                "NDM Data type could not be identified (valid formats: KVN, XML or JSON)"
+            )
 
-    def to_string(
-        self, ndm_obj, schema_location=None, no_namespace_schema_location=None
-    ):
+    def to_string(self, ndm_obj, data_format, **kwargs):
         """
         Convert and return the given object tree as xml string.
 
@@ -257,49 +112,87 @@ class NdmIo:
         ----------
         ndm_obj
             input object tree
-        schema_location: str
-            Specify the xsi:schemaLocation attribute value
-        no_namespace_schema_location: str
-            Specify the xsi:noNamespaceSchemaLocation attribute value
+        data_format : NDMFileFormats
+            output data format (KVN, XML or JSON)
+        kwargs
+            other keywords to be passed on to individual writers
+            (e.g. `schema_location` and `no_namespace_schema_location`
+            for XML output)
 
         Returns
         -------
         str
-            given object tree as xml string
+            given object tree as string in the requested format
         """
-        # lazy init serializer
-        if self.serializer is None:
-            self.__init_serializer(
-                no_namespace_schema_location=no_namespace_schema_location,
-                schema_location=schema_location,
+        if data_format is NDMFileFormats.XML:
+            return NdmXmlIo().to_string(ndm_obj, **kwargs)
+
+        if data_format is NDMFileFormats.KVN:
+            return NdmKvnIo().to_string(ndm_obj, **kwargs)
+
+        if data_format is NDMFileFormats.JSON:
+            raise NotImplementedError(
+                "JSON input has not been defined in the CCSDS standard."
             )
 
-        return self.serializer.render(ndm_obj)
-
-    def to_file(
-        self,
-        ndm_obj,
-        xml_write_file_path,
-        schema_location=None,
-        no_namespace_schema_location=None,
-    ):
+    def to_file(self, ndm_obj, data_format, xml_write_file_path, **kwargs):
         """
-        Convert and return the given object tree as xml file.
+        Convert and return the given object tree as output file.
 
         Parameters
         ----------
         ndm_obj
             input object tree
-        xml_write_file_path : Path
-            Path of the XML file to be written
-        schema_location: str
-            Specify the xsi:schemaLocation attribute value
-        no_namespace_schema_location: str
-            Specify the xsi:noNamespaceSchemaLocation attribute value
+        data_format : NDMFileFormats
+            output data format (KVN, XML or JSON)
+        xml_write_file_path : Path or AnyStr
+            Path of the file to be written (path or pathlike accepted)
+        kwargs
+            other keywords to be passed on to individual writers
+            (e.g. `schema_location` and `no_namespace_schema_location`
+            for XML output)
+
         """
-        xml_txt = self.to_string(
-            ndm_obj,
-            no_namespace_schema_location=no_namespace_schema_location,
-            schema_location=schema_location,
+        if data_format is NDMFileFormats.XML:
+            return NdmXmlIo().to_file(ndm_obj, xml_write_file_path, **kwargs)
+
+        if data_format is NDMFileFormats.KVN:
+            return NdmKvnIo().to_file(ndm_obj, xml_write_file_path, **kwargs)
+
+        if data_format is NDMFileFormats.JSON:
+            raise NotImplementedError(
+                "JSON input has not been defined in the CCSDS standard."
+            )
+
+
+def _identify_data_format(ndm_data_source):
+    """
+    Identify the data format of the input string.
+
+    Parameters
+    ----------
+    ndm_data_source: str
+        NDM data as string
+
+    Raises
+    ------
+    ValueError
+        Data format not recognised.
+
+    Returns
+    -------
+    NDMFileFormats
+        Data format (KVN, XML or JSON)
+    """
+    stripped_source = ndm_data_source.strip()
+    if stripped_source.startswith("CCSDS_"):
+        file_format = NDMFileFormats.KVN
+    elif stripped_source.startswith("<") and stripped_source.endswith(">"):
+        file_format = NDMFileFormats.XML
+    elif stripped_source.startswith("[") and stripped_source.endswith("]"):
+        file_format = NDMFileFormats.JSON
+    else:
+        raise ValueError(
+            "Data type could not be identified (valid formats: KVN, XML or JSON)"
         )
-        xml_write_file_path.write_text(xml_txt)
+    return file_format
