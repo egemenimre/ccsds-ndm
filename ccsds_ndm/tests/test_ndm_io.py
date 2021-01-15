@@ -31,7 +31,6 @@ xml_file_paths = {
 }
 
 
-# TODO implement this with a fixture
 @pytest.mark.parametrize("ndm_key, path", xml_file_paths.items())
 def test_read_files(ndm_key, path):
     """Tests reading NDM files."""
@@ -63,28 +62,21 @@ def test_strip_ndm_combi():
     assert isinstance(omm, Omm)
 
 
-def test_read_string_and_bytes():
+@pytest.mark.parametrize("ndm_key", ["APMv1", "NDMv1"])
+def test_read_string_and_bytes(ndm_key):
     """Tests reading XML data as string and bytes."""
 
     # check path and correct if necessary
-    xml_path_apm = Path.cwd().joinpath(xml_file_paths.get("APMv1"))
-    if not Path.cwd().joinpath(xml_path_apm).exists():
-        xml_path_apm = (
-            Path.cwd().joinpath(extra_path).joinpath(xml_file_paths.get("APMv1"))
-        )
-
-    xml_path_ndm = Path.cwd().joinpath(xml_file_paths.get("NDMv1"))
+    xml_path_ndm = Path.cwd().joinpath(xml_file_paths.get(ndm_key))
     if not Path.cwd().joinpath(xml_path_ndm).exists():
         xml_path_ndm = (
-            Path.cwd().joinpath(extra_path).joinpath(xml_file_paths.get("NDMv1"))
+            Path.cwd().joinpath(extra_path).joinpath(xml_file_paths.get(ndm_key))
         )
 
     # read XML file as text
-    NdmIo().from_string(xml_path_apm.read_text())
     NdmIo().from_string(xml_path_ndm.read_text())
 
     # read XML file as bytes
-    NdmIo().from_bytes(xml_path_apm.read_bytes())
     NdmIo().from_bytes(xml_path_ndm.read_bytes())
 
 
