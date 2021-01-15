@@ -9,14 +9,62 @@ CCSDS Navigation Data Messages KVN File I/O.
 """
 from collections import namedtuple
 from dataclasses import dataclass
+from enum import Enum
 
 from lxml import etree
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 
-from models.ndmxml1 import UserDefinedType
+from ccsds_ndm.models.ndmxml1 import (
+    Aem,
+    Apm,
+    Cdm,
+    Oem,
+    Omm,
+    Opm,
+    Rdm,
+    Tdm,
+    UserDefinedType,
+)
 
 _MinMaxTuple = namedtuple("_MinMaxTuple", ["min", "max"])
+
+
+class _NdmDataType(Enum):
+    """
+    NDM Data Type (e.g. OEM or AEM).
+    """
+
+    AEMv1 = (Aem.id, Aem)
+    APMv1 = (Apm.id, Apm)
+    CDMv1 = (Cdm.id, Cdm)
+    OEMv1 = (Oem.id, Oem)
+    OMMv1 = (Omm.id, Omm)
+    OPMv1 = (Opm.id, Opm)
+    RDMv1 = (Rdm.id, Rdm)
+    TDMv1 = (Tdm.id, Tdm)
+
+    def __init__(self, ndm_id, clazz):
+        self.clazz = clazz
+        self.ndm_id = ndm_id
+
+    @staticmethod
+    def find_element(ndm_id):
+        """
+        Finds the NDM Data Type corresponding to the requested id.
+
+        Parameters
+        ----------
+        ndm_id : str
+            NDM data id (e.g. `aem` or `ndm`)
+        Returns
+        -------
+        ndm_data_type
+            correct `_NdmDataType` enum corresponding to the id
+        """
+        for ndm_data in _NdmDataType:
+            if ndm_data.ndm_id == ndm_id:
+                return ndm_data
 
 
 @dataclass
@@ -40,9 +88,6 @@ class NdmKvnIo:
     """
     Unified I/O Model for KVN input and output.
     """
-
-    def __init__(self, ndm_class):
-        self._init_object_map(ndm_class)
 
     def from_path(self, kvn_read_file_path):
         """
@@ -80,11 +125,47 @@ class NdmKvnIo:
         # parse file to fill lines and keys lists
         self._pre_process_kvn_data(kvn_source)
 
+        #  Identify data type
+        ndm_class = _identify_data_type(self._lines)
+
+        # Init object map
+        self._init_object_map(ndm_class)
+
         # identify the segments
         self._identify_segments()
 
         # build the object
         return self._build_object()
+
+    def to_string(self, ndm_obj):
+        """
+        Convert and return the given object tree as xml string.
+
+        Parameters
+        ----------
+        ndm_obj
+            input object tree
+
+
+        Returns
+        -------
+        str
+            given object tree as KVN string
+        """
+        raise NotImplementedError("This functionality is not implemented yet.")
+
+    def to_file(self, ndm_obj, kvn_write_file_path):
+        """
+        Convert and return the given object tree as xml file.
+
+        Parameters
+        ----------
+        ndm_obj
+            input object tree
+        kvn_write_file_path : Path
+            Path of the XML file to be written
+        """
+        raise NotImplementedError("This functionality is not implemented yet.")
 
     def _pre_process_kvn_data(self, kvn_source):
         """
@@ -156,7 +237,7 @@ class NdmKvnIo:
 
         """
 
-        root_tag = root_class.Meta.name
+        root_tag = root_class.id
 
         self.object_tree = self._extract_object_submap(root_tag, root_class)
 
@@ -339,9 +420,29 @@ class NdmKvnIo:
             else:
                 # this is not a list, just replace the data
                 setattr(ndm_object, subclass.name, subobject)
-            # print(subobject.Meta.name)
+            # print(subobject.id)
 
         return ndm_object
+
+
+def _identify_data_type(kvn_source):
+    """
+    Identify the KVN data type.
+
+    Parameters
+    ----------
+    kvn_source : list[list]
+        NDM Data as list of KVN strings
+
+    Returns
+    -------
+    data_type
+        Identified data type
+
+    """
+    # Use the id: "CCSDS_CDM_VERS"
+    data_type = _NdmDataType.find_element(kvn_source[0][1]).clazz
+    return data_type
 
 
 def _find_occurences(field):
