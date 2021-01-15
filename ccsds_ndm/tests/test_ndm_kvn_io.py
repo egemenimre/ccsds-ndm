@@ -9,6 +9,8 @@ Tests for the NDM File I/O Operations for KVN.
 """
 from pathlib import Path
 
+import pytest
+
 from ccsds_ndm.ndm_io import NDMFileFormats, NdmIo
 from ccsds_ndm.ndm_kvn_io import NdmKvnIo
 
@@ -29,34 +31,33 @@ kvn_file_paths = {
 }
 
 
-def test_read_file():
-    # TODO implement this with a fixture
+@pytest.mark.parametrize("ndm_key, path", kvn_file_paths.items())
+def test_read_file(ndm_key, path):
     # *** read KVN files ***
     working_dir = Path.cwd()
 
-    for ndm_key, path in kvn_file_paths.items():
-        if path is not None:
-            kvn_path = working_dir.joinpath(path)
-            if not working_dir.joinpath(kvn_path).exists():
-                kvn_path = working_dir.joinpath(extra_path).joinpath(path)
+    if path is not None:
+        kvn_path = working_dir.joinpath(path)
+        if not working_dir.joinpath(kvn_path).exists():
+            kvn_path = working_dir.joinpath(extra_path).joinpath(path)
 
-            # read KVN file
-            ndm = NdmKvnIo().from_path(kvn_path)
+        # read KVN file
+        ndm = NdmKvnIo().from_path(kvn_path)
 
-            # read equivalent XML file
-            ndm_truth = NdmIo().from_path(kvn_path.with_suffix(".xml"))
+        # read equivalent XML file
+        ndm_truth = NdmIo().from_path(kvn_path.with_suffix(".xml"))
 
-            # export both files to kml and compare
-            xml_text = NdmIo().to_string(ndm, NDMFileFormats.XML)
-            xml_text_truth = NdmIo().to_string(ndm_truth, NDMFileFormats.XML)
+        # export both files to kml and compare
+        xml_text = NdmIo().to_string(ndm, NDMFileFormats.XML)
+        xml_text_truth = NdmIo().to_string(ndm_truth, NDMFileFormats.XML)
 
-            # NdmIo().to_file(
-            #     ndm, working_dir.joinpath(Path("data", "kvn", "deneme_cdm.xml"))
-            # )
-            # NdmIo().to_file(
-            #     ndm,
-            #     working_dir.joinpath(Path("data", "kvn", "deneme_cdm_truth.xml")),
-            # )
+        # NdmIo().to_file(
+        #     ndm, working_dir.joinpath(Path("data", "kvn", "deneme_cdm.xml"))
+        # )
+        # NdmIo().to_file(
+        #     ndm,
+        #     working_dir.joinpath(Path("data", "kvn", "deneme_cdm_truth.xml")),
+        # )
 
-            # compare strings
-            assert xml_text_truth == xml_text
+        # compare strings
+        assert xml_text_truth == xml_text

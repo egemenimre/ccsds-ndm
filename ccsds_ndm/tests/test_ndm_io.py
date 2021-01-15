@@ -10,6 +10,8 @@ Tests for the NDM File I/O Operations.
 
 from pathlib import Path
 
+import pytest
+
 from ccsds_ndm.models.ndmxml1 import Omm
 from ccsds_ndm.ndm_io import NDMFileFormats, NdmIo
 
@@ -30,19 +32,19 @@ xml_file_paths = {
 
 
 # TODO implement this with a fixture
-def test_read_files():
+@pytest.mark.parametrize("ndm_key, path", xml_file_paths.items())
+def test_read_files(ndm_key, path):
     """Tests reading NDM files."""
 
     # *** read XML files ***
     # *** should raise an error in case something goes wrong ***
-    for ndm_key, path in xml_file_paths.items():
-        if path is not None:
-            xml_path = Path.cwd().joinpath(path)
-            if not Path.cwd().joinpath(xml_path).exists():
-                xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
+    if path is not None:
+        xml_path = Path.cwd().joinpath(path)
+        if not Path.cwd().joinpath(xml_path).exists():
+            xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
 
-            # try a string rather than a path
-            NdmIo().from_path(str(xml_path))
+        # try a string rather than a path
+        NdmIo().from_path(str(xml_path))
 
 
 def test_strip_ndm_combi():
