@@ -11,7 +11,7 @@ Tests for the NDM File I/O Operations.
 from pathlib import Path
 
 from ccsds_ndm.models.ndmxml1 import Omm
-from ccsds_ndm.ndm_io import NdmIo, NDMFileFormats
+from ccsds_ndm.ndm_io import NDMFileFormats, NdmIo
 
 extra_path = Path("ccsds_ndm", "tests")
 
@@ -29,6 +29,7 @@ xml_file_paths = {
 }
 
 
+# TODO implement this with a fixture
 def test_read_files():
     """Tests reading NDM files."""
 
