@@ -165,7 +165,7 @@ class NdmKvnIo:
         kvn_write_file_path : Path
             Path of the XML file to be written
         """
-        raise NotImplementedError("This functionality is not implemented yet.")
+        kvn_write_file_path.write_text(self.to_string(ndm_obj))
 
     def _pre_process_kvn_data(self, kvn_source):
         """
