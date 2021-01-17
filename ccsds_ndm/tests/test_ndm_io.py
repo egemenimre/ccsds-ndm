@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-from ccsds_ndm.ndm_io import NdmIo, NDMFileFormats
+from ccsds_ndm.ndm_io import NDMFileFormats, NdmIo
 
 extra_path = Path("ccsds_ndm", "tests")
 
@@ -57,14 +57,14 @@ def test_read_files(ndm_key, path):
 
 @pytest.mark.parametrize("source_data", wrong_contents)
 def test_read_errs(source_data):
-    with pytest.raises(ValueError) as exc_info:
+    with pytest.raises(ValueError):
         # this should throw an ValueError exception
         NdmIo().from_string(source_data)
 
 
 @pytest.mark.parametrize("ndm_key, path", not_implemented.items())
 def test_read_json_file(ndm_key, path):
-    with pytest.raises(NotImplementedError) as exc_info:
+    with pytest.raises(NotImplementedError):
 
         # *** read files ***
         # *** should raise an error in case something goes wrong ***
@@ -79,7 +79,7 @@ def test_read_json_file(ndm_key, path):
 
 def test_write_kvn_string():
     """Tests writing KVN data as string."""
-    with pytest.raises(NotImplementedError) as exc_info:
+    with pytest.raises(NotImplementedError):
         # check path and correct if necessary
         kvn_path = Path.cwd().joinpath(not_implemented.get("OMMv1_1"))
         if not Path.cwd().joinpath(kvn_path).exists():
@@ -103,7 +103,7 @@ def test_write_kvn_string():
 
 def test_write_json_string():
     """Tests writing JSON data as string."""
-    with pytest.raises(NotImplementedError) as exc_info:
+    with pytest.raises(NotImplementedError):
         # check path and correct if necessary
         kvn_path = Path.cwd().joinpath(file_paths.get("OMMv1_1"))
         if not Path.cwd().joinpath(kvn_path).exists():
