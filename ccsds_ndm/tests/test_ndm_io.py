@@ -19,9 +19,9 @@ file_paths = {
     "AEMv1": Path("data", "xml", "NDMXML-P1.0.1-figure-B-2.xml"),
     "APMv1": Path("data", "xml", "NDMXML-P1.0.1-figure-B-3.xml"),
     "CDMv1": Path("data", "kvn", "cdm_example_section4.kvn"),
-    "OEMv1": str(Path("data", "xml", "ndmxml-1.0-oem-2.0-single.xml")),
+    "OEMv1": Path("data", "xml", "ndmxml-1.0-oem-2.0-single.xml"),
     "OMMv1_1": Path("data", "kvn", "omm1_st.kvn"),
-    "OMMv1_2": str(Path("data", "kvn", "omm1_ct.kvn")),
+    "OMMv1_2": Path("data", "kvn", "omm1_ct.kvn"),
     "OMMv1": Path("data", "xml", "ndmxml-1.0-omm-2.0.xml"),
     "OPMv1": None,
     "RDMv1": None,
@@ -36,7 +36,7 @@ wrong_contents = [
 
 not_implemented = {
     "OMMv1_1": Path("data", "json", "omm1_st.json"),
-    "OMMv1_2": str(Path("data", "json", "omm1_ct.json")),
+    "OMMv1_2": Path("data", "json", "omm1_ct.json"),
 }
 
 
