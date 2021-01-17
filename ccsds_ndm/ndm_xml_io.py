@@ -72,7 +72,7 @@ class NdmXmlIo:
 
         Parameters
         ----------
-        xml_read_file_path : Path
+        xml_read_file_path : Path or AnyStr
             Path of the XML file to be read
 
         Returns
