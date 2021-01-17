@@ -47,7 +47,7 @@ def test_read_file(ndm_key, path):
         # read equivalent XML file
         ndm_truth = NdmIo().from_path(kvn_path.with_suffix(".xml"))
 
-        # export both files to kml and compare
+        # export both files to xml and compare
         xml_text = NdmIo().to_string(ndm, NDMFileFormats.XML)
         xml_text_truth = NdmIo().to_string(ndm_truth, NDMFileFormats.XML)
 
