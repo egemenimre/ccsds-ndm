@@ -15,18 +15,15 @@ a string (with the contents of the file) through :meth:`.NdmIo.from_string` and 
 through :meth:`.NdmIo.from_bytes`.
 
 Similarly, writing an output XML or KVN file through :meth:`.NdmIo.to_file` is probably the most common operation.
-This requires the object tree, the data format :enum:`.NDMFileFormats` and the output file
+This requires the object tree, the data format :class:`.NDMFileFormats` and the output file
 path as well as optional arguments, if available. For example, for the case of XML, the URL for the schema
 can be provided through the keywords `schema_location` or `no_namespace_schema_location`.
 
+
 ```
-    NdmIo().to_file(
-        ndm,
-        NDMFileFormats.XML,
-        xml_write_path,
-        no_namespace_schema_location="http://cwe.ccsds.org/moims/docs/MOIMS-NAV/Schemas/ndmxml-1.0-master.xsd",
-    )
+    NdmIo().to_file(ndm, NDMFileFormats.XML, xml_write_path, no_namespace_schema_location="http://cwe.ccsds.org/moims/docs/MOIMS-NAV/Schemas/ndmxml-1.0-master.xsd")
 ```
+
 
 It is still possible to generate a string output of the file contents through :meth:`.NdmIo.to_string`.
 `NdmIo` acts as a thin interface and the actual output of the data is handled by the lower level
