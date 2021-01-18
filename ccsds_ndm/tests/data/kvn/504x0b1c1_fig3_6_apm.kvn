@@ -9,7 +9,7 @@ TIME_SYSTEM     = UTC
 COMMENT           GEOSYNCHRONOUS, CARTESIAN, EARTH FIXED
 
 COMMENT OBJECT_ID: 2006-003A
-COMMENT $ITIM  = 2006 FEB 5 03:23:45.60000000, $ original launch time
+COMMENT $ITIM = 2006 FEB 5 03:23:45.60000000, $ original launch time
 
 COMMENT           Attitude state quaternion
 EPOCH           = 2006-03-12T09:56:39.4987
