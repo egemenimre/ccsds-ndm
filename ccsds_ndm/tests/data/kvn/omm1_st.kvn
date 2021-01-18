@@ -1,5 +1,6 @@
 CCSDS_OMM_VERS                     =2.0
 COMMENT                            =GENERATED VIA SPACE-TRACK.ORG API
+COMMENT                            =Test second comment line
 CREATION_DATE                      =2020-12-29T06:26:10
 ORIGINATOR                         =18 SPCS
 OBJECT_NAME                        =NUSAT-8 (MARIE)

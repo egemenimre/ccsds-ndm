@@ -4,6 +4,7 @@
     <omm id="CCSDS_OMM_VERS" version="2.0">
         <header>
             <COMMENT>GENERATED VIA SPACE-TRACK.ORG API</COMMENT>
+            <COMMENT>Test second comment line</COMMENT>
             <CREATION_DATE>2020-12-29T06:26:10</CREATION_DATE>
             <ORIGINATOR>18 SPCS</ORIGINATOR>
         </header>
