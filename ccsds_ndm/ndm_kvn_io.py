@@ -81,6 +81,7 @@ class _NdmElement:
     subclass_list: list
     kw_list: list
     subname_list: list
+    single_elem: str = None
     min_max: _MinMaxTuple = None
 
 
@@ -265,31 +266,69 @@ class NdmKvnIo:
         """
         kw_list = [kw for kw in _get_ccsds_kw_list(root_class) if kw.isupper()]
 
-        subname_list = [key for key in vars(root_class)["__dataclass_fields__"].keys()]
+        single_elem = None
+        if "__dataclass_fields__" in vars(root_class).keys():
+            subname_list = [
+                key for key in vars(root_class)["__dataclass_fields__"].keys()
+            ]
 
-        names_fields = {
-            name: field
-            for name, field in vars(root_class)["__dataclass_fields__"].items()
-            if not _is_id_or_version(name)
-        }
+            names_fields = {
+                name: field
+                for name, field in vars(root_class)["__dataclass_fields__"].items()
+                if not _is_id_or_version(name)
+            }
 
-        # extract (name, class) pairs
-        names_classes = [
-            (name, field.type.__args__[0], _find_occurences(field))
-            for name, field in names_fields.items()
-            if _is_class(field)
-        ]
+            # extract (name, class) pairs
+            names_classes = [
+                (name, field.type.__args__[0], _find_occurences(field))
+                for name, field in names_fields.items()
+                if _is_class(field)
+            ]
 
-        name_class_sublist = []
-        # go one level deeper into the tree and extract subclass info
-        for (name, clazz, n) in names_classes:
-            for i in range(n):
-                name_class_sublist.append(self._extract_object_submap(name, clazz))
-                # print(name_class_sublist[-1])
+            if "value" in subname_list:
+                # names_fields["value"].type.__args__[0] is Decimal
+                # this is an "edge" class with a single element
+
+                single_name_class = [
+                    (name, clazz)
+                    for (name, clazz, n) in names_classes
+                    if name != "value" and name != "units"
+                ]
+
+                single_elem = single_name_class[0][0]
+
+                # collect all lower level keys
+                lower_level_kw_list = [
+                    _get_ccsds_kw_list(clazz) for (name, clazz) in single_name_class
+                ]
+                flatten_list = [item for subl in lower_level_kw_list for item in subl]
+                kw_list.extend(flatten_list)
+
+                # kill the lower level classes
+                name_class_sublist = []
+            else:
+                name_class_sublist = []
+                # go one level deeper into the tree and extract subclass info
+                for (name, clazz, n) in names_classes:
+                    for i in range(n):
+                        name_class_sublist.append(
+                            self._extract_object_submap(name, clazz)
+                        )
+                        # print(name_class_sublist[-1])
+
+        else:
+            # There is no "__dataclass_fields__"
+            name_class_sublist = []
+            subname_list = []
 
         # add all data to object_tree
         object_tree = _NdmElement(
-            root_tag, root_class, name_class_sublist, kw_list, subname_list
+            root_tag,
+            root_class,
+            name_class_sublist,
+            kw_list,
+            subname_list,
+            single_elem=single_elem,
         )
 
         return object_tree
@@ -335,7 +374,11 @@ class NdmKvnIo:
 
         # identify the root element
         root_ndm_elem.min_max = _get_min_max_indices(
-            root_ndm_elem.kw_list, init_index, self._keys, prefix=prefix
+            root_ndm_elem.kw_list,
+            init_index,
+            self._keys,
+            prefix=prefix,
+            single_elem=root_ndm_elem.single_elem,
         )
 
         # set index to end of keywords
@@ -392,10 +435,10 @@ class NdmKvnIo:
         else:
             prefix = None
 
-        # TODO merge line finding and object generation?
         # init root object
         lines = self._lines[root_ndm_elem.min_max.min : root_ndm_elem.min_max.max]
-        kw_list = _get_ccsds_kw_list(root_ndm_elem.clazz)
+        # kw_list = _get_ccsds_kw_list(root_ndm_elem.clazz)
+        kw_list = root_ndm_elem.kw_list
         if not prefix:
             # intersect list with keywords as a final check
             # protects from wrong keywords on nested structures
@@ -406,7 +449,12 @@ class NdmKvnIo:
             # item has no subclasses and no content, just skip it
             return None
 
-        xml_data = _xmlify_list(root_ndm_elem.name, lines, prefix)
+        if root_ndm_elem.single_elem:
+            xml_data = _xmlify_single_elem(
+                root_ndm_elem.name, lines, root_ndm_elem.single_elem
+            )
+        else:
+            xml_data = _xmlify_list(root_ndm_elem.name, lines, prefix)
         ndm_object = parser.from_bytes(xml_data, root_ndm_elem.clazz)
 
         # fill lower level objects
@@ -415,8 +463,9 @@ class NdmKvnIo:
             # if subclass.name == "segment":
             #     print(subclass.name)
             if isinstance(getattr(ndm_object, subclass.name), list):
-                # this is a list, add the new element
-                getattr(ndm_object, subclass.name).append(subobject)
+                if subobject:
+                    # this is a list, add the new element
+                    getattr(ndm_object, subclass.name).append(subobject)
             else:
                 # this is not a list, just replace the data
                 setattr(ndm_object, subclass.name, subobject)
@@ -484,7 +533,7 @@ def _is_class(field):
 
 def _get_index(key, keys, *args):
     """
-    Gets the index belonging to the `key`.
+    Gets the first index belonging to the `key`.
 
     Parameters
     ----------
@@ -511,18 +560,58 @@ def _get_ccsds_kw_list(clazz):
     """
     Extracts and returns the keyword list from the class `clazz`.
     """
-    kw_list = [
-        var.metadata["name"]
-        for var in vars(clazz)["__dataclass_fields__"].values()
-        if "name" in var.metadata.keys()
-    ]
+    if "__dataclass_fields__" in vars(clazz).keys():
+        kw_list = [
+            var.metadata["name"]
+            for var in vars(clazz)["__dataclass_fields__"].values()
+            if "name" in var.metadata.keys()
+        ]
 
-    # print(kw_list)
+        # print(kw_list)
 
-    return kw_list
+        return kw_list
+    elif "_member_names_" in vars(clazz).keys():
+        # This is an enumerator type
+        kw_list = [enum_tag for enum_tag in vars(clazz)["_member_names_"]]
+
+        return kw_list
+    else:
+        # This is probably an "edge class" like Decimal
+        return []
 
 
-def _get_min_max_indices(tags, start_index, keys, prefix=None):
+def __process_comment_lines(tags, start_index, keys, index_list):
+    """
+    Process comments with the following algorithm:
+        1. If there are no COMMENT tags in the class, skip processing
+        2. If there is only COMMENT tag in the class, add a single line of comment,
+           if available (indicates a container type class like data or metadata)
+        3. If all tags are empty, skip processing; the comments likely belong to another
+           block later on in the file
+        4. If some tags are filled, add all comments between `start_index` and
+           `max(index_list)`
+    """
+    if "COMMENT" in tags:
+        if len(tags) == 1:
+            # no tags, this is a header sort of class, claim just one COMMENT tag, if available
+            if keys[start_index] == "COMMENT":
+                index_list.extend([start_index])
+
+        elif len(index_list) > 0:
+            # some data is available, claim all comments between start_index and max_index
+            # excludes last element, so add one
+            max_of_list = max(index_list) + 1
+            comment_indexes = [
+                idx
+                for idx, key in enumerate(
+                    keys[start_index:max_of_list], start=start_index
+                )
+                if keys[idx] == "COMMENT"
+            ]
+            index_list.extend(comment_indexes)
+
+
+def _get_min_max_indices(tags, start_index, keys, prefix=None, single_elem=None):
     """
     Gets the min/max indices of the section.
 
@@ -536,20 +625,50 @@ def _get_min_max_indices(tags, start_index, keys, prefix=None):
                 new_keys.append(key)
         tags.extend(new_keys)
 
-    # find indices of the tags
-    index_list = [_get_index(tag, keys, start_index) for tag in tags]
+    # find indices of the tags - except for comments
+    index_named_list = [
+        [tag, _get_index(tag, keys, start_index)] for tag in tags if tag != "COMMENT"
+    ]
 
     # remove None values
-    index_list = [i for i in index_list if i is not None]
+    index_list = [
+        index_name[1] for index_name in index_named_list if index_name[1] is not None
+    ]
+
+    # add all comment lines
+    __process_comment_lines(tags, start_index, keys, index_list)
 
     if len(index_list) == 0:
         # if list is empty, then there are no tags found in data
         return _MinMaxTuple(start_index, start_index)
     else:
         min_of_list = min(index_list)
-        # excludes last element, so add one
-        max_of_list = max(index_list) + 1
+        if single_elem:
+            # This is a single element item, just take the first one
+            max_of_list = min_of_list + 1
+        else:
+            # excludes last element, so add one
+            max_of_list = max(index_list) + 1
         return _MinMaxTuple(min_of_list, max_of_list)
+
+
+def _xmlify_single_elem(root_tag, item_list, param_name):
+    """
+    Converts the single element `item_list` to an XML string.
+    """
+    item = item_list[0]
+
+    # create XML
+    root = etree.Element(root_tag)
+
+    root.text = item[1]
+    root.attrib[param_name] = item[0]
+
+    if len(item) > 2:
+        # add units if available
+        root.attrib["units"] = item[2]
+
+    return etree.tostring(root, pretty_print=True)
 
 
 def _xmlify_list(root_tag, item_list, prefix=None):
