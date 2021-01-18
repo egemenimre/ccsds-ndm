@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<apm id="CCSDS_APM_VERS" version="1.0">
+  <header>
+    <!--      This file is generated from the KVN original for the ccsds-ndm project and verified for testing purposes. -->
+    <CREATION_DATE>2006-03-13T13:13:33</CREATION_DATE>
+    <ORIGINATOR>GSFC</ORIGINATOR>
+  </header>
+  <body>
+    <segment>
+      <metadata>
+        <OBJECT_NAME>GOES-P</OBJECT_NAME>
+        <OBJECT_ID>2006-003A</OBJECT_ID>
+        <CENTER_NAME>EARTH</CENTER_NAME>
+        <TIME_SYSTEM>UTC</TIME_SYSTEM>
+      </metadata>
+      <data>
+        <COMMENT>GEOSYNCHRONOUS, CARTESIAN, EARTH FIXED</COMMENT>
+        <quaternionState>
+          <COMMENT>OBJECT_ID: 2006-003A</COMMENT>
+          <COMMENT>$ITIM = 2006 FEB 5 03:23:45.60000000, $ original launch time</COMMENT>
+          <COMMENT>Attitude state quaternion</COMMENT>
+          <EPOCH>2006-03-12T09:56:39.4987</EPOCH>
+          <Q_FRAME_A>SC_BODY_1</Q_FRAME_A>
+          <Q_FRAME_B>ITRF-97</Q_FRAME_B>
+          <Q_DIR>A2B</Q_DIR>
+          <quaternion>
+            <QC>0.47832</QC>
+            <Q1>0.03123</Q1>
+            <Q2>0.78543</Q2>
+            <Q3>0.39158</Q3>
+          </quaternion>
+        </quaternionState>
+        <eulerElementsThree>
+          <COMMENT>Euler rates</COMMENT>
+          <EULER_FRAME_A>SC_BODY_1</EULER_FRAME_A>
+          <EULER_FRAME_B>ITRF-97</EULER_FRAME_B>
+          <EULER_DIR>A2B</EULER_DIR>
+          <EULER_ROT_SEQ>212</EULER_ROT_SEQ>
+          <RATE_FRAME>EULER_FRAME_A</RATE_FRAME>
+          <rotationAngles>
+            <rotation1 angle="Y_ANGLE" units="deg">-26.78</rotation1>
+            <rotation2 angle="X_ANGLE" units="deg">46.26</rotation2>
+            <rotation3 angle="Y_ANGLE" units="deg">144.10</rotation3>
+          </rotationAngles>
+          <rotationRates>
+            <rotation1 rate="Y_RATE" units="deg/s">0.1045</rotation1>
+            <rotation2 rate="X_RATE" units="deg/s">0.03214</rotation2>
+            <rotation3 rate="Y_RATE" units="deg/s">0.02156</rotation3>
+          </rotationRates>
+        </eulerElementsThree>
+      </data>
+    </segment>
+  </body>
+</apm>
+

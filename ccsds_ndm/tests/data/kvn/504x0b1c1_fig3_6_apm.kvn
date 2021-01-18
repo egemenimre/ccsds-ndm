@@ -1,0 +1,36 @@
+CCSDS_APM_VERS  = 1.0
+CREATION_DATE   = 2006-03-13T13:13:33
+ORIGINATOR      = GSFC
+
+OBJECT_NAME     = GOES-P
+OBJECT_ID       = 2006-003A
+CENTER_NAME     = EARTH
+TIME_SYSTEM     = UTC
+COMMENT           GEOSYNCHRONOUS, CARTESIAN, EARTH FIXED
+
+COMMENT OBJECT_ID: 2006-003A
+COMMENT $ITIM  = 2006 FEB 5 03:23:45.60000000, $ original launch time
+
+COMMENT           Attitude state quaternion
+EPOCH           = 2006-03-12T09:56:39.4987
+Q_FRAME_A       = SC_BODY_1
+Q_FRAME_B       = ITRF-97
+Q_DIR           = A2B
+
+Q1              = 0.03123
+Q2              = 0.78543
+Q3              = 0.39158
+QC              = 0.47832
+
+COMMENT           Euler rates
+EULER_FRAME_A   = SC_BODY_1
+EULER_FRAME_B   = ITRF-97
+EULER_DIR       = A2B
+EULER_ROT_SEQ   = 212
+RATE_FRAME      = EULER_FRAME_A
+Y_ANGLE         = -26.78 [deg ]
+X_ANGLE         =  46.26 [deg ]
+Y_ANGLE         = 144.10 [deg ]
+Y_RATE          = 0.1045   [deg/s]
+X_RATE          = 0.03214  [deg/s]
+Y_RATE          = 0.02156  [deg/s]
