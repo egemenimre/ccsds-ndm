@@ -13,12 +13,13 @@ import pytest
 
 from ccsds_ndm.ndm_io import NDMFileFormats, NdmIo
 from ccsds_ndm.ndm_kvn_io import NdmKvnIo
+from ccsds_ndm.ndm_xml_io import NdmXmlIo
 
 extra_path = Path("ccsds_ndm", "tests")
 
-kvn_file_paths = {
+kvn_xml_file_paths = {
     "AEMv1": None,
-    "APMv1": None,
+    "APMv1_1": Path("data", "kvn", "504x0b1c1_fig3_6_apm.kvn"),
     "CDMv1": Path("data", "kvn", "cdm_example_section4.kvn"),
     "OEMv1": None,
     "OMMv1_1": Path("data", "kvn", "omm1_st.kvn"),
@@ -30,6 +31,20 @@ kvn_file_paths = {
     "NDMv1_strip": None,
 }
 
+kvn_file_paths = {
+    # "AEMv1": Path("data", "kvn", "adm-testcase04a.kvn"),
+    "APMv1": Path("data", "kvn", "504x0b1c1_fig3_6_apm.kvn"),
+    # "CDMv1": Path("data", "kvn", "cdm_example_section4.kvn"),
+    # "OEMv1": None,
+    # "OMMv1_1": Path("data", "kvn", "omm1_st.kvn"),
+    # "OMMv1_2": Path("data", "kvn", "omm1_ct.kvn"),
+    # "OPMv1": None,
+    # "RDMv1": None,
+    # "TDMv1": None,
+    # "NDMv1": None,
+    # "NDMv1_strip": None,
+}
+
 
 @pytest.mark.parametrize("ndm_key, path", kvn_file_paths.items())
 def test_read_file(ndm_key, path):
@@ -37,9 +52,22 @@ def test_read_file(ndm_key, path):
     working_dir = Path.cwd()
 
     if path is not None:
-        kvn_path = working_dir.joinpath(path)
-        if not working_dir.joinpath(kvn_path).exists():
-            kvn_path = working_dir.joinpath(extra_path).joinpath(path)
+        kvn_path = process_paths(working_dir, path)
+
+        # read KVN file
+        ndm = NdmKvnIo().from_path(kvn_path)
+
+        # print(ndm)
+        print(NdmXmlIo().to_string(ndm))
+
+
+@pytest.mark.parametrize("ndm_key, path", kvn_xml_file_paths.items())
+def test_read_file_against_xml(ndm_key, path):
+    # *** read KVN files ***
+    working_dir = Path.cwd()
+
+    if path is not None:
+        kvn_path = process_paths(working_dir, path)
 
         # read KVN file
         ndm = NdmKvnIo().from_path(kvn_path)
@@ -61,3 +89,14 @@ def test_read_file(ndm_key, path):
 
         # compare strings
         assert xml_text_truth == xml_text
+
+
+def process_paths(working_dir, path):
+    """
+    Processes the path depending on the run environment.
+    """
+    file_path = working_dir.joinpath(path)
+    if not working_dir.joinpath(file_path).exists():
+        file_path = working_dir.joinpath(extra_path).joinpath(path)
+
+    return file_path
