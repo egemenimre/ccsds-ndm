@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdm id="CCSDS_RDM_VERS" version="1.0">
+    <header>
+        <COMMENT>This is RDM Annex C KVN Fig C-2</COMMENT>
+        <CREATION_DATE>2018-04-22T09:31:34.00</CREATION_DATE>
+        <ORIGINATOR>ESA</ORIGINATOR>
+        <MESSAGE_ID>ESA/20180422-001</MESSAGE_ID>
+    </header>
+    <body>
+        <segment>
+            <metadata>
+                <OBJECT_NAME>SPACEOBJECT</OBJECT_NAME>
+                <INTERNATIONAL_DESIGNATOR>2018-099B</INTERNATIONAL_DESIGNATOR>
+                <CATALOG_NAME>SATCAT</CATALOG_NAME>
+                <OBJECT_DESIGNATOR>81594</OBJECT_DESIGNATOR>
+                <OBJECT_TYPE>ROCKET BODY</OBJECT_TYPE>
+                <OBJECT_OWNER>ESA</OBJECT_OWNER>
+                <CONTROLLED_REENTRY>NO</CONTROLLED_REENTRY>
+                <CENTER_NAME>EARTH</CENTER_NAME>
+                <TIME_SYSTEM>UTC</TIME_SYSTEM>
+                <EPOCH_TZERO>2018-04-22T09:00:00.00</EPOCH_TZERO>
+                <REF_FRAME>EME2000</REF_FRAME>
+                <GRAVITY_MODEL>EGM-96: 36D 36O</GRAVITY_MODEL>
+                <ATMOSPHERIC_MODEL>NRLMSISE-00</ATMOSPHERIC_MODEL>
+                <N_BODY_PERTURBATIONS>MOON</N_BODY_PERTURBATIONS>
+                <SOLAR_RAD_PRESSURE>NO</SOLAR_RAD_PRESSURE>
+                <EARTH_TIDES>ESR</EARTH_TIDES>
+                <INTRACK_THRUST>NO</INTRACK_THRUST>
+                <REENTRY_DISINTEGRATION>MASS-LOSS + BREAK-UP</REENTRY_DISINTEGRATION>
+                <PREVIOUS_MESSAGE_ID>ESA/20180421-007</PREVIOUS_MESSAGE_ID>
+                <NEXT_MESSAGE_EPOCH>2018-04-23T09:00:00</NEXT_MESSAGE_EPOCH>
+            </metadata>
+            <data>
+                <COMMENT>Short term re-entry prediction results</COMMENT>
+                <atmosphericReentryParameters>
+                    <ORBIT_LIFETIME units="d">5.5</ORBIT_LIFETIME>
+                    <REENTRY_ALTITUDE units="km">80.0</REENTRY_ALTITUDE>
+                    <NOMINAL_REENTRY_EPOCH>2018-04-27T19:45:33</NOMINAL_REENTRY_EPOCH>
+                    <REENTRY_WINDOW_START>2018-04-27T11:45:33</REENTRY_WINDOW_START>
+                    <REENTRY_WINDOW_END>2018-04-27T22:12:56</REENTRY_WINDOW_END>
+                </atmosphericReentryParameters>
+                <groundImpactParameters>
+                    <PROBABILITY_OF_IMPACT>0.0</PROBABILITY_OF_IMPACT>
+                    <PROBABILITY_OF_BURN_UP>1.0</PROBABILITY_OF_BURN_UP>
+                </groundImpactParameters>
+                <stateVector>
+                    <COMMENT>State vector at the last OD epoch</COMMENT>
+                    <EPOCH>2018-04-22T09:30:12</EPOCH>
+                    <X units="km">4000.000000</X>
+                    <Y units="km">4000.000000</Y>
+                    <Z units="km">4000.000000</Z>
+                    <X_DOT units="km/s">7.000000</X_DOT>
+                    <Y_DOT units="km/s">7.000000</Y_DOT>
+                    <Z_DOT units="km/s">7.000000</Z_DOT>
+                </stateVector>
+                <covarianceMatrix>
+                    <COMMENT>Position/velocity covariance matrix at last OD epoch</COMMENT>
+                    <COV_REF_FRAME>RTN</COV_REF_FRAME>
+                    <CX_X units="km**2">0.10000</CX_X>
+                    <CY_X units="km**2">0.10000</CY_X>
+                    <CY_Y units="km**2">0.10000</CY_Y>
+                    <CZ_X units="km**2">0.10000</CZ_X>
+                    <CZ_Y units="km**2">0.10000</CZ_Y>
+                    <CZ_Z units="km**2">0.10000</CZ_Z>
+                    <CX_DOT_X units="km**2/s">0.02000</CX_DOT_X>
+                    <CX_DOT_Y units="km**2/s">0.02000</CX_DOT_Y>
+                    <CX_DOT_Z units="km**2/s">0.02000</CX_DOT_Z>
+                    <CX_DOT_X_DOT units="km**2/s**2">0.00600</CX_DOT_X_DOT>
+                    <CY_DOT_X units="km**2/s">0.02000</CY_DOT_X>
+                    <CY_DOT_Y units="km**2/s">0.02000</CY_DOT_Y>
+                    <CY_DOT_Z units="km**2/s">0.02000</CY_DOT_Z>
+                    <CY_DOT_X_DOT units="km**2/s**2">0.00600</CY_DOT_X_DOT>
+                    <CY_DOT_Y_DOT units="km**2/s**2">0.00600</CY_DOT_Y_DOT>
+                    <CZ_DOT_X units="km**2/s">0.02000</CZ_DOT_X>
+                    <CZ_DOT_Y units="km**2/s">0.02000</CZ_DOT_Y>
+                    <CZ_DOT_Z units="km**2/s">0.02000</CZ_DOT_Z>
+                    <CZ_DOT_X_DOT units="km**2/s**2">0.00400</CZ_DOT_X_DOT>
+                    <CZ_DOT_Y_DOT units="km**2/s**2">0.00400</CZ_DOT_Y_DOT>
+                    <CZ_DOT_Z_DOT units="km**2/s**2">0.00400</CZ_DOT_Z_DOT>
+                </covarianceMatrix>
+                <spacecraftParameters>
+                    <COMMENT>Spacecraft parameters used in OD and re-entry prediction</COMMENT>
+                    <WET_MASS units="kg">3582</WET_MASS>
+                    <DRAG_AREA units="m**2">23.3565</DRAG_AREA>
+                    <DRAG_COEFF>2.2634</DRAG_COEFF>
+                </spacecraftParameters>
+                <odParameters>
+                    <COMMENT>OD parameters from batch orbit determination</COMMENT>
+                    <ACTUAL_OD_SPAN units="d">3.4554</ACTUAL_OD_SPAN>
+                    <TRACKS_AVAILABLE>18</TRACKS_AVAILABLE>
+                    <TRACKS_USED>17</TRACKS_USED>
+                </odParameters>
+            </data>
+        </segment>
+    </body>
+</rdm>

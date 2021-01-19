@@ -1,0 +1,78 @@
+CCSDS_RDM_VERS              = 1.0
+COMMENT = This is RDM Annex C KVN Fig C-2
+CREATION_DATE               = 2018-04-22T09:31:34.00
+ORIGINATOR                  = ESA
+MESSAGE_ID                  = ESA/20180422-001
+
+OBJECT_NAME                 = SPACEOBJECT
+INTERNATIONAL_DESIGNATOR    = 2018-099B
+CATALOG_NAME                = SATCAT
+OBJECT_DESIGNATOR           = 81594
+OBJECT_TYPE                 = ROCKET BODY
+OBJECT_OWNER                = ESA
+CONTROLLED_REENTRY          = NO
+CENTER_NAME                 = EARTH
+TIME_SYSTEM                 = UTC
+EPOCH_TZERO                 = 2018-04-22T09:00:00.00
+REF_FRAME                   = EME2000
+GRAVITY_MODEL               = EGM-96: 36D 36O
+ATMOSPHERIC_MODEL           = NRLMSISE-00
+N_BODY_PERTURBATIONS        = MOON
+SOLAR_RAD_PRESSURE          = NO
+EARTH_TIDES                 = ESR
+INTRACK_THRUST              = NO
+REENTRY_DISINTEGRATION      = MASS-LOSS + BREAK-UP
+PREVIOUS_MESSAGE_ID         = ESA/20180421-007
+NEXT_MESSAGE_EPOCH          = 2018-04-23T09:00:00
+
+COMMENT Short term re-entry prediction results
+ORBIT_LIFETIME              = 5.5                           [d]
+REENTRY_ALTITUDE            = 80.0                          [km]
+NOMINAL_REENTRY_EPOCH       = 2018-04-27T19:45:33
+REENTRY_WINDOW_START        = 2018-04-27T11:45:33
+REENTRY_WINDOW_END          = 2018-04-27T22:12:56
+PROBABILITY_OF_IMPACT       = 0.0
+PROBABILITY_OF_BURN_UP      = 1.0
+
+COMMENT State vector at the last OD epoch
+EPOCH                       = 2018-04-22T09:30:12
+X                           = 4000.000000                   [km]
+Y                           = 4000.000000                   [km]
+Z                           = 4000.000000                   [km]
+X_DOT                       = 7.000000                      [km/s]
+Y_DOT                       = 7.000000                      [km/s]
+Z_DOT                       = 7.000000                      [km/s]
+
+COMMENT Position/velocity covariance matrix at last OD epoch
+COV_REF_FRAME               = RTN
+CX_X                        = 0.10000                       [km**2]  
+CY_X                        = 0.10000                       [km**2]
+CY_Y                        = 0.10000                       [km**2]
+CZ_X                        = 0.10000                       [km**2]
+CZ_Y                        = 0.10000                       [km**2]
+CZ_Z                        = 0.10000                       [km**2]
+CX_DOT_X                    = 0.02000                       [km**2/s]
+CX_DOT_Y                    = 0.02000                       [km**2/s]
+CX_DOT_Z                    = 0.02000                       [km**2/s]
+CX_DOT_X_DOT                = 0.00600                       [km**2/s**2]
+CY_DOT_X                    = 0.02000                       [km**2/s]
+CY_DOT_Y                    = 0.02000                       [km**2/s]
+CY_DOT_Z                    = 0.02000                       [km**2/s]
+CY_DOT_X_DOT                = 0.00600                       [km**2/s**2]
+CY_DOT_Y_DOT                = 0.00600                       [km**2/s**2]
+CZ_DOT_X                    = 0.02000                       [km**2/s]
+CZ_DOT_Y                    = 0.02000                       [km**2/s]
+CZ_DOT_Z                    = 0.02000                       [km**2/s]
+CZ_DOT_X_DOT                = 0.00400                       [km**2/s**2]
+CZ_DOT_Y_DOT                = 0.00400                       [km**2/s**2]
+CZ_DOT_Z_DOT                = 0.00400                       [km**2/s**2]
+
+COMMENT Spacecraft parameters used in OD and re-entry prediction
+WET_MASS                    = 3582                          [kg]
+DRAG_AREA                   = 23.3565                       [m**2]
+DRAG_COEFF                  = 2.2634
+
+COMMENT OD parameters from batch orbit determination
+ACTUAL_OD_SPAN              = 3.4554                        [d]
+ TRACKS_AVAILABLE            = 18
+ TRACKS_USED                 = 17
