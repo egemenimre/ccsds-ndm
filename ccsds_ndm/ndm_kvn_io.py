@@ -8,8 +8,10 @@ CCSDS Navigation Data Messages KVN File I/O.
 
 """
 from collections import namedtuple
+from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
+from typing import List
 
 from lxml import etree
 from xsdata.formats.dataclass.parsers import XmlParser
@@ -81,6 +83,7 @@ class _NdmElement:
     subclass_list: list
     kw_list: list
     subname_list: list
+    is_list: bool = False
     single_elem: str = None
     min_max: _MinMaxTuple = None
 
@@ -247,7 +250,7 @@ class NdmKvnIo:
 
         # print(self.object_tree)
 
-    def _extract_object_submap(self, root_tag, root_class):
+    def _extract_object_submap(self, root_tag, root_class, root_is_list=False):
         """
         Extracts the object submap and all elements in the tree recursively.
 
@@ -280,7 +283,7 @@ class NdmKvnIo:
 
             # extract (name, class) pairs
             names_classes = [
-                (name, field.type.__args__[0], _find_occurences(field))
+                (name, field.type.__args__[0], _is_list(field))
                 for name, field in names_fields.items()
                 if _is_class(field)
             ]
@@ -291,7 +294,7 @@ class NdmKvnIo:
 
                 single_name_class = [
                     (name, clazz)
-                    for (name, clazz, n) in names_classes
+                    for (name, clazz, is_class) in names_classes
                     if name != "value" and name != "units"
                 ]
 
@@ -305,16 +308,15 @@ class NdmKvnIo:
                 kw_list.extend(flatten_list)
 
                 # kill the lower level classes
-                name_class_sublist = []
+                name_class_sublist: List[_NdmElement] = []
             else:
                 name_class_sublist = []
                 # go one level deeper into the tree and extract subclass info
-                for (name, clazz, n) in names_classes:
-                    for i in range(n):
-                        name_class_sublist.append(
-                            self._extract_object_submap(name, clazz)
-                        )
-                        # print(name_class_sublist[-1])
+                for (name, clazz, is_list) in names_classes:
+                    name_class_sublist.append(
+                        self._extract_object_submap(name, clazz, root_is_list=is_list)
+                    )
+                    # print(name_class_sublist[-1])
 
         else:
             # There is no "__dataclass_fields__"
@@ -329,6 +331,7 @@ class NdmKvnIo:
             kw_list,
             subname_list,
             single_elem=single_elem,
+            is_list=root_is_list,
         )
 
         return object_tree
@@ -343,7 +346,9 @@ class NdmKvnIo:
         """
 
         root_ndm_elem = self.object_tree
-        self.__identify_sub_segments(root_ndm_elem)
+
+        max_index, root_min_max = self.__identify_sub_segments(root_ndm_elem)
+        root_ndm_elem.min_max = root_min_max
 
         # print(root_ndm_elem)
 
@@ -372,8 +377,8 @@ class NdmKvnIo:
         else:
             prefix = None
 
-        # identify the root element
-        root_ndm_elem.min_max = _get_min_max_indices(
+        # identify the root element limits
+        root_min_max = _get_min_max_indices(
             root_ndm_elem.kw_list,
             init_index,
             self._keys,
@@ -382,7 +387,7 @@ class NdmKvnIo:
         )
 
         # set index to end of keywords
-        init_index = root_ndm_elem.min_max.max
+        init_index = root_min_max.max
 
         # identify subsegments
         subclass_list = root_ndm_elem.subclass_list
@@ -392,7 +397,41 @@ class NdmKvnIo:
         for i, name in enumerate(subclass_list_keys):
 
             subclass = subclass_list[i]
-            max_index = self.__identify_sub_segments(subclass, init_index)
+
+            if subclass.is_list:
+                # This is a list type element, loop until all elements are collected
+                max_index, subclass_min_max = self.__identify_sub_segments(
+                    subclass, init_index
+                )
+                subclass.min_max = subclass_min_max
+                init_index = max_index
+
+                if max_index >= len(self._lines):
+                    # End of file reached
+                    continue
+
+                # try another run with a copy of the subclass
+                # (to prevent changes in subclasses)
+                temp_max_index, temp_subclass_min_max = self.__identify_sub_segments(
+                    deepcopy(subclass), init_index
+                )
+
+                # if temp_subclass_min_max.min == temp_subclass_min_max.max:
+                if temp_max_index == max_index:
+                    # There is probably no more data
+                    break
+                else:
+                    # inject another element
+                    new_subclass = deepcopy(subclass)
+                    subclass_list.insert(i + 1, new_subclass)
+                    subclass_list_keys.insert(i + 1, name)
+
+            else:
+                max_index, subclass_min_max = self.__identify_sub_segments(
+                    subclass, init_index
+                )
+                subclass.min_max = subclass_min_max
+                init_index = max_index
 
             if (
                 subclass.min_max.min == subclass.min_max.max
@@ -400,11 +439,12 @@ class NdmKvnIo:
             ):
                 # class returned empty, could be a final level nested class.
                 # Try again from root start point but do not trigger max_point
-                self.__identify_sub_segments(subclass, root_ndm_elem.min_max.min)
+                mock_max_index, subclass_min_max = self.__identify_sub_segments(
+                    subclass, root_min_max.min
+                )
+                subclass.min_max = subclass_min_max
 
-            init_index = max_index
-
-        return max_index
+        return max_index, root_min_max
 
     def _build_object(self):
         """
@@ -494,16 +534,14 @@ def _identify_data_type(kvn_source):
     return data_type
 
 
-def _find_occurences(field):
+def _is_list(field):
     """
-    Finds the "min_occurs" string in `field.metadata.keys()` and returns the value.
-    Returns 1 if no such field is found.
+    Returns `True` if `field.default_factory` is of the type list.
     """
-    n = 1
-    if "min_occurs" in field.metadata.keys():
-        # add same element if it occurs multiple times
-        n = field.metadata["min_occurs"]
-    return n
+    if field.default_factory and field.default_factory is list:
+        return True
+    else:
+        return False
 
 
 def _is_id_or_version(name):
