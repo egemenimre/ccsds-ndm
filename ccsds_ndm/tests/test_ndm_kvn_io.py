@@ -20,6 +20,7 @@ extra_path = Path("ccsds_ndm", "tests")
 kvn_xml_file_paths = {
     "AEMv1": None,
     "APMv1_1": Path("data", "kvn", "504x0b1c1_fig3_6_apm.kvn"),
+    "APMv1_2": Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn"),
     "CDMv1": Path("data", "kvn", "cdm_example_section4.kvn"),
     "OEMv1": None,
     "OMMv1_1": Path("data", "kvn", "omm1_st.kvn"),
@@ -33,8 +34,8 @@ kvn_xml_file_paths = {
 
 kvn_file_paths = {
     # "AEMv1": Path("data", "kvn", "adm-testcase04a.kvn"),
-    "APMv1": Path("data", "kvn", "504x0b1c1_fig3_6_apm.kvn"),
-    # "CDMv1": Path("data", "kvn", "cdm_example_section4.kvn"),
+    # "APMv1_2": Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn"),
+    "CDMv1": Path("data", "kvn", "cdm_example_section4.kvn"),
     # "OEMv1": None,
     # "OMMv1_1": Path("data", "kvn", "omm1_st.kvn"),
     # "OMMv1_2": Path("data", "kvn", "omm1_ct.kvn"),
@@ -88,7 +89,7 @@ def test_read_file_against_xml(ndm_key, path):
         # )
 
         # compare strings
-        assert xml_text_truth == xml_text
+        assert xml_text == xml_text_truth
 
 
 def process_paths(working_dir, path):
