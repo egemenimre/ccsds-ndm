@@ -25,7 +25,10 @@ kvn_xml_file_paths = {
     "OEMv1": None,
     "OMMv1_1": Path("data", "kvn", "omm1_st.kvn"),
     "OMMv1_2": Path("data", "kvn", "omm1_ct.kvn"),
-    "OPMv1": None,
+    # This is OPM v2 but it is compatible with OPM v1
+    "OPMv1_1": Path("data", "kvn", "502x0b2c1e2_fig3_2_opm.kvn"),
+    # This is OPM v2 and is incompatible with v1
+    # "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
     "RDMv1": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
     "TDMv1": None,
     "NDMv1": None,
@@ -39,8 +42,9 @@ kvn_file_paths = {
     # "OEMv1": None,
     # "OMMv1_1": Path("data", "kvn", "omm1_st.kvn"),
     # "OMMv1_2": Path("data", "kvn", "omm1_ct.kvn"),
-    # "OPMv1": None,
-    "RDMv1": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
+    # "OPMv1_1": Path("data", "kvn", "502x0b2c1e2_fig3_2_opm.kvn"),
+    "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
+    # "RDMv1": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
     # "TDMv1": None,
     # "NDMv1": None,
     # "NDMv1_strip": None,
