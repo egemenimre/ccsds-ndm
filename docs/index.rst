@@ -23,7 +23,7 @@ The source code is `on Github <https://github.com/egemenimre/ccsds-ndm>`_ and th
    :widths: 20, 50, 50
 
    "XML", "All NDM Types", "All NDM Types"
-   "KVN", "APM, CDM, OMM, OPM, RDM", "Not yet available"
+   "KVN", "APM, CDM, OEM, OMM, OPM, RDM", "Not yet available"
    "JSON", "Not specified in CCSDS Standards", "Not specified in CCSDS Standards"
 
 
@@ -43,7 +43,7 @@ For the first use case, reading an OEM file from `xml_read_path` is as simple as
 
 Note that file format (XML or KVN) and data type (e.g. CDM or NDM) are inferred automatically.
 The output `cdm` is the object tree for a Conjunction Data Message (CDM). The contents can then be reached
-going deeper in the object tree as specified in the NDM Standard. This example shows how to reach the
+going deeper in the object tree as specified in the corresponding NDM Standard. This example shows how to reach the
 orbit normal position component of the relative state vector:
 
 >>> print(cdm.body.relative_metadata_data.relative_state_vector.relative_position_n)

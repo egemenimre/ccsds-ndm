@@ -25,7 +25,7 @@ The source code is `on Github <https://github.com/egemenimre/ccsds-ndm>`_ and th
    :widths: 20, 50, 50
 
    "XML", "All NDM Types", "All NDM Types"
-   "KVN", "APM, CDM, OMM, OPM, RDM", "Not yet available"
+   "KVN", "APM, CDM, OEM, OMM, OPM, RDM", "Not yet available"
    "JSON", "Not specified in CCSDS Standards", "Not specified in CCSDS Standards"
 
 
@@ -45,7 +45,7 @@ For the first use case, reading an OEM file from `xml_read_path` is as simple as
 
 Note that file format (XML or KVN) and data type (e.g. CDM or NDM) are inferred automatically.
 The output `cdm` is the object tree for a Conjunction Data Message (CDM). The contents can then be reached
-going deeper in the object tree as specified in the NDM Standard. This example shows how to reach the
+going deeper in the object tree as specified in the corresponding NDM Standard. This example shows how to reach the
 orbit normal position component of the relative state vector:
 
 >>> print(cdm.body.relative_metadata_data.relative_state_vector.relative_position_n)
@@ -110,6 +110,11 @@ and writing of the XML data. As such, there is no documentation generated for th
 
 Currently the published standards are at version 1.0, but version 2.0 will be out soon. They will be integrated into
 the code once they are made official.
+
+File read is usually fast (on the order of seconds) for small files. That said, KVN parsing for large files can
+take some time. A 12 MB OEM file lasts about a minute to parse on a good consumer grade computer.
+Due to the fragility of the KVN format and the restrictions the standards put on the order of keys, no
+parallelisation has been attempted.
 
 Requirements
 ------------

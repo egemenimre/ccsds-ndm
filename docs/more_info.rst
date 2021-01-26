@@ -20,6 +20,11 @@ and writing of the XML data. As such, there is no documentation generated for th
 Currently the published standards are at version 1.0, but version 2.0 will be out soon. They will be integrated into
 the code once they are made official.
 
+File read is usually fast (on the order of seconds) for small files. That said, KVN parsing for large files can
+take some time. A 12 MB OEM file lasts about a minute to parse on a good consumer grade computer.
+Due to the fragility of the KVN format and the restrictions the standards put on the order of keys, no
+parallelisation has been attempted.
+
 How to Regenerate the NDM Classes from Scratch
 ------------------------------------------------
 
@@ -29,9 +34,6 @@ object tree classes may be of use to some. Here is the procedure:
 1. Download the xsd files from `SANA NDM XML Schema Registry <https://sanaregistry.org/r/ndmxml>`_
 2. Run `xsData` just outside the xsd directory to generate the classes
 
->>> xsdata generate --docstring-style NumPy ndmxsd --package ccsds_ndm.models.ndmxml1
+>>> xsdata generate --docstring-style NumPy ndmxml-2.0.0-schemas-unqualified/ --package ccsds_ndm.models.ndmxml2
 
 3. Copy the generated classes into the project structure.
-
-The newer versions of the NDM XML files will go to the `ndmxml2` directory, so that backwards compatibility
-is maintained.
