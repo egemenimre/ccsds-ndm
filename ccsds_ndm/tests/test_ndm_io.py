@@ -81,10 +81,10 @@ def test_write_kvn_string():
     """Tests writing KVN data as string."""
     with pytest.raises(NotImplementedError):
         # check path and correct if necessary
-        kvn_path = Path.cwd().joinpath(not_implemented.get("OMMv1_1"))
+        kvn_path = Path.cwd().joinpath(not_implemented.get("OMMv2_1"))
         if not Path.cwd().joinpath(kvn_path).exists():
             kvn_path = (
-                Path.cwd().joinpath(extra_path).joinpath(not_implemented.get("OMMv1_1"))
+                Path.cwd().joinpath(extra_path).joinpath(not_implemented.get("OMMv2_1"))
             )
 
         # read KVN file
@@ -105,10 +105,10 @@ def test_write_json_string():
     """Tests writing JSON data as string."""
     with pytest.raises(NotImplementedError):
         # check path and correct if necessary
-        kvn_path = Path.cwd().joinpath(file_paths.get("OMMv1_1"))
+        kvn_path = Path.cwd().joinpath(file_paths.get("OMMv2_1"))
         if not Path.cwd().joinpath(kvn_path).exists():
             kvn_path = (
-                Path.cwd().joinpath(extra_path).joinpath(file_paths.get("OMMv1_1"))
+                Path.cwd().joinpath(extra_path).joinpath(file_paths.get("OMMv2_1"))
             )
 
         # read KVN file

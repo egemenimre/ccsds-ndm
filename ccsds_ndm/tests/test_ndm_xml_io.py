@@ -52,7 +52,7 @@ def test_strip_ndm_combi():
     Combined Instantiation file."""
 
     # *** read XML file ***
-    path = xml_file_paths.get("NDMv1_strip")
+    path = xml_file_paths.get("NDMv2_strip")
     xml_path = Path.cwd().joinpath(path)
     if not Path.cwd().joinpath(xml_path).exists():
         xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
@@ -63,7 +63,7 @@ def test_strip_ndm_combi():
     assert isinstance(omm, Omm)
 
 
-@pytest.mark.parametrize("ndm_key", ["APMv1", "NDMv1"])
+@pytest.mark.parametrize("ndm_key", ["APMv2", "NDMv2"])
 def test_read_string_and_bytes(ndm_key):
     """Tests reading XML data as string and bytes."""
 
@@ -95,11 +95,11 @@ def test_write_string():
 
     # check path and correct if necessary
     working_dir = Path.cwd()
-    xml_path = working_dir.joinpath(xml_file_paths.get("OEMv1"))
+    xml_path = working_dir.joinpath(xml_file_paths.get("OEMv2"))
     if not working_dir.joinpath(xml_path).exists():
         working_dir = working_dir.joinpath(extra_path)
 
-    xml_path = working_dir.joinpath(xml_file_paths.get("OEMv1"))
+    xml_path = working_dir.joinpath(xml_file_paths.get("OEMv2"))
 
     # read XML file as text
     xml_text = xml_path.read_text()
@@ -121,11 +121,11 @@ def test_write_file():
 
     # check path and correct if necessary
     working_dir = Path.cwd()
-    xml_read_path = working_dir.joinpath(xml_file_paths.get("OEMv1"))
+    xml_read_path = working_dir.joinpath(xml_file_paths.get("OEMv2"))
     if not working_dir.joinpath(xml_read_path).exists():
         working_dir = working_dir.joinpath(extra_path)
 
-    xml_read_path = working_dir.joinpath(xml_file_paths.get("OEMv1"))
+    xml_read_path = working_dir.joinpath(xml_file_paths.get("OEMv2"))
 
     xml_write_path = working_dir.joinpath(Path("data", "xml", "write_test.xml"))
 
