@@ -17,9 +17,6 @@ Design and Limitations of CCSDS-NDM
 The object tree is created by `xsdata <https://xsdata.readthedocs.io/en/latest/>`_ library, which also handles parsing
 and writing of the XML data. As such, there is no documentation generated for this object tree.
 
-Currently the published standards are at version 1.0, but version 2.0 will be out soon. They will be integrated into
-the code once they are made official.
-
 File read is usually fast (on the order of seconds) for small files. That said, KVN parsing for large files can
 take some time. A 12 MB OEM file lasts about a minute to parse on a good consumer grade computer.
 Due to the fragility of the KVN format and the restrictions the standards put on the order of keys, no
