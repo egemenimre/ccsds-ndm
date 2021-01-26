@@ -28,7 +28,7 @@ kvn_xml_file_paths = {
     # This is OPM v2 but it is compatible with OPM v1
     "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_2_opm.kvn"),
     # This is OPM v2 and is incompatible with v1
-    "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
+    "OPMv2_2": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
     "RDMv2": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
     "TDMv2": None,
     "NDMv2": None,
