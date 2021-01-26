@@ -10,7 +10,8 @@ CCSDS Navigation Data Messages KVN File I/O.
 from collections import namedtuple
 from copy import deepcopy
 from dataclasses import dataclass
-from enum import Enum
+from datetime import datetime
+from enum import Enum, auto
 from typing import List
 
 from lxml import etree
@@ -22,14 +23,17 @@ from ccsds_ndm.models.ndmxml1 import (
     Apm,
     Cdm,
     Oem,
+    OemCovarianceMatrixType,
     Omm,
     Opm,
     Rdm,
+    StateVectorAccType,
     Tdm,
     UserDefinedType,
 )
 
 _MinMaxTuple = namedtuple("_MinMaxTuple", ["min", "max"])
+"""Data structure to keep min and max tuples."""
 
 
 class _NdmDataType(Enum):
@@ -69,6 +73,33 @@ class _NdmDataType(Enum):
                 return ndm_data
 
 
+class _SpecialDataTypes(Enum):
+    """
+    Tags for NDM special data types that do not conform to the `Key = Value [unit]` format.
+    """
+
+    EPOCHSTARTNUMCOLS = auto()
+    """ Numerical values in columns with the first value as a date."""
+    STACKEDCOVAR = auto()
+    """ Stacked covariance matrix."""
+
+
+_special_classes = {
+    StateVectorAccType: _SpecialDataTypes.EPOCHSTARTNUMCOLS,
+    OemCovarianceMatrixType: _SpecialDataTypes.STACKEDCOVAR,
+}
+"""Dict of special classes with special data types.
+
+This lists the NDM special data types that do not conform to the `Key = Value [unit]` format.
+"""
+
+
+_deleted_keywords = {
+    Oem: ["META_START", "META_STOP", "COVARIANCE_START", "COVARIANCE_STOP"]
+}
+"""List of keywords to be deleted from files. They interfere with the processing."""
+
+
 @dataclass
 class _NdmElement:
     """
@@ -86,12 +117,16 @@ class _NdmElement:
     is_list: bool = False
     single_elem: str = None
     min_max: _MinMaxTuple = None
+    special_type: _SpecialDataTypes = None
 
 
 class NdmKvnIo:
     """
     Unified I/O Model for KVN input and output.
     """
+
+    _keys: List[str] = []
+    _lines: List[List[str]] = []
 
     def from_path(self, kvn_read_file_path):
         """
@@ -131,6 +166,12 @@ class NdmKvnIo:
 
         #  Identify data type
         ndm_class = _identify_data_type(self._lines)
+
+        # Delete unnecessary keywords if necessary
+        if ndm_class in _deleted_keywords.keys():
+            deleted_keys = _deleted_keywords.get(ndm_class)
+            self._keys = [key for key in self._keys if key not in deleted_keys]
+            self._lines = [line for line in self._lines if line[0] not in deleted_keys]
 
         # Init object map
         self._init_object_map(ndm_class)
@@ -248,8 +289,6 @@ class NdmKvnIo:
         # add id and version keyword info
         self.object_tree.kw_list.extend(["id", "version"])
 
-        # print(self.object_tree)
-
     def _extract_object_submap(self, root_tag, root_class, root_is_list=False):
         """
         Extracts the object submap and all elements in the tree recursively.
@@ -258,8 +297,10 @@ class NdmKvnIo:
         ----------
         root_tag : str
             Variable name of the root class ("omm", "aem", "cdm" etc.)
-        root_class : type
+        root_class
             Root class of type Omm, Aem, Cdm etc.
+        root_is_list : bool
+            True if root is of type list, false otherwise
 
         Returns
         -------
@@ -271,6 +312,7 @@ class NdmKvnIo:
 
         single_elem = None
         if "__dataclass_fields__" in vars(root_class).keys():
+            # fill requisite data to populate the NdmElement
             subname_list = [
                 key for key in vars(root_class)["__dataclass_fields__"].keys()
             ]
@@ -332,6 +374,7 @@ class NdmKvnIo:
             subname_list,
             single_elem=single_elem,
             is_list=root_is_list,
+            special_type=_special_classes.get(root_class, None),
         )
 
         return object_tree
@@ -368,7 +411,10 @@ class NdmKvnIo:
 
         Returns
         -------
-        Final index (should be the starting point of the next search)
+        (int, _MinMaxTuple)
+            Final index of the class and all subclasses
+            (should be the starting point of the next search)
+            and min, max indices of the `root_ndm_elem`
         """
 
         # check for prefix
@@ -377,74 +423,221 @@ class NdmKvnIo:
         else:
             prefix = None
 
-        # identify the root element limits
-        root_min_max = _get_min_max_indices(
-            root_ndm_elem.kw_list,
-            init_index,
-            self._keys,
-            prefix=prefix,
-            single_elem=root_ndm_elem.single_elem,
-        )
+        # check for special types
+        if root_ndm_elem.special_type:
+            # identify segments for special types
+            root_min_max = self.__identify_special_sub_segments(
+                root_ndm_elem, init_index, prefix
+            )
+        else:
+            # normal processing: identify the root element limits
+            root_min_max = _get_min_max_indices(
+                root_ndm_elem.kw_list,
+                init_index,
+                self._keys,
+                prefix=prefix,
+                single_elem=root_ndm_elem.single_elem,
+            )
 
         # set index to end of keywords
         init_index = root_min_max.max
-
-        # identify subsegments
-        subclass_list = root_ndm_elem.subclass_list
-        subclass_list_keys = [subclass.name for subclass in subclass_list]
-
         max_index = init_index
-        for i, name in enumerate(subclass_list_keys):
 
-            subclass = subclass_list[i]
-
-            if subclass.is_list:
-                # This is a list type element, loop until all elements are collected
-                max_index, subclass_min_max = self.__identify_sub_segments(
-                    subclass, init_index
-                )
-                subclass.min_max = subclass_min_max
-                init_index = max_index
-
-                if max_index >= len(self._lines):
-                    # End of file reached
-                    continue
-
-                # try another run with a copy of the subclass
-                # (to prevent changes in subclasses)
-                temp_max_index, temp_subclass_min_max = self.__identify_sub_segments(
-                    deepcopy(subclass), init_index
-                )
-
-                # if temp_subclass_min_max.min == temp_subclass_min_max.max:
-                if temp_max_index == max_index:
-                    # There is probably no more data
-                    break
-                else:
-                    # inject another element
-                    new_subclass = deepcopy(subclass)
-                    subclass_list.insert(i + 1, new_subclass)
-                    subclass_list_keys.insert(i + 1, name)
-
-            else:
-                max_index, subclass_min_max = self.__identify_sub_segments(
-                    subclass, init_index
-                )
-                subclass.min_max = subclass_min_max
-                init_index = max_index
-
-            if (
-                subclass.min_max.min == subclass.min_max.max
-                and not subclass.subclass_list
-            ):
-                # class returned empty, could be a final level nested class.
-                # Try again from root start point but do not trigger max_point
-                mock_max_index, subclass_min_max = self.__identify_sub_segments(
-                    subclass, root_min_max.min
-                )
-                subclass.min_max = subclass_min_max
+        if root_ndm_elem.subclass_list:
+            # identify sub subsegments
+            max_index = self.__identify_sub_sub_segments(
+                root_ndm_elem, root_min_max, init_index
+            )
 
         return max_index, root_min_max
+
+    def __identify_sub_sub_segments(self, root_ndm_elem, root_min_max, init_index):
+        """
+        Identify one lower segment (subclasses) of `root_ndm_elem`.
+
+        Parameters
+        ----------
+
+        root_ndm_elem : _NdmElement
+            local root of the object tree
+        root_min_max  : _MinMaxTuple
+            min, max indices of the `root_ndm_elem`
+        init_index : int
+            index where the search for limits should start
+
+        Returns
+        -------
+        Final index of the class and all subclasses
+        """
+
+        generated_subclasses: List[_NdmElement] = []
+        expected_types = [subclass for subclass in root_ndm_elem.subclass_list]
+
+        max_index = init_index
+
+        for subclass in expected_types:
+
+            if subclass.is_list:
+                # process list type subclass (and all subsequent sub-subclasses
+                # recursively)
+                max_index = self.__identify_list(
+                    subclass, init_index, generated_subclasses
+                )
+                init_index = max_index
+            else:
+                # Not a list type element, process normally (recursive)
+                max_index, subclass_min_max = self.__identify_sub_segments(
+                    subclass,
+                    init_index,
+                )
+                subclass.min_max = subclass_min_max
+                init_index = max_index
+
+                if (
+                    subclass.min_max.min == subclass.min_max.max
+                    and not subclass.subclass_list
+                ):
+                    # class returned empty, could be a final level nested class.
+                    # Try again from root start point but do not trigger max_point
+                    mock_max_index, subclass_min_max = self.__identify_sub_segments(
+                        subclass, root_min_max.min
+                    )
+                    subclass.min_max = subclass_min_max
+
+                # add all generated subclasses
+                generated_subclasses.append(subclass)
+
+        # fill the subclasses in the main object with the generated subclasses
+        root_ndm_elem.subclass_list = generated_subclasses
+
+        return max_index
+
+    def __identify_list(self, subclass, init_index, generated_subclasses):
+        """
+        Finds and identifies list type elements.
+
+        Parameters
+        ----------
+        subclass
+        init_index
+        generated_subclasses : List
+            Generated subclass list (to be filled in within the class)
+
+        Returns
+        -------
+        Final index of the class and all subclasses
+
+        """
+
+        has_elements = True
+        last_max_index = max_index = init_index
+
+        subclass_list = []
+
+        # loop as long as there is a next element that belongs to the list
+        while has_elements:
+
+            # start with a clean object with the subclass type
+            if subclass.subclass_list:
+                clean_obj = self._extract_object_submap(subclass.name, subclass.clazz)
+            else:
+                clean_obj = deepcopy(subclass)
+
+            # identify subclasses and find limits
+            max_index, subclass_min_max = self.__identify_sub_segments(
+                clean_obj, init_index
+            )
+
+            if max_index == subclass_min_max.min == subclass_min_max.max:
+                # list is completed, no more elements
+                has_elements = False
+            elif subclass_min_max.min > last_max_index:
+                # There is some gap in data,
+                # try other classes to process the data in between
+                has_elements = False
+                max_index = last_max_index
+            else:
+                # found lines are valid elements of this list, add them
+                clean_obj.min_max = subclass_min_max
+                init_index = max_index
+                last_max_index = max_index
+                subclass_list.append(clean_obj)
+
+                if max_index >= len(self._lines):
+                    # End of file reached, stop the while loop
+                    has_elements = False
+
+        # insert resulting list into expected subclasses
+        generated_subclasses.extend(subclass_list)
+
+        return max_index
+
+    def __identify_special_sub_segments(self, root_ndm_elem, init_index, prefix=None):
+        """Identifies the segments of the special objects, as defined in
+        `_SpecialDataTypes`.
+
+        Parameters
+        ----------
+        root_ndm_elem : _NdmElement
+            local root of the object tree
+        init_index : int
+            index where the search for limits should start
+        prefix : str
+            Prefix (e.g. "USER_DEFINED")
+
+        Returns
+        -------
+        root_min_max : _MinMaxTuple
+            Min max limits of the element
+        """
+        if root_ndm_elem.special_type is _SpecialDataTypes.EPOCHSTARTNUMCOLS:
+            # Epoch start and columns of data
+            try:
+                # is this a valid date string? take the first element
+                datestr = self._lines[init_index][0].split()[0]
+                # get rid of anything beyond seconds (high precision messes up datetime parser)
+                datestr = datestr.split(".")[0]
+                datetime.fromisoformat(datestr)
+                root_min_max = _MinMaxTuple(init_index, init_index + 1)
+            except ValueError:
+                # line is not of correct type, just skip it
+                root_min_max = _MinMaxTuple(init_index, init_index)
+
+            return root_min_max
+
+        elif root_ndm_elem.special_type is _SpecialDataTypes.STACKEDCOVAR:
+            # Stacked covariance data
+
+            # identify the root element limits
+            temp_min_max = _get_min_max_indices(
+                root_ndm_elem.kw_list,
+                init_index,
+                self._keys,
+                prefix=prefix,
+                single_elem=root_ndm_elem.single_elem,
+            )
+
+            if temp_min_max.min == temp_min_max.max:
+                # No valid type, just skip it
+                root_min_max = _MinMaxTuple(init_index, init_index)
+            else:
+                found_data = True
+                i = temp_min_max.max
+                while found_data:
+                    try:
+                        float(self._lines[i][0].split()[0])
+                        i += 1
+                    except (ValueError, IndexError):
+                        found_data = False
+
+                root_min_max = _MinMaxTuple(temp_min_max.min, i)
+
+            return root_min_max
+        else:
+            raise ValueError(
+                f"Unknown Special Data Type ({root_ndm_elem.special_type}) encountered "
+                f"while identifying segments."
+            )
 
     def _build_object(self):
         """
@@ -460,13 +653,24 @@ class NdmKvnIo:
         parser = XmlParser(config=ParserConfig(fail_on_unknown_properties=True))
 
         root_ndm_elem = self.object_tree
-        ndm_object = self._build_object_tree(root_ndm_elem, parser)
+        ndm_object = self.__build_object_tree(root_ndm_elem, parser)
 
         return ndm_object
 
-    def _build_object_tree(self, root_ndm_elem, parser):
+    def __build_object_tree(self, root_ndm_elem, parser):
         """
         Converts the lists to an XML string and fills the corresponding object tree.
+
+        Parameters
+        ----------
+        root_ndm_elem
+            Root element
+        parser : XmlParser
+            XML Parser
+
+        Returns
+        -------
+        NDM object filled with data
 
         """
         # check for prefix
@@ -477,31 +681,43 @@ class NdmKvnIo:
 
         # init root object
         lines = self._lines[root_ndm_elem.min_max.min : root_ndm_elem.min_max.max]
-        # kw_list = _get_ccsds_kw_list(root_ndm_elem.clazz)
         kw_list = root_ndm_elem.kw_list
-        if not prefix:
-            # intersect list with keywords as a final check
-            # protects from wrong keywords on nested structures
-            # if prefix is present, then
-            lines = [line for line in lines if line[0] in kw_list]
 
         if not lines and not root_ndm_elem.subclass_list:
             # item has no subclasses and no content, just skip it
             return None
-
-        if root_ndm_elem.single_elem:
-            xml_data = _xmlify_single_elem(
-                root_ndm_elem.name, lines, root_ndm_elem.single_elem
-            )
         else:
-            xml_data = _xmlify_list(root_ndm_elem.name, lines, prefix)
+            # check for special types
+            if root_ndm_elem.special_type:
+                xml_data = _build_special_objects(root_ndm_elem, kw_list, lines)
+            else:
+                # not a special type, proceed normally
+                if not prefix:
+                    # intersect list with keywords as a final check
+                    # protects from wrong keywords on nested structures
+                    # if prefix is present, then
+                    lines = [line for line in lines if line[0] in kw_list]
+
+                if not lines and not root_ndm_elem.subclass_list:
+                    # item has no subclasses and no content, just skip it
+                    return None
+
+                if root_ndm_elem.single_elem:
+                    # Process as single element
+                    xml_data = _xmlify_single_elem(
+                        root_ndm_elem.name, lines, root_ndm_elem.single_elem
+                    )
+                else:
+                    # process normally (with or without prefix)
+                    xml_data = _xmlify_list(root_ndm_elem.name, lines, prefix)
+
         ndm_object = parser.from_bytes(xml_data, root_ndm_elem.clazz)
+
+        # print(root_ndm_elem.name)
 
         # fill lower level objects
         for subclass in root_ndm_elem.subclass_list:
-            subobject = self._build_object_tree(subclass, parser)
-            # if subclass.name == "segment":
-            #     print(subclass.name)
+            subobject = self.__build_object_tree(subclass, parser)
             if isinstance(getattr(ndm_object, subclass.name), list):
                 if subobject:
                     # this is a list, add the new element
@@ -509,9 +725,35 @@ class NdmKvnIo:
             else:
                 # this is not a list, just replace the data
                 setattr(ndm_object, subclass.name, subobject)
-            # print(subobject.id)
 
         return ndm_object
+
+
+def _build_special_objects(root_ndm_elem, kw_list, lines):
+    """Builds the special objects, as defined in `_SpecialDataTypes`."""
+
+    if root_ndm_elem.special_type is _SpecialDataTypes.EPOCHSTARTNUMCOLS:
+        # parse Epoch Start Num Cols type data
+        synth_lines = list(zip(kw_list, lines[0][0].split()))
+        xml_data = _xmlify_list(root_ndm_elem.name, synth_lines)
+
+    elif root_ndm_elem.special_type is _SpecialDataTypes.STACKEDCOVAR:
+        # Stacked covariance data
+        datalines = [line[0].split() for line in lines if not line[0].isalpha()]
+        kvnlines = [line for line in lines if line[0].isalpha()]
+        # flatten the list
+        data_list = [item for sublist in datalines for item in sublist]
+        synth_lines = list(zip(kw_list[3:], data_list))
+        kvnlines.extend(synth_lines)
+        xml_data = _xmlify_list(root_ndm_elem.name, kvnlines)
+
+    else:
+        raise ValueError(
+            f"Unknown Special Data Type ({root_ndm_elem.special_type}) encountered "
+            f"while building object."
+        )
+
+    return xml_data
 
 
 def _identify_data_type(kvn_source):
