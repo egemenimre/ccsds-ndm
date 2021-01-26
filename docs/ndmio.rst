@@ -26,7 +26,6 @@ can be provided through the keywords `schema_location` or `no_namespace_schema_l
         no_namespace_schema_location="http://cwe.ccsds.org/moims/docs/MOIMS-NAV/Schemas/ndmxml-1.0-master.xsd")
 
 
-
 It is still possible to generate a string output of the file contents through :meth:`.NdmIo.to_string`.
 `NdmIo` acts as a thin interface and the actual output of the data is handled by the lower level
 :meth:`.NdmKvnIo.from_path` or :meth:`.NdmXmlIo.from_path` classes.
@@ -50,8 +49,7 @@ the contents of the data. As such, the KVN parser is agnostic, in the sense that
 looks like, but, inspecting the object tree derived from the XSD file, it *finds out* how to read it. Therefore there
 are no individual parsers for each file type, but a single "parsing engine".
 
-Note that, current functionality enables reading a limited number of KVN data types and no KVN output is possible
-at this time.
+Note that, no KVN output is possible at this time, but will be available soon for version 2.0 beta release.
 
 Reference/API
 -------------
