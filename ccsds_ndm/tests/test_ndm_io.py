@@ -16,18 +16,18 @@ from ccsds_ndm.ndm_io import NDMFileFormats, NdmIo
 extra_path = Path("ccsds_ndm", "tests")
 
 file_paths = {
-    "AEMv1": Path("data", "xml", "NDMXML-P1.0.1-figure-B-2.xml"),
-    "APMv1": Path("data", "xml", "NDMXML-P1.0.1-figure-B-3.xml"),
-    "CDMv1": Path("data", "kvn", "cdm_example_section4.kvn"),
-    "OEMv1": Path("data", "xml", "ndmxml-1.0-oem-2.0-single.xml"),
-    "OMMv1_1": Path("data", "kvn", "omm1_st.kvn"),
-    "OMMv1_2": Path("data", "kvn", "omm1_ct.kvn"),
-    "OMMv1": Path("data", "xml", "ndmxml-1.0-omm-2.0.xml"),
-    "OPMv1": None,
-    "RDMv1": None,
-    "TDMv1": Path("data", "xml", "tdm-testcase01a-fordocument.xml"),
-    "NDMv1": Path("data", "xml", "omm_combined.xml"),
-    "NDMv1_strip": Path("data", "xml", "omm_single_ndm.xml"),
+    "AEMv2": Path("data", "xml", "NDMXML-P1.0.1-figure-B-2.xml"),
+    "APMv2": Path("data", "xml", "NDMXML-P1.0.1-figure-B-3.xml"),
+    "CDMv2": Path("data", "kvn", "cdm_example_section4.kvn"),
+    "OEMv2": Path("data", "xml", "ndmxml-1.0-oem-2.0-single.xml"),
+    "OMMv2_1": Path("data", "kvn", "omm1_st.kvn"),
+    "OMMv2_2": Path("data", "kvn", "omm1_ct.kvn"),
+    "OMMv2": Path("data", "xml", "ndmxml-1.0-omm-2.0.xml"),
+    "OPMv2": None,
+    "RDMv2": None,
+    "TDMv2": Path("data", "xml", "tdm-testcase01a-fordocument.xml"),
+    "NDMv2": Path("data", "xml", "omm_combined.xml"),
+    "NDMv2_strip": Path("data", "xml", "omm_single_ndm.xml"),
 }
 wrong_contents = [
     "THIS=is a wrong data \n More wrong data\n",
@@ -35,8 +35,8 @@ wrong_contents = [
 ]
 
 not_implemented = {
-    "OMMv1_1": Path("data", "json", "omm1_st.json"),
-    "OMMv1_2": Path("data", "json", "omm1_ct.json"),
+    "OMMv2_1": Path("data", "json", "omm1_st.json"),
+    "OMMv2_2": Path("data", "json", "omm1_ct.json"),
 }
 
 

@@ -18,7 +18,7 @@ from lxml import etree
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 
-from ccsds_ndm.models.ndmxml1 import (
+from ccsds_ndm.models.ndmxml2 import (
     Aem,
     Apm,
     Cdm,
@@ -41,14 +41,14 @@ class _NdmDataType(Enum):
     NDM Data Type (e.g. OEM or AEM).
     """
 
-    AEMv1 = (Aem.id, Aem)
-    APMv1 = (Apm.id, Apm)
-    CDMv1 = (Cdm.id, Cdm)
-    OEMv1 = (Oem.id, Oem)
-    OMMv1 = (Omm.id, Omm)
-    OPMv1 = (Opm.id, Opm)
-    RDMv1 = (Rdm.id, Rdm)
-    TDMv1 = (Tdm.id, Tdm)
+    AEMv2 = (Aem.id, Aem)
+    APMv2 = (Apm.id, Apm)
+    CDMv2 = (Cdm.id, Cdm)
+    OEMv2 = (Oem.id, Oem)
+    OMMv2 = (Omm.id, Omm)
+    OPMv2 = (Opm.id, Opm)
+    RDMv2 = (Rdm.id, Rdm)
+    TDMv2 = (Tdm.id, Tdm)
 
     def __init__(self, ndm_id, clazz):
         self.clazz = clazz

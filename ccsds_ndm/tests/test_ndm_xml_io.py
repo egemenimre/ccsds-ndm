@@ -12,23 +12,23 @@ from pathlib import Path
 
 import pytest
 
-from ccsds_ndm.models.ndmxml1 import Omm
+from ccsds_ndm.models.ndmxml2 import Omm
 from ccsds_ndm.ndm_io import NDMFileFormats, NdmIo
 from ccsds_ndm.ndm_xml_io import NdmXmlIo
 
 extra_path = Path("ccsds_ndm", "tests")
 
 xml_file_paths = {
-    "AEMv1": Path("data", "xml", "NDMXML-P1.0.1-figure-B-2.xml"),
-    "APMv1": Path("data", "xml", "NDMXML-P1.0.1-figure-B-3.xml"),
-    "CDMv1": Path("data", "xml", "cdm_example_section4.xml"),
-    "OEMv1": Path("data", "xml", "ndmxml-1.0-oem-2.0-single.xml"),
-    "OMMv1": Path("data", "xml", "ndmxml-1.0-omm-2.0.xml"),
-    "OPMv1": None,
-    "RDMv1": None,
-    "TDMv1": Path("data", "xml", "tdm-testcase01a-fordocument.xml"),
-    "NDMv1": Path("data", "xml", "omm_combined.xml"),
-    "NDMv1_strip": Path("data", "xml", "omm_single_ndm.xml"),
+    "AEMv2": Path("data", "xml", "NDMXML-P1.0.1-figure-B-2.xml"),
+    "APMv2": Path("data", "xml", "NDMXML-P1.0.1-figure-B-3.xml"),
+    "CDMv2": Path("data", "xml", "cdm_example_section4.xml"),
+    "OEMv2": Path("data", "xml", "ndmxml-1.0-oem-2.0-single.xml"),
+    "OMMv2": Path("data", "xml", "ndmxml-1.0-omm-2.0.xml"),
+    "OPMv2": None,
+    "RDMv2": None,
+    "TDMv2": Path("data", "xml", "tdm-testcase01a-fordocument.xml"),
+    "NDMv2": Path("data", "xml", "omm_combined.xml"),
+    "NDMv2_strip": Path("data", "xml", "omm_single_ndm.xml"),
 }
 
 

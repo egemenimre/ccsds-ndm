@@ -17,7 +17,7 @@ from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers import XmlSerializer
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 
-from ccsds_ndm.models.ndmxml1 import Aem, Apm, Cdm, Ndm, Oem, Omm, Opm, Rdm, Tdm
+from ccsds_ndm.models.ndmxml2 import Aem, Apm, Cdm, Ndm, Oem, Omm, Opm, Rdm, Tdm
 
 
 class _NdmDataType(Enum):
@@ -25,14 +25,14 @@ class _NdmDataType(Enum):
     NDM Data Type (e.g. OEM or AEM).
     """
 
-    AEMv1 = (Aem.Meta.name, Aem)
-    APMv1 = (Apm.Meta.name, Apm)
-    CDMv1 = (Cdm.Meta.name, Cdm)
-    OEMv1 = (Oem.Meta.name, Oem)
-    OMMv1 = (Omm.Meta.name, Omm)
-    OPMv1 = (Opm.Meta.name, Opm)
-    RDMv1 = (Rdm.Meta.name, Rdm)
-    TDMv1 = (Tdm.Meta.name, Tdm)
+    AEMv2 = (Aem.Meta.name, Aem)
+    APMv2 = (Apm.Meta.name, Apm)
+    CDMv2 = (Cdm.Meta.name, Cdm)
+    OEMv2 = (Oem.Meta.name, Oem)
+    OMMv2 = (Omm.Meta.name, Omm)
+    OPMv2 = (Opm.Meta.name, Opm)
+    RDMv2 = (Rdm.Meta.name, Rdm)
+    TDMv2 = (Tdm.Meta.name, Tdm)
 
     def __init__(self, ndm_id, clazz):
         self.clazz = clazz
@@ -129,7 +129,7 @@ class NdmXmlIo:
         # if the file is NDM, downcast the elements to their respective subclasses
         if isinstance(ndm, Ndm):
             for tag, ndm_item_list in vars(ndm).items():
-                if tag == "comment":
+                if tag == "comment" or tag == "message_id":
                     continue
                 for i, ndm_item in enumerate(ndm_item_list):
                     subclazz = type(ndm_item).__subclasses__()[0]
@@ -278,9 +278,15 @@ def _strip_multi_ndm(ndm):
     ndm_elem : NDM element
         Identified and stripped NDM element or the original Combi-NDM
     """
-    # Find the elements that have non-zero members (omit the "comment" tag)
+    # Find the elements that have non-zero members (omit the "comment"
+    # and "message_id" tags)
     non_zero_elem_list = list(
-        filter(lambda elem: len(vars(ndm)[elem]) > 0 and elem != "comment", vars(ndm))
+        filter(
+            lambda elem: elem != "message_id"
+            and elem != "comment"
+            and len(vars(ndm)[elem]) > 0,
+            vars(ndm),
+        )
     )
 
     if len(non_zero_elem_list) == 1:

@@ -17,37 +17,37 @@ from ccsds_ndm.ndm_kvn_io import NdmKvnIo
 extra_path = Path("ccsds_ndm", "tests")
 
 kvn_xml_file_paths = {
-    "AEMv1": None,
-    "APMv1_1": Path("data", "kvn", "504x0b1c1_fig3_6_apm.kvn"),
-    "APMv1_2": Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn"),
-    "CDMv1": Path("data", "kvn", "cdm_example_section4.kvn"),
+    "AEMv2": None,
+    "APMv2_1": Path("data", "kvn", "504x0b1c1_fig3_6_apm.kvn"),
+    "APMv2_2": Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn"),
+    "CDMv2": Path("data", "kvn", "cdm_example_section4.kvn"),
     "OEMv2_1": Path("data", "kvn", "odmv2-testcase6_abbrev.kvn"),
     "OEMv2_2": Path("data", "kvn", "odmv2-testcase7a_xxx.kvn"),
-    "OMMv1_1": Path("data", "kvn", "omm1_st.kvn"),
-    "OMMv1_2": Path("data", "kvn", "omm1_ct.kvn"),
+    "OMMv2_1": Path("data", "kvn", "omm1_st.kvn"),
+    "OMMv2_2": Path("data", "kvn", "omm1_ct.kvn"),
     # This is OPM v2 but it is compatible with OPM v1
-    "OPMv1_1": Path("data", "kvn", "502x0b2c1e2_fig3_2_opm.kvn"),
+    "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_2_opm.kvn"),
     # This is OPM v2 and is incompatible with v1
-    # "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
-    "RDMv1": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
-    "TDMv1": None,
-    "NDMv1": None,
-    "NDMv1_strip": None,
+    "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
+    "RDMv2": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
+    "TDMv2": None,
+    "NDMv2": None,
+    "NDMv2_strip": None,
 }
 
 # kvn_file_paths = {
-#     # "AEMv1": Path("data", "kvn", "adm-testcase04a.kvn"),
-#     # "APMv1_2": Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn"),
-#     # "CDMv1": Path("data", "kvn", "cdm_example_section4.kvn"),
-#     "OEMv2_1": Path("data", "kvn", "odmv2-testcase7a.kvn"),
-#     # "OMMv1_1": Path("data", "kvn", "omm1_st.kvn"),
-#     # "OMMv1_2": Path("data", "kvn", "omm1_ct.kvn"),
-#     # "OPMv1_1": Path("data", "kvn", "502x0b2c1e2_fig3_2_opm.kvn"),
-#     # "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
-#     # "RDMv1": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
-#     # "TDMv1": None,
-#     # "NDMv1": None,
-#     # "NDMv1_strip": None,
+#     # "AEMv2": Path("data", "kvn", "adm-testcase04a.kvn"),
+#     # "APMv2_2": Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn"),
+#     # "CDMv2": Path("data", "kvn", "cdm_example_section4.kvn"),
+#     # "OEMv2_1": Path("data", "kvn", "odmv2-testcase7a.kvn"),
+#     # "OMMv2_1": Path("data", "kvn", "omm1_st.kvn"),
+#     # "OMMv2_2": Path("data", "kvn", "omm1_ct.kvn"),
+#     # "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_2_opm.kvn"),
+#     "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
+#     # "RDMv2": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
+#     # "TDMv2": None,
+#     # "NDMv2": None,
+#     # "NDMv2_strip": None,
 # }
 #
 #
@@ -63,7 +63,7 @@ kvn_xml_file_paths = {
 #         ndm = NdmKvnIo().from_path(kvn_path)
 #
 #         # print(ndm)
-#         # print(NdmXmlIo().to_string(ndm))
+#         print(NdmIo().to_string(ndm, NDMFileFormats.XML))
 
 
 @pytest.mark.parametrize("ndm_key, path", kvn_xml_file_paths.items())
