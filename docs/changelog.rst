@@ -2,7 +2,7 @@ Changelog
 =========
 
 - Development Version
-    - Major update to support to read KVN data
+    - Major update to support reading KVN data and files
     - Updated `xsdata` to 20.12 (and solved compatibility issues with the new version)
     - Added optional schema file location
       (`#8 <https://github.com/egemenimre/ccsds-ndm/issues/8>`_)
