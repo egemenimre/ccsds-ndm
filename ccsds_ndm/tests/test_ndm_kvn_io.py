@@ -17,7 +17,7 @@ from ccsds_ndm.ndm_kvn_io import NdmKvnIo
 extra_path = Path("ccsds_ndm", "tests")
 
 kvn_xml_file_paths = {
-    "AEMv2": None,
+    "AEMv2_1": Path("data", "kvn", "adm-testcase04a_abbrev.kvn"),
     "APMv2_1": Path("data", "kvn", "504x0b1c1_fig3_6_apm.kvn"),
     "APMv2_2": Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn"),
     "CDMv2": Path("data", "kvn", "cdm_example_section4.kvn"),
@@ -36,14 +36,14 @@ kvn_xml_file_paths = {
 }
 
 # kvn_file_paths = {
-#     # "AEMv2": Path("data", "kvn", "adm-testcase04a.kvn"),
+#     "AEMv2": Path("data", "kvn", "adm-testcase04a_abbrev.kvn"),
 #     # "APMv2_2": Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn"),
 #     # "CDMv2": Path("data", "kvn", "cdm_example_section4.kvn"),
-#     # "OEMv2_1": Path("data", "kvn", "odmv2-testcase7a.kvn"),
+#     # "OEMv2_1": Path("data", "kvn", "odmv2-testcase7a_xxx.kvn"),
 #     # "OMMv2_1": Path("data", "kvn", "omm1_st.kvn"),
 #     # "OMMv2_2": Path("data", "kvn", "omm1_ct.kvn"),
 #     # "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_2_opm.kvn"),
-#     "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
+#     # "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
 #     # "RDMv2": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
 #     # "TDMv2": None,
 #     # "NDMv2": None,
