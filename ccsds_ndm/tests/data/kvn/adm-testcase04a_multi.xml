@@ -1,0 +1,1549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aem id="CCSDS_AEM_VERS" version="1.0">
+    <header>
+        <COMMENT>AEM Implementation Test - Attempt 2</COMMENT>
+        <COMMENT>Euler angle rates have been corrected</COMMENT>
+        <CREATION_DATE>2007-10-03T13:25:00</CREATION_DATE>
+        <ORIGINATOR>GSFC</ORIGINATOR>
+    </header>
+    <body>
+        <segment>
+            <metadata>
+                <COMMENT>TRMM Attitude history beginning at 2003-03-04T12:00:00</COMMENT>
+                <COMMENT>Attitude requires an OEM for full processing</COMMENT>
+                <COMMENT>OEM provided for this message is trmm_oem_20030304_1200_1305.txt</COMMENT>
+                <OBJECT_NAME>TRMM</OBJECT_NAME>
+                <OBJECT_ID>1997-009A</OBJECT_ID>
+                <CENTER_NAME>EARTH</CENTER_NAME>
+                <REF_FRAME_A>SC_BODY</REF_FRAME_A>
+                <REF_FRAME_B>LVLH</REF_FRAME_B>
+                <ATTITUDE_DIR>B2A</ATTITUDE_DIR>
+                <TIME_SYSTEM>TOD</TIME_SYSTEM>
+                <START_TIME>2003-03-04T12:00:00.0</START_TIME>
+                <STOP_TIME>2003-03-04T12:00:21.000</STOP_TIME>
+                <ATTITUDE_TYPE>EULER_ANGLE/RATE</ATTITUDE_TYPE>
+                <EULER_ROT_SEQ>321</EULER_ROT_SEQ>
+                <RATE_FRAME>REF_FRAME_A</RATE_FRAME>
+            </metadata>
+            <data>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:00.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01626368</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01791928</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00945166</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031400</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:01.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01626462</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01791804</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00944837</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031403</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:01.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01626556</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01791682</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00944509</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031406</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:02.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01626649</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01791560</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00944180</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031408</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:02.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01626743</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01791440</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00943852</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031411</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:03.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01626837</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01791320</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00943523</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031414</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:03.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01626929</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01791203</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00943199</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008985</rotation1>
+                            <rotation2 rate="Y_RATE">0.00057424</rotation2>
+                            <rotation3 rate="X_RATE">0.00002968</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:04.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627023</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01791085</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00942871</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031420</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:04.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627117</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01790968</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00942542</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031442</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:05.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627211</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01790851</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00942214</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031445</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:05.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627305</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01790736</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00941886</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031447</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:06.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627397</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01790623</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00941562</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008985</rotation1>
+                            <rotation2 rate="Y_RATE">0.00057392</rotation2>
+                            <rotation3 rate="X_RATE">0.00002968</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:06.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627491</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01790517</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00941233</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008955</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031644</rotation2>
+                            <rotation3 rate="X_RATE">-0.00085693</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:07.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627585</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01790404</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00940904</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031455</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:07.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627679</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01790292</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00940576</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031457</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:08.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627769</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01790164</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00940248</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00097745</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031508</rotation2>
+                            <rotation3 rate="X_RATE">0.00003034</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:08.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627863</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01790054</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00939920</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031485</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:09.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01627957</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01789944</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00939591</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031488</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:09.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628051</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01789836</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00939263</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031491</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:10.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628145</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01789729</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00938935</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031494</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:10.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628239</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01789622</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00938606</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031496</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:11.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628332</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01789518</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00938282</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008985</rotation1>
+                            <rotation2 rate="Y_RATE">0.00057342</rotation2>
+                            <rotation3 rate="X_RATE">0.00002968</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:11.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628426</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01789413</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00937954</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031502</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:12.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628520</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01789309</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00937626</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031461</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:12.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628614</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01789206</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00937297</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031523</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:13.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628708</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01789104</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00936969</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031525</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:13.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628802</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01789003</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00936640</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031528</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:14.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628896</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01788903</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00936312</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031530</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:14.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01628989</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01788804</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00935988</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008985</rotation1>
+                            <rotation2 rate="Y_RATE">0.00057309</rotation2>
+                            <rotation3 rate="X_RATE">0.00002968</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:15.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01629083</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01788706</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00935660</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031535</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:15.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01629177</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01788608</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00935332</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031538</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:16.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01629267</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01788494</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00935004</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00097745</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031549</rotation2>
+                            <rotation3 rate="X_RATE">0.00003034</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:16.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01629362</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01788398</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00934676</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031562</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:17.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01629456</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01788302</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00934348</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031565</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:17.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01629550</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01788208</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00934019</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031567</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:18.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01629644</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01788115</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00933691</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031570</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:18.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01629738</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01788022</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00933363</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031572</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:19.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01629831</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01787932</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00933039</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008985</rotation1>
+                            <rotation2 rate="Y_RATE">0.00057267</rotation2>
+                            <rotation3 rate="X_RATE">0.00002968</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:19.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01629925</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01787841</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00932711</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031577</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:20.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01630020</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01787752</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00932383</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031501</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:20.500</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01630114</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01787663</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00932054</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031606</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+                <attitudeState>
+                    <eulerAngleRate>
+                        <EPOCH>2003-03-04T12:00:21.000</EPOCH>
+                        <rotationAngles>
+                            <rotation1 angle="Z_ANGLE">0.01630208</rotation1>
+                            <rotation2 angle="Y_ANGLE">-0.01787574</rotation2>
+                            <rotation3 angle="X_ANGLE">0.00931726</rotation3>
+                        </rotationAngles>
+                        <rotationRates>
+                            <rotation1 rate="Z_RATE">0.00008895</rotation1>
+                            <rotation2 rate="Y_RATE">-0.00031609</rotation2>
+                            <rotation3 rate="X_RATE">0.00003118</rotation3>
+                        </rotationRates>
+                    </eulerAngleRate>
+                </attitudeState>
+            </data>
+        </segment>
+        <segment>
+            <metadata>
+                <COMMENT>TRMM Attitude history beginning at 2003-03-04T12:00:00</COMMENT>
+                <COMMENT>Attitude requires an OEM for full processing</COMMENT>
+                <COMMENT>OEM provided for this message is trmm_oem_20030304_1200_1305.txt</COMMENT>
+                <OBJECT_NAME>TRMM</OBJECT_NAME>
+                <OBJECT_ID>1997-009A</OBJECT_ID>
+                <CENTER_NAME>EARTH</CENTER_NAME>
+                <REF_FRAME_A>SC_BODY</REF_FRAME_A>
+                <REF_FRAME_B>LVLH</REF_FRAME_B>
+                <ATTITUDE_DIR>B2A</ATTITUDE_DIR>
+                <TIME_SYSTEM>TOD</TIME_SYSTEM>
+                <START_TIME>2003-03-04T12:00:21.00</START_TIME>
+                <STOP_TIME>2003-03-04T12:00:47.500</STOP_TIME>
+                <ATTITUDE_TYPE>QUATERNION/RATE</ATTITUDE_TYPE>
+                <QUATERNION_TYPE>LAST</QUATERNION_TYPE>
+                <EULER_ROT_SEQ>212</EULER_ROT_SEQ>
+                <RATE_FRAME>REF_FRAME_A</RATE_FRAME>
+            </metadata>
+            <data>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:21.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01630208</Q1>
+                            <Q2>-0.01787574</Q2>
+                            <Q3>0.00931726</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031609</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01787574</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:21.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008985</QC>
+                            <Q1>0.01630301</Q1>
+                            <Q2>-0.01787488</Q2>
+                            <Q3>0.00931402</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">0.00057230</rotation1>
+                            <rotation2 rate="X_RATE">0.00002968</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01787488</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:22.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01630395</Q1>
+                            <Q2>-0.01787402</Q2>
+                            <Q3>0.00931074</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031614</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01787402</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:22.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01630490</Q1>
+                            <Q2>-0.01787317</Q2>
+                            <Q3>0.00930746</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031617</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01787317</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:23.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01630584</Q1>
+                            <Q2>-0.01787232</Q2>
+                            <Q3>0.00930418</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031619</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01787232</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:23.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01630678</Q1>
+                            <Q2>-0.01787148</Q2>
+                            <Q3>0.00930090</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031622</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01787148</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:24.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01630772</Q1>
+                            <Q2>-0.01787065</Q2>
+                            <Q3>0.00929762</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031521</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01787065</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:24.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00097745</QC>
+                            <Q1>0.01630863</Q1>
+                            <Q2>-0.01786966</Q2>
+                            <Q3>0.00929434</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031708</rotation1>
+                            <rotation2 rate="X_RATE">0.00003034</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786966</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:25.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01630958</Q1>
+                            <Q2>-0.01786885</Q2>
+                            <Q3>0.00929106</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031643</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786885</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:25.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01631052</Q1>
+                            <Q2>-0.01786804</Q2>
+                            <Q3>0.00928778</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031645</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786804</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:26.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01631146</Q1>
+                            <Q2>-0.01786725</Q2>
+                            <Q3>0.00928450</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031648</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786725</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:26.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008985</QC>
+                            <Q1>0.01631239</Q1>
+                            <Q2>-0.01786648</Q2>
+                            <Q3>0.00928126</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">0.00057191</rotation1>
+                            <rotation2 rate="X_RATE">0.00002968</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786648</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:27.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01631334</Q1>
+                            <Q2>-0.01786570</Q2>
+                            <Q3>0.00927798</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031653</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786570</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:27.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01631428</Q1>
+                            <Q2>-0.01786493</Q2>
+                            <Q3>0.00927470</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031655</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786493</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:28.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01631523</Q1>
+                            <Q2>-0.01786418</Q2>
+                            <Q3>0.00927142</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031541</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786418</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:28.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01631617</Q1>
+                            <Q2>-0.01786343</Q2>
+                            <Q3>0.00926814</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031675</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786343</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:29.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01631711</Q1>
+                            <Q2>-0.01786269</Q2>
+                            <Q3>0.00926486</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031677</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786269</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:29.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01631806</Q1>
+                            <Q2>-0.01786195</Q2>
+                            <Q3>0.00926158</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031679</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786195</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:30.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01631900</Q1>
+                            <Q2>-0.01786123</Q2>
+                            <Q3>0.00925830</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031682</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786123</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:30.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008985</QC>
+                            <Q1>0.01631994</Q1>
+                            <Q2>-0.01786052</Q2>
+                            <Q3>0.00925507</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">0.00057157</rotation1>
+                            <rotation2 rate="X_RATE">0.00002968</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01786052</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:31.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01632088</Q1>
+                            <Q2>-0.01785982</Q2>
+                            <Q3>0.00925179</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031686</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785982</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:31.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01632182</Q1>
+                            <Q2>-0.01785912</Q2>
+                            <Q3>0.00924851</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031689</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785912</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:32.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01632277</Q1>
+                            <Q2>-0.01785843</Q2>
+                            <Q3>0.00924523</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031560</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785843</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:32.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00097804</QC>
+                            <Q1>0.01632368</Q1>
+                            <Q2>-0.01785764</Q2>
+                            <Q3>0.00924195</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031973</rotation1>
+                            <rotation2 rate="X_RATE">-0.00085776</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785764</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:33.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01632462</Q1>
+                            <Q2>-0.01785697</Q2>
+                            <Q3>0.00923868</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031716</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785697</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:33.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01632557</Q1>
+                            <Q2>-0.01785631</Q2>
+                            <Q3>0.00923540</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031718</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785631</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:34.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01632651</Q1>
+                            <Q2>-0.01785566</Q2>
+                            <Q3>0.00923212</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031720</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785566</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:34.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008985</QC>
+                            <Q1>0.01632745</Q1>
+                            <Q2>-0.01785502</Q2>
+                            <Q3>0.00922888</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">0.00057119</rotation1>
+                            <rotation2 rate="X_RATE">0.00002968</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785502</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:35.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01632839</Q1>
+                            <Q2>-0.01785439</Q2>
+                            <Q3>0.00922561</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031725</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785439</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:35.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01632934</Q1>
+                            <Q2>-0.01785376</Q2>
+                            <Q3>0.00922233</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031727</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785376</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:36.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01633028</Q1>
+                            <Q2>-0.01785314</Q2>
+                            <Q3>0.00921905</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031578</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785314</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:36.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01633123</Q1>
+                            <Q2>-0.01785253</Q2>
+                            <Q3>0.00921577</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031740</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785253</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:37.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01633218</Q1>
+                            <Q2>-0.01785193</Q2>
+                            <Q3>0.00921249</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031742</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785193</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:37.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01633312</Q1>
+                            <Q2>-0.01785133</Q2>
+                            <Q3>0.00920922</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031744</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785133</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:38.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00009045</QC>
+                            <Q1>0.01633405</Q1>
+                            <Q2>-0.01785083</Q2>
+                            <Q3>0.00920598</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">0.00056903</rotation1>
+                            <rotation2 rate="X_RATE">-0.00085842</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785083</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:38.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01633500</Q1>
+                            <Q2>-0.01785025</Q2>
+                            <Q3>0.00920270</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031749</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01785025</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:39.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01633595</Q1>
+                            <Q2>-0.01784969</Q2>
+                            <Q3>0.00919942</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031751</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784969</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:39.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01633689</Q1>
+                            <Q2>-0.01784913</Q2>
+                            <Q3>0.00919615</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031753</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784913</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:40.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01633784</Q1>
+                            <Q2>-0.01784858</Q2>
+                            <Q3>0.00919287</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031596</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784858</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:40.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01633879</Q1>
+                            <Q2>-0.01784804</Q2>
+                            <Q3>0.00918959</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031788</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784804</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:41.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01633973</Q1>
+                            <Q2>-0.01784751</Q2>
+                            <Q3>0.00918632</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031791</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784751</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:41.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00097745</QC>
+                            <Q1>0.01634064</Q1>
+                            <Q2>-0.01784681</Q2>
+                            <Q3>0.00918305</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031861</rotation1>
+                            <rotation2 rate="X_RATE">0.00003034</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784681</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:42.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01634159</Q1>
+                            <Q2>-0.01784629</Q2>
+                            <Q3>0.00917977</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031795</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784629</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:42.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01634254</Q1>
+                            <Q2>-0.01784579</Q2>
+                            <Q3>0.00917650</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031798</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784579</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:43.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008985</QC>
+                            <Q1>0.01634347</Q1>
+                            <Q2>-0.01784530</Q2>
+                            <Q3>0.00917327</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">0.00057041</rotation1>
+                            <rotation2 rate="X_RATE">0.00002968</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784530</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:43.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01634442</Q1>
+                            <Q2>-0.01784481</Q2>
+                            <Q3>0.00916999</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031802</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784481</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:44.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01634537</Q1>
+                            <Q2>-0.01784433</Q2>
+                            <Q3>0.00916672</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031615</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784433</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:44.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01634632</Q1>
+                            <Q2>-0.01784386</Q2>
+                            <Q3>0.00916344</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031808</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784386</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:45.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01634726</Q1>
+                            <Q2>-0.01784340</Q2>
+                            <Q3>0.00916017</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031810</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784340</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:45.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01634821</Q1>
+                            <Q2>-0.01784294</Q2>
+                            <Q3>0.00915689</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031812</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784294</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:46.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008985</QC>
+                            <Q1>0.01634915</Q1>
+                            <Q2>-0.01784250</Q2>
+                            <Q3>0.00915366</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">0.00057027</rotation1>
+                            <rotation2 rate="X_RATE">0.00002968</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784250</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:46.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01635009</Q1>
+                            <Q2>-0.01784207</Q2>
+                            <Q3>0.00915039</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031816</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784207</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:47.000</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01635104</Q1>
+                            <Q2>-0.01784164</Q2>
+                            <Q3>0.00914711</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031818</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784164</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+                <attitudeState>
+                    <quaternionEulerRate>
+                        <EPOCH>2003-03-04T12:00:47.500</EPOCH>
+                        <quaternion>
+                            <QC>0.00008895</QC>
+                            <Q1>0.01635199</Q1>
+                            <Q2>-0.01784122</Q2>
+                            <Q3>0.00914384</Q3>
+                        </quaternion>
+                        <rotationRates>
+                            <rotation1 rate="Y_RATE">-0.00031821</rotation1>
+                            <rotation2 rate="X_RATE">0.00003118</rotation2>
+                            <rotation3 rate="Y_RATE">-0.01784122</rotation3>
+                        </rotationRates>
+                    </quaternionEulerRate>
+                </attitudeState>
+            </data>
+        </segment>
+    </body>
+</aem>
+

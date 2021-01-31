@@ -15,7 +15,6 @@ from enum import Enum
 from typing import Any, Dict, List
 
 from lxml import etree
-from ndm_xml_io import NdmXmlIo
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 
@@ -34,6 +33,7 @@ from ccsds_ndm.models.ndmxml2 import (
     Tdm,
     UserDefinedType,
 )
+from ccsds_ndm.ndm_xml_io import NdmXmlIo
 
 _MinMaxTuple = namedtuple("_MinMaxTuple", ["min", "max"])
 """Data structure to keep min and max tuples."""
@@ -442,6 +442,7 @@ class NdmKvnIo:
                 root_ndm_elem, keys, lines, init_index, prefix
             )
         else:
+
             # normal processing: identify the root element limits
             root_min_max = _get_min_max_indices(
                 root_ndm_elem.kw_list,
@@ -1089,8 +1090,28 @@ def _get_min_max_indices(tags, start_index, keys, prefix=None, single_elem=None)
     # add all comment lines
     __process_comment_lines(tags, start_index, keys, index_list)
 
-    if len(index_list) == 0:
-        # if list is empty, then there are no tags found in data
+    # check for non-consecutive data and chop them if necessary
+    if index_list:
+        # list isn't empty
+        index_list.sort()
+        ideal_list = list(range(min(index_list), max(index_list) + 1))
+        diff_list = [n for n in ideal_list if n not in index_list]
+        # if diff_list has any data, this is not good. Either this is a nested class
+        # or it has numerical data in between (which is separated by spaces).
+        # If latter case holds, delete the numerical data and the rest.
+        if diff_list:
+            containing_spaces = any(" " in keys[n] for n in diff_list)
+            if containing_spaces:
+                # there are no keys in between, all numerical data
+                # chop list to consecutive elements only
+                index_list = [
+                    n
+                    for i, n in enumerate(index_list)
+                    if index_list[i] == ideal_list[i]
+                ]
+
+    if not index_list:
+        # list is empty, there are no tags found in data
         return _MinMaxTuple(start_index, start_index)
     else:
         min_of_list = min(index_list)
