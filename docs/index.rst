@@ -23,7 +23,7 @@ The source code is `on Github <https://github.com/egemenimre/ccsds-ndm>`_ and th
    :widths: 20, 50, 50
 
    "XML", "All NDM Types", "All NDM Types"
-   "KVN", "APM, CDM, OEM, OMM, OPM, RDM", "Not yet available"
+   "KVN", "AEM, APM, CDM, OEM, OMM, OPM, RDM", "Not yet available"
    "JSON", "Not specified in CCSDS Standards", "Not specified in CCSDS Standards"
 
 
