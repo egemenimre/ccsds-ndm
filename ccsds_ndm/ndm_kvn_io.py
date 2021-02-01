@@ -10,7 +10,6 @@ CCSDS Navigation Data Messages KVN File I/O.
 from collections import namedtuple
 from copy import deepcopy
 from dataclasses import dataclass, field
-from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List
 
@@ -31,6 +30,7 @@ from ccsds_ndm.models.ndmxml2 import (
     Rdm,
     StateVectorAccType,
     Tdm,
+    TrackingDataObservationType,
     UserDefinedType,
 )
 from ccsds_ndm.ndm_xml_io import NdmXmlIo
@@ -82,6 +82,7 @@ _special_identification_classes = [
     StateVectorAccType,
     OemCovarianceMatrixType,
     AttitudeStateType,
+    TrackingDataObservationType,
 ]
 """List of special classes with special data types in identification.
 
@@ -93,6 +94,7 @@ _special_processing_classes = [
     OemCovarianceMatrixType,
     AemSegment,
     AttitudeStateType,
+    TrackingDataObservationType,
 ]
 """List of special classes with special data types in processing (object build).
 
@@ -103,6 +105,7 @@ This lists the NDM special data types that do not conform to the `Key = Value [u
 _deleted_keywords = {
     Oem: ["META_START", "META_STOP", "COVARIANCE_START", "COVARIANCE_STOP"],
     Aem: ["META_START", "META_STOP", "DATA_START", "DATA_STOP"],
+    Tdm: ["META_START", "META_STOP", "DATA_START", "DATA_STOP"],
 }
 """List of keywords to be deleted from files. They interfere with the processing."""
 
@@ -750,6 +753,11 @@ class NdmKvnIo:
             kvnlines.extend(synth_lines)
             xml_data = _xmlify_list(root_ndm_elem.name, kvnlines)
 
+        elif root_ndm_elem.clazz is TrackingDataObservationType:
+            # Tracking data, parse the single line
+            synth_lines = list(zip(["EPOCH", lines[0][0]], lines[0][1].split()))
+            xml_data = _xmlify_list(root_ndm_elem.name, synth_lines)
+
         else:
             raise ValueError(
                 f"Unknown Special Data Type ({root_ndm_elem.clazz}) encountered "
@@ -899,14 +907,31 @@ def _identify_special_sub_segments(root_ndm_elem, keys, lines, init_index, prefi
     ):
         # Epoch start and columns of data
 
-        try:
-            # is this a valid date string? take the first element
-            datestr = lines[init_index][0].split()[0]
-            # get rid of anything beyond seconds (high precision messes up datetime parser)
-            datestr = datestr.split(".")[0]
-            datetime.fromisoformat(datestr)
+        # is this a valid date string? take the first element
+        datestr = lines[init_index][0].split()[0]
+
+        # # get rid of anything beyond seconds (high precision messes up datetime parser)
+        # datestr = datestr.split(".")[0]
+        # datetime.fromisoformat(datestr)
+
+        # can be of format "2007-075T16:50:01" or normal ISO string
+        if datestr[:4].isnumeric() and datestr[4] == "-":
             root_min_max = _MinMaxTuple(init_index, init_index + 1)
-        except ValueError:
+        else:
+            # line is not of correct type, just skip it
+            root_min_max = _MinMaxTuple(init_index, init_index)
+
+        return root_min_max
+
+    elif root_ndm_elem.clazz is TrackingDataObservationType:
+
+        # is this a valid date string? take the first element
+        datestr = lines[init_index][1].split()[0]
+
+        # can be of format "2007-075T16:50:01" or normal ISO string
+        if datestr[:4].isnumeric() and datestr[4] == "-":
+            root_min_max = _MinMaxTuple(init_index, init_index + 1)
+        else:
             # line is not of correct type, just skip it
             root_min_max = _MinMaxTuple(init_index, init_index)
 
@@ -1101,7 +1126,13 @@ def _get_min_max_indices(tags, start_index, keys, prefix=None, single_elem=None)
         # If latter case holds, delete the numerical data and the rest.
         if diff_list:
             containing_spaces = any(" " in keys[n] for n in diff_list)
-            if containing_spaces:
+
+            # find repeating data
+            diff_list_keys = [keys[i] for i in diff_list]
+            diff_set_keys = set(diff_list_keys)
+            repeating_data = len(diff_list_keys) != len(diff_set_keys)
+
+            if containing_spaces or repeating_data:
                 # there are no keys in between, all numerical data
                 # chop list to consecutive elements only
                 index_list = [
