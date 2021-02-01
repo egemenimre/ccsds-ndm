@@ -31,13 +31,13 @@ kvn_xml_file_paths = {
     # This is OPM v2 and is incompatible with v1
     "OPMv2_2": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
     "RDMv2": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
-    "TDMv2": None,
+    "TDMv2": Path("data", "kvn", "tdm-testcase01b.kvn"),
     "NDMv2": None,
     "NDMv2_strip": None,
 }
 
 # kvn_file_paths = {
-#     "AEMv2": Path("data", "kvn", "adm-testcase04a_multi.kvn"),
+#     # "AEMv2": Path("data", "kvn", "adm-testcase04a_multi.kvn"),
 #     # "APMv2_2": Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn"),
 #     # "CDMv2": Path("data", "kvn", "cdm_example_section4.kvn"),
 #     # "OEMv2_1": Path("data", "kvn", "odmv2-testcase7a_xxx.kvn"),
@@ -46,7 +46,7 @@ kvn_xml_file_paths = {
 #     # "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_2_opm.kvn"),
 #     # "OPMv2_1": Path("data", "kvn", "502x0b2c1e2_fig3_4_opm.kvn"),
 #     # "RDMv2": Path("data", "kvn", "508x1b1_figc_2_rdm.kvn"),
-#     # "TDMv2": None,
+#     "TDMv2": Path("data", "kvn", "tdm-testcase01b.kvn"),
 #     # "NDMv2": None,
 #     # "NDMv2_strip": None,
 # }
