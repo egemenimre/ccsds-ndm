@@ -20,10 +20,10 @@ Q_FRAME_A       = INSTRUMENT_A
 Q_FRAME_B       = ITRF-97
 Q_DIR           = A2B
 
+QC              = 0.47832
 Q1              = 0.03123
 Q2              = 0.78543
 Q3              = 0.39158
-QC              = 0.47832
 
 COMMENT           Attitude specified as Euler elements
 EULER_FRAME_A   = INSTRUMENT_A
