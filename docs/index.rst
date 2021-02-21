@@ -23,7 +23,7 @@ The source code is `on Github <https://github.com/egemenimre/ccsds-ndm>`_ and th
    :widths: 20, 50, 50
 
    "XML", "All NDM Types", "All NDM Types"
-   "KVN", "all except NDM Combined Instantiation", "Not yet available"
+   "KVN", "All except NDM Combined Instantiation", "All except NDM Combined Instantiation"
    "JSON", "Not specified in CCSDS Standards", "Not specified in CCSDS Standards"
 
 
