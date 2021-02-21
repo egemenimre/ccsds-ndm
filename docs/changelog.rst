@@ -1,7 +1,7 @@
 Changelog
 =========
 
-- Development Version
+- Version 2.0 RC1 (2021/02/21)
     - Major update to support reading KVN data and files
     - Upgraded to NDM XML 2.0.0 XML Schemas
     - Updated `xsdata` to 20.12 (and solved compatibility issues with the new version)
