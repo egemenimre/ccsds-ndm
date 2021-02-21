@@ -82,9 +82,7 @@ def test_write_kvn_string():
     # check path and correct if necessary
     kvn_path = Path.cwd().joinpath(file_paths.get("OMMv2_1"))
     if not Path.cwd().joinpath(kvn_path).exists():
-        kvn_path = (
-            Path.cwd().joinpath(extra_path).joinpath(not_implemented.get("OMMv2_1"))
-        )
+        kvn_path = Path.cwd().joinpath(extra_path).joinpath(file_paths.get("OMMv2_1"))
 
     # read KVN file
     ndm = NdmIo().from_path(kvn_path)
