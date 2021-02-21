@@ -4,6 +4,6 @@
 
 Reference/API
 -------------
-.. automodule:: ccsds_ndm.models.ndmxml1.ndmxml_1_0_navwg_common
+.. automodule:: ccsds_ndm.models.ndmxml2.ndmxml_2_0_0_common_2_0
     :undoc-members:
     :members:
