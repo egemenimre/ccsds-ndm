@@ -4,10 +4,10 @@
 Top Level Interface `ndm_io`
 -----------------------------
 
-The `ndm_io` module is the single unified interface to handle the read and write of the data in XML or KVN format.
-It reads the data, converts to a string, determines the format and calls the lower level XML and KML modules
-to handle the input string. These modules then automatically determine the data type (e.g. CDM or OMM) and
-process the file accordingly.
+The `ndm_io` module is the single unified interface to handle the read and write functionalities for the data
+in XML or KVN format. It reads the data, converts it to a string, determines the format and calls the lower level
+XML and KML modules to handle the input string. These modules then automatically determine the data type
+(e.g. CDM or OMM) and process the file accordingly.
 
 While the nominal use is
 reading the data file through the :meth:`.NdmIo.from_path`, it is also possible to read from
@@ -47,9 +47,14 @@ On the other hand, for the parsing of the KVN
 data, a template object tree is created using the nested class structure of the object tree and is then populated by
 the contents of the data. As such, the KVN parser is agnostic, in the sense that it does not *know* how a CDM KVN file
 looks like, but, inspecting the object tree derived from the XSD file, it *finds out* how to read it. Therefore there
-are no individual parsers for each file type, but a single "parsing engine".
+are no individual parsers for each file type, but a single "parsing engine". There are a lot of exceptions to the
+standard KVN input (such as data lines in AEM and OEM files), which requires these special cases to be handled
+separately.
 
-Note that, no KVN output is possible at this time, but will be available soon for version 2.0 beta release.
+KVN output is possible through :meth:`.NdmKvnIo.to_file` or :meth:`.NdmKvnIo.to_string` methods, to a file or to
+a string, respectively. Similar to the parsing engine, there is an output engine that prepares the output string. For
+many output types this simply outputs the data in the NDM object in standard KVN format. However, many exceptions exist
+(such as OEM, AEM and TDM files) and they have to be handled separately.
 
 Reference/API
 -------------
