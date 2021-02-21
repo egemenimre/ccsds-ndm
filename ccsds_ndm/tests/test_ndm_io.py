@@ -79,26 +79,25 @@ def test_read_json_file(ndm_key, path):
 
 def test_write_kvn_string():
     """Tests writing KVN data as string."""
-    with pytest.raises(NotImplementedError):
-        # check path and correct if necessary
-        kvn_path = Path.cwd().joinpath(not_implemented.get("OMMv2_1"))
-        if not Path.cwd().joinpath(kvn_path).exists():
-            kvn_path = (
-                Path.cwd().joinpath(extra_path).joinpath(not_implemented.get("OMMv2_1"))
-            )
+    # check path and correct if necessary
+    kvn_path = Path.cwd().joinpath(file_paths.get("OMMv2_1"))
+    if not Path.cwd().joinpath(kvn_path).exists():
+        kvn_path = (
+            Path.cwd().joinpath(extra_path).joinpath(not_implemented.get("OMMv2_1"))
+        )
 
-        # read KVN file
-        ndm = NdmIo().from_path(kvn_path)
+    # read KVN file
+    ndm = NdmIo().from_path(kvn_path)
 
-        # read equivalent XML file
-        ndm_truth = NdmIo().from_path(kvn_path.with_suffix(".xml"))
+    # read equivalent XML file
+    ndm_truth = NdmIo().from_path(kvn_path.with_suffix(".xml"))
 
-        # export both files to KVN and compare
-        kvn_text = NdmIo().to_string(ndm, NDMFileFormats.KVN)
-        kvn_text_truth = NdmIo().to_string(ndm_truth, NDMFileFormats.KVN)
+    # export both files to KVN and compare
+    kvn_text = NdmIo().to_string(ndm, NDMFileFormats.KVN)
+    kvn_text_truth = NdmIo().to_string(ndm_truth, NDMFileFormats.KVN)
 
-        # compare strings
-        assert kvn_text_truth == kvn_text
+    # compare strings
+    assert kvn_text_truth == kvn_text
 
 
 def test_write_json_string():
