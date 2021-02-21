@@ -10,6 +10,7 @@ CCSDS Navigation Data Messages KVN File I/O.
 from collections import namedtuple
 from copy import deepcopy
 from dataclasses import dataclass, field
+from decimal import Decimal
 from enum import Enum
 from typing import Any, Dict, List
 
@@ -19,17 +20,24 @@ from xsdata.formats.dataclass.parsers.config import ParserConfig
 
 from ccsds_ndm.models.ndmxml2 import (
     Aem,
+    AemData,
+    AemMetadata,
     AemSegment,
     Apm,
     AttitudeStateType,
     Cdm,
     Oem,
     OemCovarianceMatrixType,
+    OemMetadata,
     Omm,
     Opm,
+    QuaternionDerivativeType,
+    QuaternionEulerRateType,
     Rdm,
     StateVectorAccType,
     Tdm,
+    TdmData,
+    TdmMetadata,
     TrackingDataObservationType,
     UserDefinedType,
 )
@@ -101,6 +109,20 @@ _special_processing_classes = [
 This lists the NDM special data types that do not conform to the `Key = Value [unit]` format.
 """
 
+_special_output_header_classes = [
+    AemData,
+    AemMetadata,
+    OemMetadata,
+    OemCovarianceMatrixType,
+    TdmMetadata,
+    TdmData,
+]
+_special_output_data_classes = [
+    StateVectorAccType,
+    OemCovarianceMatrixType,
+    TrackingDataObservationType,
+    AttitudeStateType,
+]
 
 _deleted_keywords = {
     Oem: ["META_START", "META_STOP", "COVARIANCE_START", "COVARIANCE_STOP"],
@@ -192,23 +214,6 @@ class NdmKvnIo:
         # build the object
         return self._build_object()
 
-    def to_string(self, ndm_obj):
-        """
-        Convert and return the given object tree as xml string.
-
-        Parameters
-        ----------
-        ndm_obj
-            input object tree
-
-
-        Returns
-        -------
-        str
-            given object tree as KVN string
-        """
-        raise NotImplementedError("This functionality is not implemented yet.")
-
     def to_file(self, ndm_obj, kvn_write_file_path):
         """
         Convert and return the given object tree as xml file.
@@ -221,6 +226,169 @@ class NdmKvnIo:
             Path of the XML file to be written
         """
         kvn_write_file_path.write_text(self.to_string(ndm_obj))
+
+    def to_string(self, ndm_obj):
+        """
+        Convert and return the given object tree as xml string.
+
+        Parameters
+        ----------
+        ndm_obj
+            input object tree
+
+        Returns
+        -------
+        str
+            given object tree as KVN string
+        """
+        out_str = [_fill_str_out_kvn(ndm_obj.id, ndm_obj.version)]
+        self._collate_str_out("", ndm_obj, out_str)
+
+        # join lines to a single large str
+        kvn_string = "\n".join(out_str)
+
+        # print(kvn_string)
+
+        return kvn_string
+
+    def _collate_str_out(self, root_key, root_ndm_obj, out_str):
+        """
+        Collates the data to build KVN formatted output string from the object.
+
+        Adds lines to `out_str` as more data from the object is extracted.
+
+        Parameters
+        ----------
+        root_key : str
+            key of the root element
+        root_ndm_obj
+            root NDM object
+        out_str : List[str]
+            output KVN data as a list of strings
+
+        """
+
+        subclasses = vars(root_ndm_obj)
+
+        if type(root_ndm_obj) in _special_output_data_classes:
+            # add special data - can be more than a single line (e.g. stacked covar)
+            out_str.extend(
+                _collate_special_data_str_out(root_key, root_ndm_obj, out_str)
+            )
+
+            # delete all subclasses to cancel lower level processing
+            subclasses = {}
+
+        for key, subclass in subclasses.items():
+            self._collate_str_out_subclasses(key, subclass, out_str)
+
+        if root_key and "value" not in subclasses.keys() and subclasses:
+            out_str.append(_fill_out_single_line(["\n"]))
+
+    def _collate_str_out_subclasses(self, key, ndm_object, out_str):
+        """
+        Collates the data to build KVN formatted output string from the object.
+
+        Adds lines to `out_str` as more data from the object is extracted.
+
+        Parameters
+        ----------
+        key : str
+            key of the NDM element
+        ndm_object
+            NDM object
+        out_str : List[str]
+            output KVN data as a list of strings
+
+        """
+
+        if type(ndm_object) in _special_output_header_classes:
+            # add special header
+            # out_str.append(_fill_out_single_line(["\n"]))
+            out_str.append(_collate_special_header_str_out(ndm_object, is_begin=True))
+            out_str.append(_fill_out_single_line(["\n"]))
+
+        if isinstance(ndm_object, (str, int, float)):
+            # standard key = value pair
+            out_str.append(_fill_str_out_kvn(key, ndm_object))
+        elif key == "comment":
+            # comment line
+            out_str.extend([_fill_str_out_kvn(key, comment) for comment in ndm_object])
+        elif (
+            getattr(ndm_object, "__dict__", False)
+            and ("value" and "units") in vars(ndm_object).keys()
+        ):
+            # value type with class (e.g. RevType)
+
+            # check the third variable, this might hold the key
+            keywords = [
+                keyword
+                for keyword in vars(ndm_object).keys()
+                if keyword not in ["value", "units"]
+            ]
+
+            key_used = key
+            if keywords:
+                key_used = vars(ndm_object)[keywords[0]].value
+
+            if ndm_object.units:
+                # with units
+                out_str.append(
+                    _fill_str_out_kvn(
+                        key_used, str(ndm_object.value), ndm_object.units.value
+                    )
+                )
+            else:
+                # without units
+                out_str.append(_fill_str_out_kvn(key_used, str(ndm_object.value)))
+        elif ("value" and "name") in dir(ndm_object):
+            # enum type
+            out_str.append(_fill_str_out_kvn(key, str(ndm_object.value)))
+        elif isinstance(ndm_object, Decimal):
+            # just a decimal type
+            out_str.append(_fill_str_out_kvn(key, str(ndm_object)))
+        elif key == "user_defined":
+            # "User defined" line
+            out_str.extend(
+                [
+                    _fill_str_out_kvn(
+                        key + "_" + user_def.parameter, user_def.value or ""
+                    )
+                    for user_def in ndm_object
+                ]
+            )
+        elif isinstance(ndm_object, list):
+            # this is a list
+
+            if ndm_object:
+                # run only if list has items in it
+                if type(ndm_object[0]) in _special_output_header_classes:
+                    # add special header
+                    out_str.append(_fill_out_single_line(["\n"]))
+                    out_str.append(
+                        _collate_special_header_str_out(ndm_object[0], is_begin=True)
+                    )
+                    out_str.append(_fill_out_single_line(["\n"]))
+
+                for subclass_item in ndm_object:
+                    self._collate_str_out(key, subclass_item, out_str)
+
+                if type(ndm_object[0]) in _special_output_header_classes:
+                    # add special header
+                    out_str.append(_fill_out_single_line(["\n"]))
+                    out_str.append(
+                        _collate_special_header_str_out(ndm_object[0], is_begin=False)
+                    )
+                    out_str.append(_fill_out_single_line(["\n"]))
+        elif ndm_object:
+            # this is a class, continue with recursion
+            self._collate_str_out(key, ndm_object, out_str)
+
+        if type(ndm_object) in _special_output_header_classes:
+            # add special data
+            # out_str.append(_fill_out_single_line(["\n"]))
+            out_str.append(_collate_special_header_str_out(ndm_object, is_begin=False))
+            out_str.append(_fill_out_single_line(["\n"]))
 
     def _pre_process_kvn_data(self, kvn_source):
         """
@@ -1197,3 +1365,267 @@ def _xmlify_list(root_tag, item_list, prefix=None):
             root.append(child)
 
     return etree.tostring(root, pretty_print=True)
+
+
+def _fill_str_out_kvn(key, value, unit=None):
+    """
+    Fills a line in standard 'key = value' pair or 'key = value [unit]' triplet format.
+
+    Parameters
+    ----------
+    key : str
+        key
+    value : str
+        value
+    unit : str or None
+        unit (if available)
+
+    Returns
+    -------
+    str
+        'key = value' pair or 'key = value [unit]' triplet
+
+    """
+    if unit:
+        # standard 'key = value [unit]' triplet
+        new_line = f"{key.upper():<20} = {str(value):<18}[{unit}]"
+    else:
+        # standard 'key = value' pair or similar (e.g. comment)
+        new_line = f"{key.upper():<20} = {str(value)}"
+
+    return new_line
+
+
+def _fill_str_out_multi_kvn(key, value1, value2):
+    """
+    Fills a line in standard 'key = value value' triplet format.
+
+    Parameters
+    ----------
+    key : str
+        key
+    value1 : str
+        value 1
+    value2 : str
+        value 2
+
+    Returns
+    -------
+    str
+        'key = value value' triplet
+
+    """
+
+    # standard 'key = value' pair or similar (e.g. comment)
+    new_line = f"{key.upper():<20} = {str(value1):<30}{str(value2)} "
+
+    return new_line
+
+
+def _fill_out_single_line(line):
+    """
+    Flattens the elements in the line to form a single string with data separated
+    with spaces.
+
+    Parameters
+    ----------
+    line : List[str]
+        line with string
+
+    Returns
+    -------
+    str
+        "" if line[0] == "\n", else the elements of the line flattened
+        with space as delimiter
+
+    """
+    if line[0] == "\n":
+        # section break
+        return ""
+    else:
+        return "  ".join(line)
+
+
+def _collate_special_header_str_out(ndm_object, is_begin=True):
+    """
+    Writes the special headers (e.g. `META_START`, `COVARIANCE_STOP` )
+
+    Parameters
+    ----------
+    ndm_object
+        NDM object
+    is_begin : bool
+        true if it is a header at the beginning, false if a header at the end
+
+    Returns
+    -------
+    str
+        KVN line
+
+    """
+    if type(ndm_object) in [AemMetadata, OemMetadata, TdmMetadata]:
+        if is_begin:
+            return _fill_out_single_line(["META_START"])
+        else:
+            return _fill_out_single_line(["META_STOP"])
+
+    if type(ndm_object) in [AemData, TdmData]:
+        if is_begin:
+            return _fill_out_single_line(["DATA_START"])
+        else:
+            return _fill_out_single_line(["DATA_STOP"])
+
+    if type(ndm_object) is OemCovarianceMatrixType:
+        if is_begin:
+            return _fill_out_single_line(["COVARIANCE_START"])
+        else:
+            return _fill_out_single_line(["COVARIANCE_STOP"])
+
+
+def _collate_special_data_str_out(key, ndm_obj, out_str):
+    """
+    Converts the special data into their KVN equivalent line.
+
+    Parameters
+    ----------
+    key : str
+        key
+    ndm_obj
+        NDM object
+    out_str : List[str]
+        output KVN data as a list of strings
+
+
+    Returns
+    -------
+    List[str]
+        single element list with the line
+    """
+
+    if type(ndm_obj) is StateVectorAccType:
+        # fill all elements ("value" if something like PositionType or just its str value)
+        line = [
+            str(getattr(elem, "value", elem)) for elem in vars(ndm_obj).values() if elem
+        ]
+        return [_fill_out_single_line(line)]
+
+    if type(ndm_obj) is AttitudeStateType:
+        # find element with valid data
+        att_obj = [att for att in vars(ndm_obj).values() if att]
+
+        if att_obj:
+            quaternion = True if str(att_obj[0]).startswith("Quaternion") else False
+
+            # extract rot objects
+            rot_objects = [
+                vars(rot_obj)
+                for att_key, rot_obj in vars(att_obj[0]).items()
+                if att_key != "epoch"
+            ]
+            if quaternion:
+                # process with quaternion, order is important
+
+                # find quaternion type line (start from the end)
+                quat_type = next(
+                    x for x in reversed(out_str) if x.startswith("QUATERNION_TYPE")
+                ).split("=")[-1]
+
+                quat_last = True if quat_type.strip().startswith("LAST") else False
+
+                if quat_last:
+                    line = [
+                        str(rot_objects[0]["q1"]),
+                        str(rot_objects[0]["q2"]),
+                        str(rot_objects[0]["q3"]),
+                        str(rot_objects[0]["qc"]),
+                    ]
+                else:
+                    line = [
+                        str(rot_objects[0]["qc"]),
+                        str(rot_objects[0]["q1"]),
+                        str(rot_objects[0]["q2"]),
+                        str(rot_objects[0]["q3"]),
+                    ]
+
+                if isinstance(att_obj[0], QuaternionEulerRateType):
+                    line.extend(
+                        [
+                            str(rot_objects[1]["rotation1"].value),
+                            str(rot_objects[1]["rotation2"].value),
+                            str(rot_objects[1]["rotation3"].value),
+                        ]
+                    )
+                elif isinstance(att_obj[0], QuaternionDerivativeType):
+                    if quat_last:
+                        line.extend(
+                            [
+                                str(rot_objects[0]["q1_dot"]),
+                                str(rot_objects[0]["q2_dot"]),
+                                str(rot_objects[0]["q3_dot"]),
+                                str(rot_objects[0]["qc_dot"]),
+                            ]
+                        )
+                    else:
+                        line.extend(
+                            [
+                                str(rot_objects[0]["qc_dot"]),
+                                str(rot_objects[0]["q1_dot"]),
+                                str(rot_objects[0]["q2_dot"]),
+                                str(rot_objects[0]["q3_dot"]),
+                            ]
+                        )
+            else:
+                # process normally - extract values from the rot objects
+                line = [
+                    str(getattr(elem, "value", elem))
+                    for rot_obj in rot_objects
+                    for elem in rot_obj.values()
+                ]
+
+            # add epoch to the beginning
+            line.insert(0, vars(att_obj[0])["epoch"])
+            return [_fill_out_single_line(line)]
+
+    if type(ndm_obj) is TrackingDataObservationType:
+        # find element with data
+
+        item_key, item_value = [
+            (k, v)
+            for k, v in vars(ndm_obj).items()
+            if isinstance(v, Decimal) and k != "epoch"
+        ][0]
+
+        return [
+            _fill_str_out_multi_kvn(item_key, vars(ndm_obj)["epoch"], str(item_value))
+        ]
+
+    if type(ndm_obj) is OemCovarianceMatrixType:
+        lines = []
+        # comment line
+        lines.extend([_fill_str_out_kvn(key, comment) for comment in ndm_obj.comment])
+
+        lines.append(_fill_str_out_kvn("epoch", ndm_obj.epoch))
+
+        if ndm_obj.cov_ref_frame:
+            lines.append(_fill_str_out_kvn("cov_ref_frame", ndm_obj.cov_ref_frame))
+
+        max_elems = 1
+        covar_data_iter = iter(
+            [
+                getattr(elem, "value")
+                for elem in vars(ndm_obj).values()
+                if hasattr(elem, "value")
+            ]
+        )
+        while True:
+            try:
+                lines.append(
+                    _fill_out_single_line(
+                        [str(next(covar_data_iter)) for i in range(max_elems)]
+                    )
+                )
+                max_elems += 1
+            except StopIteration:
+                break
+
+        return lines
