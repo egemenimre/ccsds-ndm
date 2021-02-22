@@ -6,4 +6,4 @@
 """
 CCSDS-NDM
 """
-__version__ = "2.0RC1a"
+__version__ = "2.0_alpha"
