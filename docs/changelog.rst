@@ -2,7 +2,7 @@ Changelog
 =========
 
 - Version 2.1 (2021/05/16)
-    - Updated to new `xsdata` and `lxml`
+    - Updated to new `xsdata` (21.5) and `lxml` (4.6.3)
     - Fixed an issue (due to new `xsdata`) where root tags could not be processed correctly
 
 - Version 2.0 (2021/02/22)
