@@ -837,7 +837,11 @@ class NdmKvnIo:
                     # item has no subclasses and no content, just skip it
                     return None
 
-                if root_ndm_elem.single_elem:
+                if kw_list == ["id", "version"]:
+                    # Process as outermost element
+                    xml_data = _xmlify_root(root_ndm_elem.clazz.Meta.name, local_lines)
+
+                elif root_ndm_elem.single_elem:
                     # Process as single element
                     xml_data = _xmlify_single_elem(
                         root_ndm_elem.name, local_lines, root_ndm_elem.single_elem
@@ -1321,6 +1325,18 @@ def _get_min_max_indices(tags, start_index, keys, prefix=None, single_elem=None)
             # excludes last element, so add one
             max_of_list = max(index_list) + 1
         return _MinMaxTuple(min_of_list, max_of_list)
+
+
+def _xmlify_root(root_tag, item_list):
+    """Converts the outermost root to and XML string"""
+
+    # create XML
+    root = etree.Element(root_tag)
+
+    for item in item_list:
+        root.attrib[item[0]] = item[1]
+
+    return etree.tostring(root, pretty_print=True)
 
 
 def _xmlify_single_elem(root_tag, item_list, param_name):
