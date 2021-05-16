@@ -3,7 +3,7 @@ Changelog
 
 - Version 2.1 (2021/05/16)
     - Updated to new `xsdata` and `lxml`
-    - Fixed an issue (due to new `xsdata` where root tags could not be processed correctly
+    - Fixed an issue (due to new `xsdata`) where root tags could not be processed correctly
 
 - Version 2.0 (2021/02/22)
     - Major update to support reading KVN data and files
