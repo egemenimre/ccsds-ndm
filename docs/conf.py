@@ -18,15 +18,15 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 
 project = "ccsds-ndm"
-copyright = "2020, Egemen Imre"
+copyright = "2020-2021, Egemen Imre"
 author = "Egemen Imre"
 
 # Version Info
 # ------------
 # The short X.Y version.
-version = "2.0"
+version = "2.1"
 # The full version, including alpha/beta/rc tags.
-release = "2.0_RC1"
+release = "2.1"
 
 # -- General configuration ---------------------------------------------------
 # By default, highlight as Python 3.
