@@ -122,7 +122,9 @@ Requirements
 Citation
 --------
 
-Please use the DOI for citations. This is the latest version: |DOI|
+Please use the DOI for citations. This is the latest version:
+
+|DOI|
 
 License
 -------
