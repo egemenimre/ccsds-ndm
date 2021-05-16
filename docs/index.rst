@@ -115,6 +115,12 @@ Requirements
 -   `xsData` is used to read and write XML files (and also to generate the object tree)
 -   `lxml` to support XML object creation
 
+Citation
+--------
+
+Please use the DOI for citations. This is the latest version:
+
+|DOI|
 
 Known Issues
 ------------
@@ -141,3 +147,7 @@ Indices and Tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. |DOI| image:: https://zenodo.org/badge/312698629.svg
+    :target: https://zenodo.org/badge/latestdoi/312698629
+    :alt: DOI

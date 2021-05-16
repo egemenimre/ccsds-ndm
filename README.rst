@@ -1,7 +1,7 @@
 CCSDS "Navigation Data Messages" Read and Write
 ===============================================================
 
-|CircleCI Status| |Codecov Status| |Documentation Status|
+|CircleCI Status| |Codecov Status| |Documentation Status| |DOI|
 
 Description
 --------------
@@ -120,6 +120,13 @@ Requirements
 -   `xsData` is used to read and write XML files (and also to generate the object tree)
 -   `lxml` to support XML object creation
 
+Citation
+--------
+
+Please use the DOI for citations. This is the latest version:
+
+|DOI|
+
 License
 -------
 
@@ -137,3 +144,7 @@ the terms of the GNU GPL v3+ license.
 .. |Codecov Status| image:: https://codecov.io/gh/egemenimre/ccsds-ndm/branch/main/graph/badge.svg?token=Z53pKJ5agN
     :target: https://codecov.io/gh/egemenimre/ccsds-ndm
     :alt: CCSDS-NDM Codecov Status
+
+.. |DOI| image:: https://zenodo.org/badge/312698629.svg
+    :target: https://zenodo.org/badge/latestdoi/312698629
+    :alt: DOI
