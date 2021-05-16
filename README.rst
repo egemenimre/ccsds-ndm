@@ -112,12 +112,13 @@ and writing of the XML data. As such, there is no documentation generated for th
 File read is usually fast (on the order of seconds) for small files. That said, KVN parsing for large files can
 take some time. A 12 MB OEM file lasts about a minute to parse on a good consumer grade computer.
 Due to the fragility of the KVN format and the restrictions the standards put on the order of keys, no
-parallelisation has been attempted.
+parallelization has been attempted.
 
 Requirements
 ------------
 
 -   `xsData` is used to read and write XML files (and also to generate the object tree)
+-   `lxml` to support XML object creation
 
 License
 -------

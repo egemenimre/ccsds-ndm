@@ -113,7 +113,7 @@ Requirements
 ------------
 
 -   `xsData` is used to read and write XML files (and also to generate the object tree)
-
+-   `lxml` to support XML object creation
 
 
 Known Issues

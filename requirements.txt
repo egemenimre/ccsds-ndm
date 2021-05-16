@@ -1,1 +1,2 @@
-xsdata>=20.12
+lxml
+xsdata
