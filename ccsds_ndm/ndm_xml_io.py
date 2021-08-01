@@ -300,3 +300,42 @@ def _strip_multi_ndm(ndm):
     else:
         # multiple elements available, return them
         return ndm
+
+
+def _is_multi_ndm(ndm):
+    """
+    Identifies whether the Combined Instantiation NDM actually contains
+    a single element (OMM, APM etc.) with a single member.
+
+    Parameters
+    ----------
+    ndm
+        NDM data object
+
+    Returns
+    -------
+    bool
+        True if this `ndm` is a Combi-NDM, False otherwise.
+    """
+    # Find the elements that have non-zero members (omit the "comment"
+    # and "message_id" tags)
+    non_zero_elem_list = list(
+        filter(
+            lambda elem: elem != "message_id"
+            and elem != "comment"
+            and len(vars(ndm)[elem]) > 0,
+            vars(ndm),
+        )
+    )
+
+    if len(non_zero_elem_list) == 1:
+        # single element available, check number of members
+        ndm_elem = vars(ndm)[non_zero_elem_list[0]]
+        if len(ndm_elem) == 1:
+            # single element available, return it
+            return False
+        # multiple elements available, return them
+        return True
+    else:
+        # multiple elements available
+        return True

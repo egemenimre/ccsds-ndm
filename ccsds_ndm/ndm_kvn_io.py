@@ -26,6 +26,7 @@ from ccsds_ndm.models.ndmxml2 import (
     Apm,
     AttitudeStateType,
     Cdm,
+    Ndm,
     Oem,
     OemCovarianceMatrixType,
     OemMetadata,
@@ -41,7 +42,7 @@ from ccsds_ndm.models.ndmxml2 import (
     TrackingDataObservationType,
     UserDefinedType,
 )
-from ccsds_ndm.ndm_xml_io import NdmXmlIo
+from ccsds_ndm.ndm_xml_io import NdmXmlIo, _is_multi_ndm
 
 _MinMaxTuple = namedtuple("_MinMaxTuple", ["min", "max"])
 """Data structure to keep min and max tuples."""
@@ -240,7 +241,20 @@ class NdmKvnIo:
         -------
         str
             given object tree as KVN string
+
+        Raises
+        ------
+        NotImplementedError
+            Combined NDM input for KVN not implemented in CCSDS NDM Standard.
         """
+        # check for multi-NDM file
+        if ndm_obj.Meta.name == Ndm.Meta.name and _is_multi_ndm(ndm_obj):
+            raise NotImplementedError(
+                "NDM data appears to have more than one data set (e.g. two OPMs). "
+                "This sort of NDM output to KVN is not supported. "
+                "Try outputting to multiple files instead."
+            )
+
         out_str = [_fill_str_out_kvn(ndm_obj.id, ndm_obj.version)]
         self._collate_str_out("", ndm_obj, out_str)
 

@@ -78,6 +78,20 @@ def test_read_json_file(ndm_key, path):
             NdmIo().from_path(json_path)
 
 
+def test_write_multi_ndm_kvn():
+    """Combi-NDM for KVN fail test."""
+    with pytest.raises(NotImplementedError):
+        # this should throw an NotImplementedError exception
+
+        # check path and correct if necessary
+        kvn_path = Path.cwd().joinpath(file_paths.get("NDMv2"))
+        if not Path.cwd().joinpath(kvn_path).exists():
+            kvn_path = Path.cwd().joinpath(extra_path).joinpath(file_paths.get("NDMv2"))
+
+        ndm = NdmIo().from_path(kvn_path)
+        NdmIo().to_file(ndm, NDMFileFormats.KVN, Path("new.kvn"))
+
+
 def test_write_kvn_string():
     """Tests writing KVN data as string."""
     # check path and correct if necessary
