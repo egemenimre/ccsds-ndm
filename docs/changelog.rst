@@ -1,6 +1,10 @@
 Changelog
 =========
 
+- Version 2.2 (2021/08/01)
+    - Added a proper error message if the user tries to output a Combined NDM to KVN.
+      (`#16 <https://github.com/egemenimre/ccsds-ndm/issues/16>`_)
+
 - Version 2.1 (2021/05/16)
     - Updated to new `xsdata` (21.5) and `lxml` (4.6.3)
     - Fixed an issue (due to new `xsdata`) where root tags could not be processed correctly
