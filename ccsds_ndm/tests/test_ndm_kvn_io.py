@@ -37,9 +37,10 @@ kvn_xml_file_paths = {
     "NDMv2_strip": None,
 }
 
-# def test_read_file(ndm_key, path):
+
+# def test_read_file():
 #
-#     path = Path("data", "kvn", "omm1_ct.kvn")
+#     path = Path("data", "kvn", "tdm_opt_data.kvn")
 #
 #     # *** read KVN files ***
 #     working_dir = Path.cwd()

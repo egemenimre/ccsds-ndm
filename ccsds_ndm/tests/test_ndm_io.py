@@ -25,7 +25,8 @@ file_paths = {
     "OMMv2": Path("data", "xml", "ndmxml-1.0-omm-2.0.xml"),
     "OPMv2": None,
     "RDMv2": None,
-    "TDMv2": Path("data", "xml", "tdm-testcase01a-fordocument.xml"),
+    "TDMv2_1": Path("data", "xml", "tdm-testcase01a-fordocument.xml"),
+    "TDMv2_2": Path("data", "kvn", "tdm_opt_data.kvn"),
     "NDMv2": Path("data", "xml", "omm_combined.xml"),
     "NDMv2_strip": Path("data", "xml", "omm_single_ndm.xml"),
 }
