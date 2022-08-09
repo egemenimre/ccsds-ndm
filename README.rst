@@ -98,8 +98,8 @@ More Information Regarding the CCSDS-NDM
 The top-level description of the standard is given in the
 `Navigation Data — Definitions and Conventions Green Book <https://public.ccsds.org/Pubs/500x0g4.pdf>`_ and
 `Navigation Data Messages Overview Green Book <https://public.ccsds.org/Pubs/500x2g2.pdf>`_. Individual data types are
-defined in their individual definitions (e.g. `Conjunction Data Message <https://public.ccsds.org/Pubs/508x0b1e2c1.pdf>`_
-and `Orbit Data Message <https://public.ccsds.org/Pubs/502x0b2c1.pdf>`_). The centre for all the standards are
+defined in their individual definitions (e.g. `Conjunction Data Message <https://public.ccsds.org/Pubs/508x0b1e2c2.pdf>`_
+and `Orbit Data Message <https://public.ccsds.org/Pubs/502x0b2c1e2.pdf>`_). The centre for all the standards are
 `CCSDS Mission Operations and Information Management Services Area <https://public.ccsds.org/Publications/MOIMS.aspx>`_.
 
 The Schema files are found in the `SANA Registry <https://sanaregistry.org/r/ndmxml>`_.
