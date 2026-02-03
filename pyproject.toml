@@ -19,6 +19,7 @@ classifiers = [
 ]
 
 requires = [
+    "lxml >=4.0",
     "xsdata >=20.12"
 ]
 
