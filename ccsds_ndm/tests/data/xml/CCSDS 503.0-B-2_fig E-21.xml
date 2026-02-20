@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tdm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ndm="urn:ccsds:schema:ndmxml"
+    xsi:noNamespaceSchemaLocation="https://sanaregistry.org/r/ndmxml_unqualified/ndmxml-2.0.0-master-2.0.xsd"
+    id="CCSDS_TDM_VERS" version="2.0">
+    <header>
+        <CREATION_DATE>2007-094T23:53:59.659</CREATION_DATE>
+        <ORIGINATOR>NASA</ORIGINATOR>
+    </header>
+    <body>
+        <segment>
+            <metadata>
+                <DATA_TYPES>TRANSMIT_FREQ_1, TRANSMIT_FREQ_RATE_1</DATA_TYPES>
+                <TIME_SYSTEM>UTC</TIME_SYSTEM>
+                <PARTICIPANT_1>‘DSS-25’</PARTICIPANT_1>
+                <PARTICIPANT_2>MYSC</PARTICIPANT_2>
+                <MODE>SEQUENTIAL</MODE>
+                <PATH>1,2</PATH>
+                <TRANSMIT_BAND>X</TRANSMIT_BAND>
+            </metadata>
+            <data>
+                <observation>
+                    <EPOCH>2007-069T15:22:22.000</EPOCH>
+                    <TRANSMIT_FREQ_1>7167941264.0</TRANSMIT_FREQ_1>
+                </observation>
+                <observation>
+                    <EPOCH>2007-069T15:22:22.000</EPOCH>
+                    <TRANSMIT_FREQ_RATE_1>0.0</TRANSMIT_FREQ_RATE_1>
+                </observation>
+                <observation>
+                    <EPOCH>2007-069T15:23:30.000</EPOCH>
+                    <TRANSMIT_FREQ_1>7167941264.0</TRANSMIT_FREQ_1>
+                </observation>
+                <observation>
+                    <EPOCH>2007-069T15:23:30.000</EPOCH>
+                    <TRANSMIT_FREQ_RATE_1>0.0</TRANSMIT_FREQ_RATE_1>
+                </observation>
+                <observation>
+                    <EPOCH>2007-069T15:23:38.000</EPOCH>
+                    <TRANSMIT_FREQ_1>7167941264.0</TRANSMIT_FREQ_1>
+                </observation>
+                <observation>
+                    <EPOCH>2007-069T15:23:38.000</EPOCH>
+                    <TRANSMIT_FREQ_RATE_1>0.0</TRANSMIT_FREQ_RATE_1>
+                </observation>
+                <observation>
+                    <EPOCH>2007-069T15:34:36.000</EPOCH>
+                    <TRANSMIT_FREQ_1>7167941264.0</TRANSMIT_FREQ_1>
+                </observation>
+                <observation>
+                    <EPOCH>2007-069T15:34:36.000</EPOCH>
+                    <TRANSMIT_FREQ_RATE_1>0.0</TRANSMIT_FREQ_RATE_1>
+                </observation>
+            </data>
+        </segment>
+    </body>
+</tdm>
