@@ -6,16 +6,6 @@
         </header>
         <body>
             <segment>
-            </segment>
-        </body>
-    </omm>
-    <omm id="CCSDS_OMM_VERS" version="2.0">
-        <header>
-            <CREATION_DATE/>
-            <ORIGINATOR/>
-        </header>
-        <body>
-            <segment>
                 <metadata>
                     <OBJECT_NAME>NUSAT-2 (BATATA)</OBJECT_NAME>
                     <OBJECT_ID>2016-033C</OBJECT_ID>
