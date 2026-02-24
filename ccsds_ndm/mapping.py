@@ -91,7 +91,7 @@ class _NdmDataType(Enum):
         self.is_combi = is_combi
 
     @staticmethod
-    def find_element(ndm_id, version) -> "_NdmDataType":
+    def find_ndm_type_by_id(ndm_id, version) -> "_NdmDataType":
         """
         Finds the NDM Data Type corresponding to the requested id.
 
@@ -112,6 +112,30 @@ class _NdmDataType(Enum):
 
         raise ValueError(
             f"No NDM data type found for id '{ndm_id}' and version '{version}'"
+        )
+
+    @staticmethod
+    def find_ndm_type_by_class_id(ndm_class_id, version) -> "_NdmDataType":
+        """
+        Finds the NDM Data Type corresponding to the requested id.
+
+        Parameters
+        ----------
+        ndm_class_id : str
+            NDM class id (e.g. `CCSDS_ACM_VERS` or `CCSDS_OEM_VERS`)
+        version : str
+            Version of the NDM data type
+        Returns
+        -------
+        ndm_data_type
+            correct `_NdmDataType` enum corresponding to the id
+        """
+        for ndm_data in _NdmDataType:
+            if ndm_data.clazz.id == ndm_class_id and ndm_data.version == version:
+                return ndm_data
+
+        raise ValueError(
+            f"No NDM data type found for id '{ndm_class_id}' and version '{version}'"
         )
 
     @staticmethod
