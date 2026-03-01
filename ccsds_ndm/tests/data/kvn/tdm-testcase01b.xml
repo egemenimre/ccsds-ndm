@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tdm id="CCSDS_TDM_VERS" version="2.0">
+<tdm id="CCSDS_TDM_VERS" version="1.0">
     <header>
         <CREATION_DATE>2007-183T23:04:11.014</CREATION_DATE>
         <ORIGINATOR>JPL</ORIGINATOR>
