@@ -68,6 +68,7 @@ class _NdmDataType(Enum):
     OMMv2 = (ndmxml2.Omm.Meta.name, ndmxml2.Omm, "2.0", 2, False)
     OMMv3 = (ndmxml4.Omm.Meta.name, ndmxml4.Omm, "3.0", 4, False)
 
+    OPMv1 = (ndmxml1.Opm.Meta.name, ndmxml1.Opm, "1.0", 2, False)
     OPMv2 = (ndmxml2.Opm.Meta.name, ndmxml2.Opm, "2.0", 2, False)
     OPMv3 = (ndmxml4.Opm.Meta.name, ndmxml4.Opm, "3.0", 4, False)
 
