@@ -217,7 +217,9 @@ class NdmXmlIo:
                     # find data type of the child element
                     ndm_id = child.tag
                     version = child.attrib.get("version")
-                    internal_data_type = _NdmDataType.find_element(ndm_id, version)
+                    internal_data_type = _NdmDataType.find_ndm_type_by_id(
+                        ndm_id, version
+                    )
 
                     # return the first combined NDM version that supports this data type
                     return (
@@ -235,7 +237,7 @@ class NdmXmlIo:
             # find data type
             ndm_id = root.tag
             version = root.attrib.get("version")
-            data_type = _NdmDataType.find_element(ndm_id, version)
+            data_type = _NdmDataType.find_ndm_type_by_id(ndm_id, version)
 
         return data_type, fixed_xml
 
