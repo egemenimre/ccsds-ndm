@@ -1,28 +1,14 @@
 # CCSDS-NDM: CCSDS Navigation Data Messages Read/Write Library
 #
-# Copyright (C) 2020 Egemen Imre
+# Copyright (C) Egemen Imre
 #
 # Licensed under GNU GPL v3.0. See LICENSE.rst for more info.
-"""
-CCSDS Navigation Data Messages XML File I/O.
 
-"""
-
-from enum import Enum, auto
 from pathlib import Path
 
+from ccsds_ndm.mapping import NDMFileFormats
 from ccsds_ndm.ndm_kvn_io import NdmKvnIo
 from ccsds_ndm.ndm_xml_io import NdmXmlIo
-
-
-class NDMFileFormats(Enum):
-    """
-    NDM file formats.
-    """
-
-    XML = auto()
-    KVN = auto()
-    JSON = auto()
 
 
 class NdmIo:
