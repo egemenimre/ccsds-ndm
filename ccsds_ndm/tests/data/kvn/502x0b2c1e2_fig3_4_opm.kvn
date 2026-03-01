@@ -8,10 +8,12 @@ ORIGINATOR        =  GSOC
 OBJECT_NAME       =  EUTELSAT W4
 OBJECT_ID         =  2000-028A
 CENTER_NAME       =  EARTH
-REF_FRAME         =  TOD 
+REF_FRAME         =  TOD
 TIME_SYSTEM       =  UTC
-COMMENT  State Vector 
-EPOCH             =  2006-06-03T00:00:00.000 
+
+COMMENT  State Vector
+
+EPOCH             =  2006-06-03T00:00:00.000
 X                 =    6655.9942        [km]
 Y                 =  -40218.5751        [km]
 Z                 =     -82.9177        [km]

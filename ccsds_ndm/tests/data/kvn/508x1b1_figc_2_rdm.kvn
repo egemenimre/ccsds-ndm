@@ -26,6 +26,7 @@ PREVIOUS_MESSAGE_ID         = ESA/20180421-007
 NEXT_MESSAGE_EPOCH          = 2018-04-23T09:00:00
 
 COMMENT Short term re-entry prediction results
+
 ORBIT_LIFETIME              = 5.5                           [d]
 REENTRY_ALTITUDE            = 80.0                          [km]
 NOMINAL_REENTRY_EPOCH       = 2018-04-27T19:45:33
