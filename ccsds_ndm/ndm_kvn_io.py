@@ -7,6 +7,7 @@
 CCSDS Navigation Data Messages KVN File I/O.
 
 """
+
 import typing
 from copy import deepcopy
 from dataclasses import dataclass, field
@@ -290,7 +291,7 @@ class NdmKvnIo:
         # and the version number as separate "fields" expected by the model.
         lines.insert(1, lines[0])
 
-        id_str = lines[0][0]       # e.g. "CCSDS_OMM_VERS"
+        id_str = lines[0][0]  # e.g. "CCSDS_OMM_VERS"
         version_str = lines[0][1]  # e.g. "2.0"
 
         lines[0] = ["id", id_str]
@@ -804,7 +805,9 @@ class NdmKvnIo:
                     ndm_object = parser.from_bytes(xml_data, root_ndm_elem.clazz)
                 else:
                     # Has data lines: build directly without XML round-trip.
-                    ndm_object = build_ndm_object(root_ndm_elem.clazz, local_lines, prefix)
+                    ndm_object = build_ndm_object(
+                        root_ndm_elem.clazz, local_lines, prefix
+                    )
 
         # fill lower level objects
         for subclass in root_ndm_elem.subclass_list:
