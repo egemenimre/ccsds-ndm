@@ -23,6 +23,7 @@ statements continue to work without change.
 import dataclasses
 import types as _types
 import typing
+from collections.abc import Sequence
 
 from ccsds_ndm.kvn_utils import (
     _lenient_class_factory,
@@ -48,12 +49,126 @@ _ROTATION_KWS: dict[str, list[str]] = {
     "RotationRateType": ["X_RATE", "Y_RATE", "Z_RATE"],
 }
 
+
+# ---------------------------------------------------------------------------
+# Public entry point
+# ---------------------------------------------------------------------------
+
+
+def build_object(doc: KvnDocument) -> object:
+    """
+    Map a :class:`KvnDocument` onto the xsdata dataclass tree for the
+    detected NDM type.
+
+    Delegates scalar/unit coercion and leaf-dataclass construction to the
+    :func:`~ccsds_ndm.kvn_utils.build_ndm_object` and
+    :func:`~ccsds_ndm.kvn_utils.init_root_ndm_object` helpers from the
+    legacy :mod:`ccsds_ndm.kvn_utils` module.
+
+    Parameters
+    ----------
+    doc : KvnDocument
+        Output of :func:`parse_blocks`.
+
+    Returns
+    -------
+    object
+        Fully populated root xsdata dataclass instance.
+    """
+    # Extract the root xsdata dataclass from the NDM type enum member.
+    # This is the top-level class for the detected message type (e.g., Oem, Aem, etc.)
+    clazz = doc.ndm_type.clazz  # type: ignore
+
+    # ===================================================================
+    # Inspect the root class structure to determine how segments are organized
+    # ===================================================================
+    # Resolve type hints to get the field types for header and body
+    root_hints = _hints(clazz)
+    header_field_type = _unwrap(root_hints["header"])
+    body_field_type = _unwrap(root_hints["body"])
+    body_hints = _hints(body_field_type)
+
+    # Determine if segments are stored as a list (multi-segment types like OEM, AEM, TDM)
+    # or as a single object (flat types like OPM, OMM, etc.)
+    segment_field_type_raw = body_hints["segment"]
+    is_list_segment = getattr(segment_field_type_raw, "__origin__", None) is list
+    if is_list_segment:
+        segment_clazz = _unwrap(segment_field_type_raw.__args__[0])
+    else:
+        segment_clazz = _unwrap(segment_field_type_raw)
+
+    # Extract the segment structure: each segment has metadata and data fields
+    seg_hints = _hints(segment_clazz)
+    meta_clazz = _unwrap(seg_hints["metadata"])
+    data_clazz = _unwrap(seg_hints["data"])
+
+    # ===================================================================
+    # Determine document type: flat or segment-based
+    # ===================================================================
+    # Flat types (OPM, OMM, APM, RDM, CDM) have no section markers, so their
+    # first segment's metadata list is empty. Segment-based types (OEM, AEM, TDM)
+    # always have metadata (between META_START and META_STOP markers).
+    is_flat = bool(doc.segments) and not doc.segments[0].meta
+
+    if is_flat:
+        # Extract expected keywords for header and metadata from their class definitions
+        header_kws = set(get_ccsds_kw_list(header_field_type)) - {"COMMENT"}
+        meta_kws = set(get_ccsds_kw_list(meta_clazz)) - {"COMMENT"}
+
+        # CDM (Conjunction Data Message) is a special flat type with a two-part structure:
+        # relative_metadata_data and segment (containing relative and primary objects).
+        # Other flat types have a simple structure: header + segment(metadata + data).
+        if "relative_metadata_data" in body_hints:
+            return _build_cdm_flat_object(
+                doc,
+                header_field_type,
+                meta_clazz,
+                data_clazz,
+                body_field_type,
+                segment_clazz,
+                header_kws,
+                meta_kws,
+                clazz,
+            )
+
+        # --- Non-CDM flat types (OPM, OMM, APM, RDM) ---
+        # Partition by keyword membership; COMMENTs use forward-looking
+        # assignment; BlankLines are preserved in the data partition so
+        # that _build_nested_data can use them as separators.
+        all_flat = doc.segments[0].data
+        hdr_from_data, meta_lines, data_lines = _partition_flat_type_lines(
+            all_flat, header_kws, meta_kws
+        )
+        hdr_lines = list(doc.header) + hdr_from_data
+
+        ndm_header = build_ndm_object(header_field_type, _kvlines_to_rows(hdr_lines))
+        seg_meta = build_ndm_object(meta_clazz, _kvlines_to_rows(meta_lines))
+        seg_data = _build_nested_data(data_clazz, data_lines)
+
+        built_seg = _lenient_class_factory(
+            segment_clazz, {"metadata": seg_meta, "data": seg_data}
+        )
+        ndm_body = _lenient_class_factory(body_field_type, {"segment": built_seg})
+        return _lenient_class_factory(clazz, {"header": ndm_header, "body": ndm_body})
+
+    # ===================================================================
+    # Segment-based types (OEM, AEM, TDM)
+    # ===================================================================
+    ndm_header, built_segments = _build_segment_based_object(
+        doc, header_field_type, meta_clazz, data_clazz, segment_clazz
+    )
+
+    # Assemble the final NDM object (segment-based types are always multi-segment)
+    ndm_body = _lenient_class_factory(body_field_type, {"segment": built_segments})
+    return _lenient_class_factory(clazz, {"header": ndm_header, "body": ndm_body})
+
+
 # ---------------------------------------------------------------------------
 # Object builder — utility helpers
 # ---------------------------------------------------------------------------
 
 
-def _kvlines_to_rows(lines: list[KvnLine]) -> list[list[str]]:
+def _kvlines_to_rows(lines: Sequence[KvnLine]) -> list[list[str]]:
     """
     Convert a list of :class:`KvnLine` objects to the ``[key, value(, unit)]``
     row format expected by the production :func:`~ccsds_ndm.kvn_utils.build_ndm_object`.
@@ -213,12 +328,7 @@ def _collect_all_kws(cls) -> list[str]:
     return kws
 
 
-def _has_field(cls, name: str) -> bool:
-    """Return ``True`` if *cls* has a dataclass field named *name*."""
-    return any(f.name == name for f in dataclasses.fields(cls))
-
-
-def _build_rotation_type(rot_clazz, inst_lines: list[KvnLine]) -> object:
+def _build_rotation_type(rot_clazz, inst_lines: Sequence[KvnLine]) -> object:
     """Build a ``RotationAngleType`` or ``RotationRateType`` from ordered KvnLines."""
     rot_hints = _hints(rot_clazz)
     rot_fields = dataclasses.fields(rot_clazz)  # rotation1, rotation2, rotation3
@@ -256,7 +366,7 @@ def _build_rotation_type(rot_clazz, inst_lines: list[KvnLine]) -> object:
 
 
 def _label_lines(
-    all_lines: list[KvnLine],
+    all_lines: Sequence[KvnLine],
     container_map: dict[str, tuple[str, type, bool]],
 ) -> list[str | None]:
     """
@@ -306,7 +416,7 @@ def _label_lines(
 
 
 def _partition_lines(
-    all_lines: list[KvnLine],
+    all_lines: Sequence[KvnLine],
     labels: list[str | None],
     container_map: dict[str, tuple[str, type, bool]],
     list_first_kw: dict[str, str],
@@ -365,7 +475,7 @@ def _partition_lines(
     return own_lines, container_buckets
 
 
-def _build_nested_data(data_cls, all_lines: list[KvnLine]) -> object:
+def _build_nested_data(data_cls, all_lines: Sequence[KvnLine]) -> object:
     """
     Build a data object whose fields include camelCase sub-containers.
 
@@ -498,7 +608,7 @@ def _build_nested_data(data_cls, all_lines: list[KvnLine]) -> object:
     return seg_data
 
 
-def _build_sub_object(sub_clazz, inst_lines: list[KvnLine]) -> object:
+def _build_sub_object(sub_clazz, inst_lines: Sequence[KvnLine]) -> object:
     """
     Build a sub-container xsdata object from a flat list of KvnLines.
 
@@ -820,272 +930,267 @@ def _partition_flat_type_lines(
     return hdr_lines, meta_lines, data_lines
 
 
-# ---------------------------------------------------------------------------
-# Public entry point
-# ---------------------------------------------------------------------------
-
-
-def build_object(doc: KvnDocument) -> object:
+def _attach_oem_covariance(
+    block_covariance: list[KvnLine],
+    data_clazz,
+    oem_segments: list[tuple[object, object]],
+) -> None:
     """
-    Map a :class:`KvnDocument` onto the xsdata dataclass tree for the
-    detected NDM type.
+    Build covariance matrix objects from a covariance block and attach them
+    to the most recent OEM state-vector segment.
 
-    Delegates scalar/unit coercion and leaf-dataclass construction to the
-    :func:`~ccsds_ndm.kvn_utils.build_ndm_object` and
-    :func:`~ccsds_ndm.kvn_utils.init_root_ndm_object` helpers from the
-    legacy :mod:`ccsds_ndm.kvn_utils` module.
-
-    Parameters
-    ----------
-    doc : KvnDocument
-        Output of :func:`parse_blocks`.
-
-    Returns
-    -------
-    object
-        Fully populated root xsdata dataclass instance.
+    Each EPOCH keyword in *block_covariance* starts a new covariance group.
+    Within each group the lower-triangular matrix values come from
+    :class:`CovarianceRowLine` tokens; all other metadata fields (EPOCH,
+    COV_REF_FRAME, …) are handled by :func:`build_ndm_object`.
     """
-    # Extract the root xsdata dataclass from the NDM type enum member.
-    # This is the top-level class for the detected message type (e.g., Oem, Aem, etc.)
-    clazz = doc.ndm_type.clazz  # type: ignore
+    # Get the covariance matrix class (e.g., OemCovarianceMatrix from OemData)
+    cov_clazz = _unwrap(_hints(data_clazz)["covariance_matrix"].__args__[0])
+    # Extract only the numeric field names (not COMMENT, EPOCH, COV_REF_FRAME)
+    cov_fields = [
+        f
+        for f in dataclasses.fields(cov_clazz)
+        if f.metadata.get("name", "").isupper()
+        and f.metadata.get("name") not in ("COMMENT", "EPOCH", "COV_REF_FRAME")
+    ]
+    # Get type hints for constructing covariance component types
+    cov_hints = _hints(cov_clazz)
 
-    # ===================================================================
-    # Inspect the root class structure to determine how segments are organized
-    # ===================================================================
-    # Resolve type hints to get the field types for header and body
-    root_hints = _hints(clazz)
-    header_field_type = _unwrap(root_hints["header"])
-    body_field_type = _unwrap(root_hints["body"])
-    body_hints = _hints(body_field_type)
+    # Split covariance lines into per-EPOCH groups (each EPOCH starts a new group)
+    cov_groups: list[list[KvnLine]] = []
+    for ln in block_covariance:
+        # Start a new group when we see an EPOCH keyword
+        if isinstance(ln, KvLine) and ln.key == "EPOCH":
+            cov_groups.append([])
+        # Append line to the current group
+        if cov_groups:
+            cov_groups[-1].append(ln)
 
-    # Determine if segments are stored as a list (multi-segment types like OEM, AEM, TDM)
-    # or as a single object (flat types like OPM, OMM, etc.)
-    segment_field_type_raw = body_hints["segment"]
-    is_multi_segment = getattr(segment_field_type_raw, "__origin__", None) is list
-    if is_multi_segment:
-        segment_clazz = _unwrap(segment_field_type_raw.__args__[0])
-    else:
-        segment_clazz = _unwrap(segment_field_type_raw)
-
-    # Extract the segment structure: each segment has metadata and data fields
-    seg_hints = _hints(segment_clazz)
-    meta_clazz = _unwrap(seg_hints["metadata"])
-    data_clazz = _unwrap(seg_hints["data"])
-
-    # ===================================================================
-    # Determine document type: flat or segment-based
-    # ===================================================================
-    # Flat types (OPM, OMM, APM, RDM, CDM) have no section markers, so their
-    # first segment's metadata list is empty. Segment-based types (OEM, AEM, TDM)
-    # always have metadata (between META_START and META_STOP markers).
-    is_flat = bool(doc.segments) and not doc.segments[0].meta
-
-    if is_flat:
-        # Extract expected keywords for header and metadata from their class definitions
-        header_kws = set(get_ccsds_kw_list(header_field_type)) - {"COMMENT"}
-        meta_kws = set(get_ccsds_kw_list(meta_clazz)) - {"COMMENT"}
-
-        # CDM (Conjunction Data Message) is a special flat type with a two-part structure:
-        # relative_metadata_data and segment (containing relative and primary objects).
-        # Other flat types have a simple structure: header + segment(metadata + data).
-        if "relative_metadata_data" in body_hints:
-            return _build_cdm_flat_object(
-                doc,
-                header_field_type,
-                meta_clazz,
-                data_clazz,
-                body_field_type,
-                segment_clazz,
-                header_kws,
-                meta_kws,
-                clazz,
+    # Process each covariance group (one per EPOCH)
+    for group in cov_groups:
+        # Convert lines to [key, value, (unit)] rows
+        group_rows = _kvlines_to_rows(group)
+        # Extract the packed matrix values from CovarianceRowLine objects
+        group_matrix_values = [
+            ln.tokens for ln in group if isinstance(ln, CovarianceRowLine)
+        ]
+        # Build the covariance object with metadata fields (EPOCH, COV_REF_FRAME, etc.)
+        cov_obj = build_ndm_object(cov_clazz, group_rows)
+        # Flatten matrix values: [row1_vals, row2_vals, ...] → [v1, v2, v3, ...]
+        flat_vals = [v for row in group_matrix_values for v in row]
+        # Assign each matrix value to its corresponding covariance field
+        for cf, val_str in zip(cov_fields, flat_vals):
+            # Get the field's type (e.g., CovarianceMatrixElement)
+            cf_type = _unwrap(cov_hints[cf.name])
+            # Get type hints to find the value field name
+            leaf_hints = _hints(cf_type)
+            # Convert string to float and create the component object
+            leaf_val = float(val_str)
+            setattr(
+                cov_obj,
+                cf.name,
+                cf_type(**{list(leaf_hints.keys())[0]: leaf_val}),
             )
+        # Attach covariance matrix to the most recent state vector block
+        last_data = oem_segments[-1][1]
+        last_data.covariance_matrix.append(cov_obj)  # type: ignore
 
-        # --- Non-CDM flat types (OPM, OMM, APM, RDM) ---
-        # Partition by keyword membership; COMMENTs use forward-looking
-        # assignment; BlankLines are preserved in the data partition so
-        # that _build_nested_data can use them as separators.
-        all_flat = doc.segments[0].data
-        hdr_from_data, meta_lines, data_lines = _partition_flat_type_lines(
-            all_flat, header_kws, meta_kws
-        )
-        hdr_lines = list(doc.header) + hdr_from_data
 
-        ndm_header = build_ndm_object(header_field_type, _kvlines_to_rows(hdr_lines))
-        seg_meta = build_ndm_object(meta_clazz, _kvlines_to_rows(meta_lines))
-        seg_data = _build_nested_data(data_clazz, data_lines)
+def _build_oem_segments(
+    doc: KvnDocument,
+    meta_clazz,
+    data_clazz,
+    segment_clazz,
+) -> list[object]:
+    """
+    Build segments for OEM (Orbit Ephemeris Message) documents.
 
-        built_seg = _lenient_class_factory(
-            segment_clazz, {"metadata": seg_meta, "data": seg_data}
-        )
-        ndm_body = _lenient_class_factory(body_field_type, {"segment": built_seg})
-        return _lenient_class_factory(clazz, {"header": ndm_header, "body": ndm_body})
-
-    # ===================================================================
-    # Segment-based types (OEM, AEM, TDM)
-    # ===================================================================
-    # For segment-based types, there are explicit section markers (META_START,
-    # META_STOP, DATA_START, DATA_STOP, COVARIANCE_START, COVARIANCE_STOP) that
-    # separate metadata, data, and covariance blocks. Each block is processed
-    # independently and assembled into a single segment.
-
-    # Build the common header (present in all NDM types)
-    header_rows = _kvlines_to_rows(doc.header)
-    ndm_header = build_ndm_object(header_field_type, header_rows)
-
-    built_segments: list[object] = []
-
-    # Identify the specific segment type by checking for type-specific fields
-    is_oem = _has_field(data_clazz, "state_vector") and is_multi_segment
-    is_aem = _has_field(data_clazz, "attitude_state")
-    is_tdm = _has_field(data_clazz, "observation")
-
-    # OEM segments accumulate state vectors and can have separate covariance blocks
+    OEM segments accumulate state vectors across blocks and may have separate
+    COVARIANCE blocks that are attached to the most recent state-vector block.
+    Segments are assembled after all blocks are processed so covariance data
+    can be appended before final packaging.
+    """
     oem_segments: list[tuple[object, object]] = []
 
     for block in doc.segments:
-        # OEM covariance blocks are processed separately and attached to the
-        # most recent state vector block. Skip if no state vectors yet.
         if block.covariance:
             if not oem_segments:
                 continue
-            cov_clazz = _unwrap(_hints(data_clazz)["covariance_matrix"].__args__[0])
-            cov_fields = [
-                f
-                for f in dataclasses.fields(cov_clazz)
-                if f.metadata.get("name", "").isupper()
-                and f.metadata.get("name") not in ("COMMENT", "EPOCH", "COV_REF_FRAME")
-            ]
-            cov_hints = _hints(cov_clazz)
-
-            # Split covariance lines into per-EPOCH groups
-            cov_groups: list[list[KvnLine]] = []
-            for ln in block.covariance:
-                if isinstance(ln, KvLine) and ln.key == "EPOCH":
-                    cov_groups.append([])
-                if cov_groups:
-                    cov_groups[-1].append(ln)
-
-            for group in cov_groups:
-                group_rows = _kvlines_to_rows(group)
-                group_matrix_values = [
-                    ln.tokens for ln in group if isinstance(ln, CovarianceRowLine)
-                ]
-                cov_obj = build_ndm_object(cov_clazz, group_rows)
-                flat_vals = [v for row in group_matrix_values for v in row]
-                for cf, val_str in zip(cov_fields, flat_vals):
-                    cf_type = _unwrap(cov_hints[cf.name])
-                    leaf_hints = _hints(cf_type)
-                    leaf_val = float(val_str)
-                    setattr(
-                        cov_obj,
-                        cf.name,
-                        cf_type(**{list(leaf_hints.keys())[0]: leaf_val}),
-                    )
-                last_data = oem_segments[-1][1]
-                last_data.covariance_matrix.append(cov_obj)
+            _attach_oem_covariance(block.covariance, data_clazz, oem_segments)
             continue
 
         meta_rows = _kvlines_to_rows(block.meta)
         data_rows = _kvlines_to_rows(block.data)
 
-        if is_oem:
-            seg_meta = build_ndm_object(meta_clazz, meta_rows)
-            seg_data = init_root_ndm_object(data_clazz)
-            for row in data_rows:
-                if row[0] == "COMMENT":
-                    seg_data.comment.append(row[1])
-            sv_clazz = _unwrap(_hints(data_clazz)["state_vector"].__args__[0])
-            sv_kws = [
-                f.metadata.get("name")
-                for f in dataclasses.fields(sv_clazz)
-                if f.metadata.get("name") and f.metadata.get("name") != "COMMENT"
-            ]
-            for ln in block.data:
-                if isinstance(ln, PackedDataLine):
-                    sv_rows = [[kw, tok] for kw, tok in zip(sv_kws, ln.tokens)]
-                    sv_obj = build_ndm_object(sv_clazz, sv_rows)
-                    seg_data.state_vector.append(sv_obj)
-            oem_segments.append((seg_meta, seg_data))
+        seg_meta = build_ndm_object(meta_clazz, meta_rows)
+        seg_data = init_root_ndm_object(data_clazz)
+        for row in data_rows:
+            if row[0] == "COMMENT":
+                seg_data.comment.append(row[1])
 
-        elif is_aem:
-            seg_meta = build_ndm_object(meta_clazz, meta_rows)
-            seg_data = init_root_ndm_object(data_clazz)
-            for row in data_rows:
-                if row[0] == "COMMENT":
-                    seg_data.comment.append(row[1])
-            template = _att_column_template(block.meta)
-            att_state_clazz = _unwrap(_hints(data_clazz)["attitude_state"].__args__[0])
-            kv_meta = {ln.key: ln.value for ln in block.meta if isinstance(ln, KvLine)}
-            att_type_str = kv_meta.get("ATTITUDE_TYPE", "").upper()
-            _att_field_map = {
-                "QUATERNION": "quaternion_state",
-                "QUATERNION/DERIVATIVE": "quaternion_derivative",
-                "QUATERNION/RATE": "quaternion_euler_rate",
-                "EULER_ANGLE": "euler_angle",
-                "EULER_ANGLE/RATE": "euler_angle_rate",
-                "SPIN": "spin",
-                "SPIN/NUTATION": "spin_nutation",
-            }
-            att_field_name = _att_field_map.get(att_type_str, "quaternion_state")
-            att_sub_clazz_type = _hints(att_state_clazz)[att_field_name]
-            att_sub_clazz = _unwrap(att_sub_clazz_type)
+        sv_clazz = _unwrap(_hints(data_clazz)["state_vector"].__args__[0])
+        sv_kws = [
+            f.metadata.get("name")
+            for f in dataclasses.fields(sv_clazz)
+            if f.metadata.get("name") and f.metadata.get("name") != "COMMENT"
+        ]
+        for ln in block.data:
+            if isinstance(ln, PackedDataLine):
+                sv_rows = [[kw, tok] for kw, tok in zip(sv_kws, ln.tokens)]
+                seg_data.state_vector.append(build_ndm_object(sv_clazz, sv_rows))
 
-            for ln in block.data:
-                if isinstance(ln, PackedDataLine):
-                    packed_kvlines = [
-                        KvLine(key=kw, value=tok)
-                        for kw, tok in zip(template, ln.tokens)
-                    ]
-                    sub_obj = _build_sub_object(att_sub_clazz, packed_kvlines)
-                    att_obj = _lenient_class_factory(
-                        att_state_clazz, {att_field_name: sub_obj}
-                    )
-                    seg_data.attitude_state.append(att_obj)
-            built_segments.append(
-                _lenient_class_factory(
-                    segment_clazz, {"metadata": seg_meta, "data": seg_data}
+        oem_segments.append((seg_meta, seg_data))
+
+    return [
+        _lenient_class_factory(segment_clazz, {"metadata": m, "data": d})
+        for m, d in oem_segments
+    ]
+
+
+_AEM_FIELD_MAP: dict[str, str] = {
+    "QUATERNION": "quaternion_state",
+    "QUATERNION/DERIVATIVE": "quaternion_derivative",
+    "QUATERNION/RATE": "quaternion_euler_rate",
+    "EULER_ANGLE": "euler_angle",
+    "EULER_ANGLE/RATE": "euler_angle_rate",
+    "SPIN": "spin",
+    "SPIN/NUTATION": "spin_nutation",
+}
+
+
+def _build_aem_segments(
+    doc: KvnDocument,
+    meta_clazz,
+    data_clazz,
+    segment_clazz,
+) -> list[object]:
+    """
+    Build segments for AEM (Attitude Ephemeris Message) documents.
+
+    Each block has metadata that determines the attitude representation
+    (quaternion, Euler angle, spin, …) and the column order of the packed
+    data lines.  Segments are assembled immediately after each block.
+    """
+    built_segments: list[object] = []
+    att_state_clazz = _unwrap(_hints(data_clazz)["attitude_state"].__args__[0])
+
+    for block in doc.segments:
+        meta_rows = _kvlines_to_rows(block.meta)
+        data_rows = _kvlines_to_rows(block.data)
+
+        seg_meta = build_ndm_object(meta_clazz, meta_rows)
+        seg_data = init_root_ndm_object(data_clazz)
+        for row in data_rows:
+            if row[0] == "COMMENT":
+                seg_data.comment.append(row[1])
+
+        template = _att_column_template(block.meta)
+        kv_meta = {ln.key: ln.value for ln in block.meta if isinstance(ln, KvLine)}
+        att_type_str = kv_meta.get("ATTITUDE_TYPE", "").upper()
+        att_field_name = _AEM_FIELD_MAP.get(att_type_str, "quaternion_state")
+        att_sub_clazz = _unwrap(_hints(att_state_clazz)[att_field_name])
+
+        for ln in block.data:
+            if isinstance(ln, PackedDataLine):
+                packed_kvlines = [
+                    KvLine(key=kw, value=tok) for kw, tok in zip(template, ln.tokens)
+                ]
+                sub_obj = _build_sub_object(att_sub_clazz, packed_kvlines)
+                att_obj = _lenient_class_factory(
+                    att_state_clazz, {att_field_name: sub_obj}
                 )
-            )
+                seg_data.attitude_state.append(att_obj)
 
-        elif is_tdm:
-            seg_meta = build_ndm_object(meta_clazz, meta_rows)
-            seg_data = init_root_ndm_object(data_clazz)
-            for row in data_rows:
-                if row[0] == "COMMENT":
-                    seg_data.comment.append(row[1])
-            obs_clazz = _unwrap(_hints(data_clazz)["observation"].__args__[0])
-            for ln in block.data:
-                if isinstance(ln, TdmObsLine):
-                    obs_rows = [["EPOCH", ln.epoch], [ln.key, ln.value]]
-                    obs_obj = build_ndm_object(obs_clazz, obs_rows)
-                    seg_data.observation.append(obs_obj)
-            built_segments.append(
-                _lenient_class_factory(
-                    segment_clazz, {"metadata": seg_meta, "data": seg_data}
-                )
+        built_segments.append(
+            _lenient_class_factory(
+                segment_clazz, {"metadata": seg_meta, "data": seg_data}
             )
-
-    # Assemble OEM segments (with covariance already attached)
-    if is_oem:
-        for seg_meta, seg_data in oem_segments:
-            built_segments.append(
-                _lenient_class_factory(
-                    segment_clazz, {"metadata": seg_meta, "data": seg_data}
-                )
-            )
-
-    # -----------------------------------------------------------------------
-    # Assemble the final NDM object
-    # -----------------------------------------------------------------------
-    # Create the body with either a list of segments (multi-segment types like OEM, AEM, TDM)
-    # or a single segment (flat types like OPM, OMM when they reach here, though they exit earlier)
-    if is_multi_segment:
-        ndm_body = _lenient_class_factory(body_field_type, {"segment": built_segments})
-    else:
-        ndm_body = _lenient_class_factory(
-            body_field_type, {"segment": built_segments[0] if built_segments else None}
         )
 
-    # Create the root NDM object with header and body, completing the dataclass tree
-    return _lenient_class_factory(clazz, {"header": ndm_header, "body": ndm_body})
+    return built_segments
+
+
+def _build_tdm_segments(
+    doc: KvnDocument,
+    meta_clazz,
+    data_clazz,
+    segment_clazz,
+) -> list[object]:
+    """
+    Build segments for TDM (Tracking Data Message) documents.
+
+    Each observation line carries an epoch and a keyword/value pair.
+    Segments are assembled immediately after each block.
+    """
+    built_segments: list[object] = []
+    obs_clazz = _unwrap(_hints(data_clazz)["observation"].__args__[0])
+
+    for block in doc.segments:
+        meta_rows = _kvlines_to_rows(block.meta)
+        data_rows = _kvlines_to_rows(block.data)
+
+        seg_meta = build_ndm_object(meta_clazz, meta_rows)
+        seg_data = init_root_ndm_object(data_clazz)
+        for row in data_rows:
+            if row[0] == "COMMENT":
+                seg_data.comment.append(row[1])
+
+        for ln in block.data:
+            if isinstance(ln, TdmObsLine):
+                obs_rows = [["EPOCH", ln.epoch], [ln.key, ln.value]]
+                seg_data.observation.append(build_ndm_object(obs_clazz, obs_rows))
+
+        built_segments.append(
+            _lenient_class_factory(
+                segment_clazz, {"metadata": seg_meta, "data": seg_data}
+            )
+        )
+
+    return built_segments
+
+
+# Dispatch table: data class name → segment builder function
+_SEGMENT_BUILDERS: dict[str, typing.Callable] = {
+    "OemData": _build_oem_segments,
+    "AemData": _build_aem_segments,
+    "TdmData": _build_tdm_segments,
+}
+
+
+def _build_segment_based_object(
+    doc: KvnDocument,
+    header_field_type,
+    meta_clazz,
+    data_clazz,
+    segment_clazz,
+) -> tuple[object, list[object]]:
+    """
+    Build header and segments for segment-based types (OEM, AEM, TDM).
+
+    Dispatches to a type-specific builder via :data:`_SEGMENT_BUILDERS`.
+
+    Parameters
+    ----------
+    doc : KvnDocument
+        The parsed KVN document.
+    header_field_type : type
+        The xsdata header class.
+    meta_clazz : type
+        The segment metadata class.
+    data_clazz : type
+        The segment data class.
+    segment_clazz : type
+        The segment container class.
+
+    Returns
+    -------
+    tuple[object, list[object]]
+        (ndm_header, built_segments)
+    """
+    header_rows = _kvlines_to_rows(doc.header)
+    ndm_header = build_ndm_object(header_field_type, header_rows)
+
+    builder = _SEGMENT_BUILDERS[data_clazz.__name__]
+    built_segments = builder(doc, meta_clazz, data_clazz, segment_clazz)
+
+    return ndm_header, built_segments
