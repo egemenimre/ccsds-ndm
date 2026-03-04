@@ -151,16 +151,17 @@ def build_object(doc: KvnDocument) -> object:
         ndm_body = _lenient_class_factory(body_field_type, {"segment": built_seg})
         return _lenient_class_factory(clazz, {"header": ndm_header, "body": ndm_body})
 
-    # ===================================================================
-    # Segment-based types (OEM, AEM, TDM)
-    # ===================================================================
-    ndm_header, built_segments = _build_segment_based_object(
-        doc, header_field_type, meta_clazz, data_clazz, segment_clazz
-    )
+    else:
+        # ===================================================================
+        # Segment-based types (OEM, AEM, TDM)
+        # ===================================================================
+        ndm_header, built_segments = _build_segment_based_object(
+            doc, header_field_type, meta_clazz, data_clazz, segment_clazz
+        )
 
-    # Assemble the final NDM object (segment-based types are always multi-segment)
-    ndm_body = _lenient_class_factory(body_field_type, {"segment": built_segments})
-    return _lenient_class_factory(clazz, {"header": ndm_header, "body": ndm_body})
+        # Assemble the final NDM object (segment-based types are always multi-segment)
+        ndm_body = _lenient_class_factory(body_field_type, {"segment": built_segments})
+        return _lenient_class_factory(clazz, {"header": ndm_header, "body": ndm_body})
 
 
 # ---------------------------------------------------------------------------
@@ -365,6 +366,34 @@ def _build_rotation_type(rot_clazz, inst_lines: Sequence[KvnLine]) -> object:
     return _lenient_class_factory(rot_clazz, params)
 
 
+def _forward_looking_pass(
+    all_lines: Sequence[KvnLine],
+    labels: list[str | None],
+    fallback: str,
+) -> list[str | None]:
+    """
+    Forward-looking pass: assign labels to unlabelled non-blank lines.
+
+    Each unlabelled line looks ahead to the next labelled line.  If no blank
+    line intervenes, it inherits that label; otherwise it falls back to
+    *fallback*.  Mutates and returns *labels*.
+    """
+    n = len(all_lines)
+    for i in range(n):
+        if labels[i] is not None or isinstance(all_lines[i], BlankLine):
+            continue
+        has_blank = False
+        next_label: str | None = None
+        for j in range(i + 1, n):
+            if isinstance(all_lines[j], BlankLine):
+                has_blank = True
+            elif labels[j] is not None:
+                next_label = labels[j]
+                break
+        labels[i] = next_label if (next_label is not None and not has_blank) else fallback
+    return labels
+
+
 def _label_lines(
     all_lines: Sequence[KvnLine],
     container_map: dict[str, tuple[str, type, bool]],
@@ -398,21 +427,7 @@ def _label_lines(
             else:
                 labels[i] = container_map[kw][0]  # field name
 
-    # Pass 2: forward-looking assignment for unlabelled lines
-    for i in range(n):
-        if labels[i] is not None or isinstance(all_lines[i], BlankLine):
-            continue
-        has_blank = False
-        next_label: str | None = None
-        for j in range(i + 1, n):
-            if isinstance(all_lines[j], BlankLine):
-                has_blank = True
-            elif labels[j] is not None:
-                next_label = labels[j]
-                break
-        labels[i] = next_label if (next_label is not None and not has_blank) else "own"
-
-    return labels
+    return _forward_looking_pass(all_lines, labels, "own")
 
 
 def _partition_lines(
@@ -664,21 +679,7 @@ def _label_cdm_lines(
         if isinstance(ln, KvLine):
             labels[i] = "header" if ln.key in header_kws else "other"
 
-    # Pass 2: forward-looking for unlabeled lines
-    for i in range(n):
-        if labels[i] is not None or isinstance(all_lines[i], BlankLine):
-            continue
-        has_blank = False
-        next_label: str | None = None
-        for j in range(i + 1, n):
-            if isinstance(all_lines[j], BlankLine):
-                has_blank = True
-            elif labels[j] is not None:
-                next_label = labels[j]
-                break
-        labels[i] = (
-            next_label if (next_label is not None and not has_blank) else "other"
-        )
+    _forward_looking_pass(all_lines, labels, "other")
 
     # Rule 4: orphan COMMENTs above first header keyword → header
     first_hdr = next((i for i, lb in enumerate(labels) if lb == "header"), n)
@@ -996,6 +997,18 @@ def _attach_oem_covariance(
         last_data.covariance_matrix.append(cov_obj)  # type: ignore
 
 
+def _init_segment(block, meta_clazz, data_clazz) -> tuple[object, typing.Any]:
+    """Build the common seg_meta and seg_data objects for a single block."""
+    meta_rows = _kvlines_to_rows(block.meta)
+    data_rows = _kvlines_to_rows(block.data)
+    seg_meta = build_ndm_object(meta_clazz, meta_rows)
+    seg_data = init_root_ndm_object(data_clazz)
+    for row in data_rows:
+        if row[0] == "COMMENT":
+            seg_data.comment.append(row[1])
+    return seg_meta, seg_data
+
+
 def _build_oem_segments(
     doc: KvnDocument,
     meta_clazz,
@@ -1019,14 +1032,7 @@ def _build_oem_segments(
             _attach_oem_covariance(block.covariance, data_clazz, oem_segments)
             continue
 
-        meta_rows = _kvlines_to_rows(block.meta)
-        data_rows = _kvlines_to_rows(block.data)
-
-        seg_meta = build_ndm_object(meta_clazz, meta_rows)
-        seg_data = init_root_ndm_object(data_clazz)
-        for row in data_rows:
-            if row[0] == "COMMENT":
-                seg_data.comment.append(row[1])
+        seg_meta, seg_data = _init_segment(block, meta_clazz, data_clazz)
 
         sv_clazz = _unwrap(_hints(data_clazz)["state_vector"].__args__[0])
         sv_kws = [
@@ -1075,14 +1081,7 @@ def _build_aem_segments(
     att_state_clazz = _unwrap(_hints(data_clazz)["attitude_state"].__args__[0])
 
     for block in doc.segments:
-        meta_rows = _kvlines_to_rows(block.meta)
-        data_rows = _kvlines_to_rows(block.data)
-
-        seg_meta = build_ndm_object(meta_clazz, meta_rows)
-        seg_data = init_root_ndm_object(data_clazz)
-        for row in data_rows:
-            if row[0] == "COMMENT":
-                seg_data.comment.append(row[1])
+        seg_meta, seg_data = _init_segment(block, meta_clazz, data_clazz)
 
         template = _att_column_template(block.meta)
         kv_meta = {ln.key: ln.value for ln in block.meta if isinstance(ln, KvLine)}
@@ -1126,14 +1125,7 @@ def _build_tdm_segments(
     obs_clazz = _unwrap(_hints(data_clazz)["observation"].__args__[0])
 
     for block in doc.segments:
-        meta_rows = _kvlines_to_rows(block.meta)
-        data_rows = _kvlines_to_rows(block.data)
-
-        seg_meta = build_ndm_object(meta_clazz, meta_rows)
-        seg_data = init_root_ndm_object(data_clazz)
-        for row in data_rows:
-            if row[0] == "COMMENT":
-                seg_data.comment.append(row[1])
+        seg_meta, seg_data = _init_segment(block, meta_clazz, data_clazz)
 
         for ln in block.data:
             if isinstance(ln, TdmObsLine):
