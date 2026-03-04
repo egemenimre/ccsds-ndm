@@ -7,6 +7,7 @@
 Utilities for the KVN File I/O.
 
 """
+
 import dataclasses
 import enum
 import importlib
@@ -133,6 +134,289 @@ def get_ccsds_kw_list(clazz):
         return []
 
 
+def get_index(key: str, keys: list, *args) -> int | None:
+    """
+    Returns the first index of ``key`` in ``keys``, or ``None`` if not found.
+
+    Parameters
+    ----------
+    key : str
+        Key value to search for (e.g. ``"CREATION_DATE"``).
+    keys : list[str]
+        List of KVN keys.
+    args
+        Optional extra arguments forwarded to ``list.index`` (e.g. a start index).
+    """
+    try:
+        return keys.index(key, *args)
+    except ValueError:
+        return None
+
+
+def get_min_max_indices(
+    tags: list, start_index: int, keys: list, prefix=None, single_elem=None
+) -> _MinMaxTuple:
+    """
+    Returns the min/max index bounds of a KVN block.
+
+    Matches ``tags`` against ``keys`` from ``start_index`` onward and returns
+    a ``_MinMaxTuple`` spanning the first and last matched positions.
+
+    Parameters
+    ----------
+    tags : list[str]
+        All keyword tags recognised by this block (may include ``"COMMENT"``).
+    start_index : int
+        Position in ``keys`` where the search begins.
+    keys : list[str]
+        Full list of KVN keys.
+    prefix : str or None
+        If given, any key in ``keys`` starting with this prefix is added to ``tags``
+        dynamically (used for ``USER_DEFINED`` fields).
+    single_elem : str or None
+        If truthy, only the first matched tag position is returned (width = 1).
+    """
+    if prefix:
+        new_keys = [key for key in keys[start_index:] if key.startswith(prefix)]
+        tags.extend(new_keys)
+
+    # Find the index of each recognised tag, skipping COMMENTs (handled separately)
+    index_named_list = [
+        [tag, get_index(tag, keys, start_index)] for tag in tags if tag != "COMMENT"
+    ]
+
+    # Drop tags that were not found in this region
+    index_list = [idx for _, idx in index_named_list if idx is not None]
+
+    # Claim COMMENT lines that belong to this block
+    process_comment_lines(tags, start_index, keys, index_list)
+
+    # Check for non-consecutive data and chop if necessary.
+    # Gaps can mean a nested sub-block or inline numeric data separated by spaces.
+    if index_list:
+        index_list.sort()
+        ideal_list = list(range(min(index_list), max(index_list) + 1))
+        diff_list = [n for n in ideal_list if n not in index_list]
+
+        if diff_list:
+            containing_spaces = any(" " in keys[n] for n in diff_list)
+
+            # Detect repeating keys in the gap (ignore blank lines and comments)
+            diff_keys = [keys[i] for i in diff_list if keys[i] not in ("", "COMMENT")]
+            repeating_data = len(diff_keys) != len(set(diff_keys))
+
+            if containing_spaces or repeating_data:
+                # Gap is inline numeric data — chop to the consecutive prefix only
+                index_list = [
+                    n
+                    for i, n in enumerate(index_list)
+                    if index_list[i] == ideal_list[i]
+                ]
+
+    if not index_list:
+        return _MinMaxTuple(start_index, start_index)
+
+    min_of_list = min(index_list)
+    if single_elem:
+        max_of_list = min_of_list + 1
+    else:
+        max_of_list = max(index_list) + 1  # exclusive upper bound
+    return _MinMaxTuple(min_of_list, max_of_list)
+
+
+def identify_special_sub_segments(
+    root_ndm_elem, keys: list, lines: list, init_index: int, prefix=None
+) -> _MinMaxTuple:
+    """
+    Identifies the min/max bounds for a special-type NDM element.
+
+    Dispatches to the appropriate handler based on the element's class name.
+    Recognised classes are ``StateVectorAccType``, ``AttitudeStateType``,
+    ``TrackingDataObservationType``, and ``OemCovarianceMatrixType``.
+
+    Parameters
+    ----------
+    root_ndm_elem : _NdmElement
+        The element whose bounds are being identified.
+    keys : list
+        Full KVN key list.
+    lines : list
+        Full KVN line list.
+    init_index : int
+        Index in ``keys``/``lines`` where the search starts.
+    prefix : str or None
+        Optional key prefix forwarded to the covariance handler.
+
+    Returns
+    -------
+    _MinMaxTuple
+        Min/max index bounds of the identified segment.
+    """
+    class_name = (
+        root_ndm_elem.clazz.__name__
+    )  # noqa: clazz is the attribute name on _NdmElement
+
+    if class_name in ("StateVectorAccType", "AttitudeStateType"):
+        return identify_epoch_segment(lines, init_index)
+
+    elif class_name == "TrackingDataObservationType":
+        return identify_tracking_observation_segment(lines, init_index)
+
+    elif class_name == "OemCovarianceMatrixType":
+        return identify_covariance_segment(
+            root_ndm_elem.kw_list,
+            init_index,
+            keys,
+            lines,
+            root_ndm_elem.single_elem,
+            prefix=prefix,
+        )
+
+    else:
+        raise ValueError(
+            f"Unknown Special Data Type ({class_name}) encountered "
+            f"while identifying segments."
+        )
+
+
+def _lenient_class_factory(cls, params):
+    """
+    Instantiate ``cls`` from ``params``, filling any missing required field with ``None``.
+
+    The generated dataclasses declare required fields (no default value) for
+    sub-objects such as ``header`` and ``body``.  During KVN parsing these
+    sub-objects are assembled one at a time and attached via ``setattr`` after
+    construction, so they cannot all be supplied upfront.  This factory
+    pre-fills every absent required field with ``None`` to avoid a
+    ``TypeError`` at construction time.
+    """
+    for f in dataclasses.fields(cls):
+        if f.init and f.name not in params:
+            if (
+                f.default is dataclasses.MISSING
+                and f.default_factory is dataclasses.MISSING
+            ):
+                params[f.name] = None
+    return cls(**params)
+
+
+def init_root_ndm_object(clazz):
+    """
+    Instantiate a root NDM class (e.g. ``Apm``, ``Oem``) with ``None`` placeholders.
+
+    Root classes have required fields (``header``, ``body``, etc.) that carry no
+    default value.  The KVN parser builds these sub-objects separately and
+    attaches them afterwards via ``setattr``, so this function pre-fills every
+    required init field with ``None`` to allow construction without all values
+    being available at once.
+    """
+    init_kwargs = {
+        f.name: None
+        for f in dataclasses.fields(clazz)
+        if f.init
+        and f.default is dataclasses.MISSING
+        and f.default_factory is dataclasses.MISSING
+    }
+    return clazz(**init_kwargs)
+
+
+def build_ndm_object(clazz, local_lines, prefix=None):
+    """
+    Build a dataclass instance directly from KVN ``local_lines`` without an XML
+    round-trip.  Uses ``_lenient_class_factory`` so missing required fields are
+    filled with ``None`` (to be set later by the subclass loop).
+
+    Each entry in ``local_lines`` is a list of 2 or 3 strings:
+      ``[key, value]``           - plain field or nested single-value dataclass
+      ``[key, value, units]``    - nested dataclass that also carries a units attribute
+
+    Special cases handled:
+    - ``list[str]`` fields (e.g. COMMENT): values are accumulated into a list.
+    - Nested leaf dataclasses (e.g. ``MomentType``): constructed from ``value`` +
+      optional ``units`` attribute, without recursing into ``build_ndm_object``.
+    - Prefix case (``UserDefinedType``): each item becomes a
+      ``UserDefinedParameterType(parameter=..., value=...)`` appended to the list.
+    """
+    # Resolve forward-reference string annotations to actual type objects.
+    # xsdata generates fields whose f.type is a plain string, not a type.
+    resolved_hints = typing.get_type_hints(clazz)
+
+    # Build a map from KVN keyword name → (field, resolved_type)
+    name_to_field = {
+        f.metadata.get("name"): (f, resolved_hints[f.name])
+        for f in dataclasses.fields(clazz)
+        if f.name in resolved_hints
+    }
+
+    params = {}
+
+    if prefix:
+        # USER_DEFINED_* items → list of UserDefinedParameterType
+        entry = name_to_field.get(prefix)
+        if entry is not None:
+            list_field, list_type = entry
+            item_clazz = _unwrap_type(list_type.__args__[0])
+            entries = []
+            for item in local_lines:
+                if len(item) < 2 or not item[0].startswith(prefix + "_"):
+                    continue
+                param_name = item[0].replace(prefix + "_", "")
+                entries.append(item_clazz(value=item[1], parameter=param_name))
+            params[list_field.name] = entries
+    else:
+        for item in local_lines:
+            key, raw_val = item[0], item[1]
+            entry = name_to_field.get(key)
+            if entry is None:
+                continue
+
+            field, resolved_type = entry
+            base_type = _unwrap_type(resolved_type)
+
+            if field.default_factory is not dataclasses.MISSING:
+                # list field (e.g. COMMENT) — accumulate
+                elem_type = _unwrap_type(base_type.__args__[0])
+                params.setdefault(field.name, []).append(
+                    _coerce_value(raw_val, elem_type)
+                )
+            elif dataclasses.is_dataclass(base_type):
+                # Leaf nested dataclass (e.g. MomentType): value + optional units
+                leaf_hints = typing.get_type_hints(base_type)
+                leaf_fields = dataclasses.fields(base_type)
+                value_field = leaf_fields[0]
+                leaf_params = {
+                    value_field.name: _coerce_value(
+                        raw_val, leaf_hints[value_field.name]
+                    )
+                }
+                if len(item) > 2:
+                    units_field = next(
+                        (
+                            f
+                            for f in leaf_fields
+                            if f.metadata.get("type") == "Attribute"
+                        ),
+                        None,
+                    )
+                    if units_field is not None:
+                        leaf_params[units_field.name] = _coerce_value(
+                            item[2], leaf_hints[units_field.name]
+                        )
+                params[field.name] = base_type(**leaf_params)
+            else:
+                params[field.name] = _coerce_value(raw_val, resolved_type)
+
+    return _lenient_class_factory(clazz, params)
+
+
+# ============================================================================
+# DEPRECATED / DEAD CODE (xsdata_2 branch)
+# ============================================================================
+# The following functions were used in the legacy ndmxml2 module but are
+# no longer referenced by the xsdata_2 rewrite. They are kept for reference
+# during the transition and can be safely removed once the rewrite is complete.
+
+
 def _split_into_segments(block: list[tuple]) -> list[list[tuple]]:
     """
     Splits a flat list of (idx, key) pairs into segments.
@@ -151,9 +435,7 @@ def _split_into_segments(block: list[tuple]) -> list[list[tuple]]:
         if not run:
             return
         # Find where the leading COMMENTs end
-        split_at = next(
-            (i for i, (_, k) in enumerate(run) if k != "COMMENT"), len(run)
-        )
+        split_at = next((i for i, (_, k) in enumerate(run) if k != "COMMENT"), len(run))
         if 0 < split_at < len(run):
             # Mixed: leading comments + data — emit as two separate segments
             segments.append(run[:split_at])
@@ -328,96 +610,6 @@ def process_comment_lines(
                 index_list.append(idx)
 
 
-def get_index(key: str, keys: list, *args) -> int | None:
-    """
-    Returns the first index of ``key`` in ``keys``, or ``None`` if not found.
-
-    Parameters
-    ----------
-    key : str
-        Key value to search for (e.g. ``"CREATION_DATE"``).
-    keys : list[str]
-        List of KVN keys.
-    args
-        Optional extra arguments forwarded to ``list.index`` (e.g. a start index).
-    """
-    try:
-        return keys.index(key, *args)
-    except ValueError:
-        return None
-
-
-def get_min_max_indices(
-    tags: list, start_index: int, keys: list, prefix=None, single_elem=None
-) -> _MinMaxTuple:
-    """
-    Returns the min/max index bounds of a KVN block.
-
-    Matches ``tags`` against ``keys`` from ``start_index`` onward and returns
-    a ``_MinMaxTuple`` spanning the first and last matched positions.
-
-    Parameters
-    ----------
-    tags : list[str]
-        All keyword tags recognised by this block (may include ``"COMMENT"``).
-    start_index : int
-        Position in ``keys`` where the search begins.
-    keys : list[str]
-        Full list of KVN keys.
-    prefix : str or None
-        If given, any key in ``keys`` starting with this prefix is added to ``tags``
-        dynamically (used for ``USER_DEFINED`` fields).
-    single_elem : str or None
-        If truthy, only the first matched tag position is returned (width = 1).
-    """
-    if prefix:
-        new_keys = [key for key in keys[start_index:] if key.startswith(prefix)]
-        tags.extend(new_keys)
-
-    # Find the index of each recognised tag, skipping COMMENTs (handled separately)
-    index_named_list = [
-        [tag, get_index(tag, keys, start_index)] for tag in tags if tag != "COMMENT"
-    ]
-
-    # Drop tags that were not found in this region
-    index_list = [idx for _, idx in index_named_list if idx is not None]
-
-    # Claim COMMENT lines that belong to this block
-    process_comment_lines(tags, start_index, keys, index_list)
-
-    # Check for non-consecutive data and chop if necessary.
-    # Gaps can mean a nested sub-block or inline numeric data separated by spaces.
-    if index_list:
-        index_list.sort()
-        ideal_list = list(range(min(index_list), max(index_list) + 1))
-        diff_list = [n for n in ideal_list if n not in index_list]
-
-        if diff_list:
-            containing_spaces = any(" " in keys[n] for n in diff_list)
-
-            # Detect repeating keys in the gap (ignore blank lines and comments)
-            diff_keys = [keys[i] for i in diff_list if keys[i] not in ("", "COMMENT")]
-            repeating_data = len(diff_keys) != len(set(diff_keys))
-
-            if containing_spaces or repeating_data:
-                # Gap is inline numeric data — chop to the consecutive prefix only
-                index_list = [
-                    n
-                    for i, n in enumerate(index_list)
-                    if index_list[i] == ideal_list[i]
-                ]
-
-    if not index_list:
-        return _MinMaxTuple(start_index, start_index)
-
-    min_of_list = min(index_list)
-    if single_elem:
-        max_of_list = min_of_list + 1
-    else:
-        max_of_list = max(index_list) + 1  # exclusive upper bound
-    return _MinMaxTuple(min_of_list, max_of_list)
-
-
 def _is_date_str(s: str) -> bool:
     """
     Returns ``True`` if ``s`` looks like a KVN epoch string.
@@ -551,61 +743,6 @@ def identify_covariance_segment(
     return _MinMaxTuple(temp_min_max.min, i)
 
 
-def identify_special_sub_segments(
-    root_ndm_elem, keys: list, lines: list, init_index: int, prefix=None
-) -> _MinMaxTuple:
-    """
-    Identifies the min/max bounds for a special-type NDM element.
-
-    Dispatches to the appropriate handler based on the element's class name.
-    Recognised classes are ``StateVectorAccType``, ``AttitudeStateType``,
-    ``TrackingDataObservationType``, and ``OemCovarianceMatrixType``.
-
-    Parameters
-    ----------
-    root_ndm_elem : _NdmElement
-        The element whose bounds are being identified.
-    keys : list
-        Full KVN key list.
-    lines : list
-        Full KVN line list.
-    init_index : int
-        Index in ``keys``/``lines`` where the search starts.
-    prefix : str or None
-        Optional key prefix forwarded to the covariance handler.
-
-    Returns
-    -------
-    _MinMaxTuple
-        Min/max index bounds of the identified segment.
-    """
-    class_name = (
-        root_ndm_elem.clazz.__name__
-    )  # noqa: clazz is the attribute name on _NdmElement
-
-    if class_name in ("StateVectorAccType", "AttitudeStateType"):
-        return identify_epoch_segment(lines, init_index)
-
-    elif class_name == "TrackingDataObservationType":
-        return identify_tracking_observation_segment(lines, init_index)
-
-    elif class_name == "OemCovarianceMatrixType":
-        return identify_covariance_segment(
-            root_ndm_elem.kw_list,
-            init_index,
-            keys,
-            lines,
-            root_ndm_elem.single_elem,
-            prefix=prefix,
-        )
-
-    else:
-        raise ValueError(
-            f"Unknown Special Data Type ({class_name}) encountered "
-            f"while identifying segments."
-        )
-
-
 def init_ndm_class(root_class: type, class_name: str) -> type:
     """
     Resolves and returns the class named `class_name` from the module of `root_class`.
@@ -654,47 +791,6 @@ def init_ndm_class(root_class: type, class_name: str) -> type:
     return clazz
 
 
-def _lenient_class_factory(cls, params):
-    """
-    Instantiate ``cls`` from ``params``, filling any missing required field with ``None``.
-
-    The generated dataclasses declare required fields (no default value) for
-    sub-objects such as ``header`` and ``body``.  During KVN parsing these
-    sub-objects are assembled one at a time and attached via ``setattr`` after
-    construction, so they cannot all be supplied upfront.  This factory
-    pre-fills every absent required field with ``None`` to avoid a
-    ``TypeError`` at construction time.
-    """
-    for f in dataclasses.fields(cls):
-        if f.init and f.name not in params:
-            if (
-                f.default is dataclasses.MISSING
-                and f.default_factory is dataclasses.MISSING
-            ):
-                params[f.name] = None
-    return cls(**params)
-
-
-def init_root_ndm_object(clazz):
-    """
-    Instantiate a root NDM class (e.g. ``Apm``, ``Oem``) with ``None`` placeholders.
-
-    Root classes have required fields (``header``, ``body``, etc.) that carry no
-    default value.  The KVN parser builds these sub-objects separately and
-    attaches them afterwards via ``setattr``, so this function pre-fills every
-    required init field with ``None`` to allow construction without all values
-    being available at once.
-    """
-    init_kwargs = {
-        f.name: None
-        for f in dataclasses.fields(clazz)
-        if f.init
-        and f.default is dataclasses.MISSING
-        and f.default_factory is dataclasses.MISSING
-    }
-    return clazz(**init_kwargs)
-
-
 def _unwrap_type(t):
     """
     Strip an ``Optional[X]`` or ``Union[X, None]`` wrapper and return ``X``.
@@ -728,92 +824,3 @@ def _coerce_value(raw_value, field_type):
     if base is int:
         return int(raw_value)
     return raw_value
-
-
-def build_ndm_object(clazz, local_lines, prefix=None):
-    """
-    Build a dataclass instance directly from KVN ``local_lines`` without an XML
-    round-trip.  Uses ``_lenient_class_factory`` so missing required fields are
-    filled with ``None`` (to be set later by the subclass loop).
-
-    Each entry in ``local_lines`` is a list of 2 or 3 strings:
-      ``[key, value]``           - plain field or nested single-value dataclass
-      ``[key, value, units]``    - nested dataclass that also carries a units attribute
-
-    Special cases handled:
-    - ``list[str]`` fields (e.g. COMMENT): values are accumulated into a list.
-    - Nested leaf dataclasses (e.g. ``MomentType``): constructed from ``value`` +
-      optional ``units`` attribute, without recursing into ``build_ndm_object``.
-    - Prefix case (``UserDefinedType``): each item becomes a
-      ``UserDefinedParameterType(parameter=..., value=...)`` appended to the list.
-    """
-    # Resolve forward-reference string annotations to actual type objects.
-    # xsdata generates fields whose f.type is a plain string, not a type.
-    resolved_hints = typing.get_type_hints(clazz)
-
-    # Build a map from KVN keyword name → (field, resolved_type)
-    name_to_field = {
-        f.metadata.get("name"): (f, resolved_hints[f.name])
-        for f in dataclasses.fields(clazz)
-        if f.name in resolved_hints
-    }
-
-    params = {}
-
-    if prefix:
-        # USER_DEFINED_* items → list of UserDefinedParameterType
-        entry = name_to_field.get(prefix)
-        if entry is not None:
-            list_field, list_type = entry
-            item_clazz = _unwrap_type(list_type.__args__[0])
-            entries = []
-            for item in local_lines:
-                if len(item) < 2 or not item[0].startswith(prefix + "_"):
-                    continue
-                param_name = item[0].replace(prefix + "_", "")
-                entries.append(item_clazz(value=item[1], parameter=param_name))
-            params[list_field.name] = entries
-    else:
-        for item in local_lines:
-            key, raw_val = item[0], item[1]
-            entry = name_to_field.get(key)
-            if entry is None:
-                continue
-
-            field, resolved_type = entry
-            base_type = _unwrap_type(resolved_type)
-
-            if field.default_factory is not dataclasses.MISSING:
-                # list field (e.g. COMMENT) — accumulate
-                elem_type = _unwrap_type(base_type.__args__[0])
-                params.setdefault(field.name, []).append(
-                    _coerce_value(raw_val, elem_type)
-                )
-            elif dataclasses.is_dataclass(base_type):
-                # Leaf nested dataclass (e.g. MomentType): value + optional units
-                leaf_hints = typing.get_type_hints(base_type)
-                leaf_fields = dataclasses.fields(base_type)
-                value_field = leaf_fields[0]
-                leaf_params = {
-                    value_field.name: _coerce_value(
-                        raw_val, leaf_hints[value_field.name]
-                    )
-                }
-                if len(item) > 2:
-                    units_field = next(
-                        (
-                            f
-                            for f in leaf_fields
-                            if f.metadata.get("type") == "Attribute"
-                        ),
-                        None,
-                    )
-                    if units_field is not None:
-                        leaf_params[units_field.name] = _coerce_value(
-                            item[2], leaf_hints[units_field.name]
-                        )
-                params[field.name] = base_type(**leaf_params)
-            else:
-                params[field.name] = _coerce_value(raw_val, resolved_type)
-
-    return _lenient_class_factory(clazz, params)
