@@ -390,7 +390,9 @@ def _forward_looking_pass(
             elif labels[j] is not None:
                 next_label = labels[j]
                 break
-        labels[i] = next_label if (next_label is not None and not has_blank) else fallback
+        labels[i] = (
+            next_label if (next_label is not None and not has_blank) else fallback
+        )
     return labels
 
 
