@@ -22,12 +22,12 @@ from pathlib import Path
 
 import pytest
 
-from ccsds_ndm.kvn_utils_builder import build_object
-from ccsds_ndm.kvn_utils_parser import parse_blocks
-from ccsds_ndm.kvn_utils_tokenizer import tokenize
+from ccsds_ndm.kvn_builder import build_object
+from ccsds_ndm.kvn_parser import dispatch_document
+from ccsds_ndm.kvn_tokenizer import tokenize
 
 DATA_DIR = Path(__file__).parent / "data" / "kvn"
-_benchmark_results = []
+_benchmark_results: list = []
 
 
 def _get_kvn_files():
@@ -50,20 +50,23 @@ def print_summary():
     yield
     if not _benchmark_results:
         return
-    col = 40
+    c_file = 40
+    c_lines = 6
+    c_time = 12
+    c_step = 18
     print(
-        f"\n{'File':<{col}} {'Lines':>6}  {'Mean':>10}  {'StdDev':>10}  "
-        f"{'Tokenize (Mean)':>10}  {'ParseBlks (Mean)':>10}  {'BuildObj (Mean)':>10}"
+        f"\n{'File':<{c_file}} {'Lines':>{c_lines}}  {'Mean':>{c_time}}  {'StdDev':>{c_time}}  "
+        f"{'Tokenize (Mean)':>{c_step}}  {'ParseBlks (Mean)':>{c_step}}  {'BuildObj (Mean)':>{c_step}}"
     )
     print(
-        f"{'-' * col} {'-' * 6}  {'-' * 10}  {'-' * 10}  {'-' * 10}  {'-' * 10}  {'-' * 10}"
+        f"{'-' * c_file} {'-' * c_lines}  {'-' * c_time}  {'-' * c_time}  {'-' * c_step}  {'-' * c_step}  {'-' * c_step}"
     )
     for r in _benchmark_results:
         print(
-            f"{r['file']:<{col}} {r['lines']:>6}  "
-            f"{r['mean'] * 1000:>9.3f}ms  {r['stddev'] * 1000:>9.3f}ms  "
-            f"{r['tokenize_mean'] * 1000:>9.3f}ms  {r['parse_blocks_mean'] * 1000:>9.3f}ms  "
-            f"{r['build_object_mean'] * 1000:>9.3f}ms"
+            f"{r['file']:<{c_file}} {r['lines']:>{c_lines}}  "
+            f"{r['mean'] * 1000:>{c_time - 2}.3f}ms  {r['stddev'] * 1000:>{c_time - 2}.3f}ms  "
+            f"{r['tokenize_mean'] * 1000:>{c_step - 2}.3f}ms  {r['parse_blocks_mean'] * 1000:>{c_step - 2}.3f}ms  "
+            f"{r['build_object_mean'] * 1000:>{c_step - 2}.3f}ms"
         )
 
 
@@ -76,7 +79,7 @@ class TestPipelinePerformance:
 
         def run_full_pipeline():
             lines = tokenize(src)
-            doc = parse_blocks(lines)
+            doc = dispatch_document(lines)
             result = build_object(doc)
             return result
 
@@ -94,11 +97,11 @@ class TestPipelinePerformance:
 
         def run_parse_blocks():
             lines = tokenize(src)
-            return parse_blocks(lines)
+            return dispatch_document(lines)
 
         def run_build_object():
             lines = tokenize(src)
-            doc = parse_blocks(lines)
+            doc = dispatch_document(lines)
             return build_object(doc)
 
         tokenize_times = timeit.repeat(run_tokenize, repeat=3, number=10)
