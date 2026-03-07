@@ -76,6 +76,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+*/.ipynb_checkpoints/*
 
 # IPython
 profile_default/
@@ -114,6 +115,12 @@ venv.bak/
 .spyderproject
 .spyproject
 
+# VSCode
+.vscode
+
+# PyCharm
+.idea
+
 # Rope project settings
 .ropeproject
 
@@ -130,4 +137,5 @@ dmypy.json
 /.idea/
 
 # Internal temp dirs
+temp
 /ccsds_ndm/temp/
