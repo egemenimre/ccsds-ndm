@@ -6,29 +6,14 @@
 """
 CCSDS Navigation Data Messages KVN File I/O.
 
-Entry point for reading KVN-formatted NDM files.  Parsing is a three-step
-pipeline:
-
-1. **Tokenise** (``kvn_utils_tokenizer.tokenize``) — every input line is classified
-   into a :class:`~ccsds_ndm.kvn_utils_tokenizer.KvnLine` subclass
-   (``KvLine``, ``CommentLine``, ``PackedDataLine``, etc.).
-
-2. **Block-split** (``kvn_utils_parser.parse_blocks``) — the token list is
-   driven through a state machine that groups lines into
-   :class:`~ccsds_ndm.kvn_utils_parser.KvnBlock` objects and wraps them in a
-   :class:`~ccsds_ndm.kvn_utils_parser.KvnDocument` together with the detected
-   NDM type.
-
-3. **Object construction** — the ``KvnDocument`` is mapped onto the
-   xsdata-generated dataclass tree for the identified NDM type.
 """
 
 from pathlib import Path
 
-from ccsds_ndm.kvn_utils_builder import build_object
-from ccsds_ndm.kvn_utils_parser import KvnDocument, parse_blocks
-from ccsds_ndm.kvn_utils_tokenizer import KvnLine, tokenize
-from ccsds_ndm.kvn_utils_writer import write_kvn_lines
+from ccsds_ndm.kvn_builder import build_object
+from ccsds_ndm.kvn_parser import dispatch_document
+from ccsds_ndm.kvn_tokenizer import tokenize
+from ccsds_ndm.kvn_writer import write_kvn_lines
 
 
 class NdmKvnIo:
@@ -86,15 +71,14 @@ class NdmKvnIo:
             Root xsdata dataclass instance for the detected NDM type
             (e.g. ``OpmType``, ``OemType``, ``ApmType``, …).
         """
+        # tokenize the document
+        lines = tokenize(kvn_source)
 
-        # Step 1: classify every input line into a typed KvnLine subclass
-        _lines: list[KvnLine] = tokenize(kvn_source)
+        # dispatch into a KvnDocument with NDM type identified
+        kvn_doc = dispatch_document(lines)
 
-        # Step 2: group lines into header + ordered KvnBlocks and resolve the NDM type
-        _doc: KvnDocument = parse_blocks(_lines)
-
-        # Step 3: map the KvnDocument onto the xsdata dataclass tree
-        return build_object(_doc)
+        # build the NDM object recursively from the KvnDocument
+        return build_object(kvn_doc)
 
     def to_string(self, ndm_obj) -> str:
         """
