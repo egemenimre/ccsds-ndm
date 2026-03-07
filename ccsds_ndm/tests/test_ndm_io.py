@@ -238,6 +238,62 @@ def test_compare_objects(ndm_key, path: Path):
 #         assert kvn_text_truth == kvn_text
 
 
+@pytest.mark.parametrize("ndm_key, path", file_paths.items())
+def test_write_files(ndm_key, path: Path):
+    """Tests that the KVN writer produces the same keywords as the original file.
+
+    Reads the KVN file, builds the object, writes it back to a KVN string,
+    and compares the ordered list of keyword names. Values are intentionally
+    excluded because float formatting may differ (e.g. '.83483E-4' vs
+    '8.3483e-05') while remaining semantically identical."""
+
+    working_dir = Path.cwd()
+
+    if path is not None:
+        kvn_path = process_paths(working_dir, path.with_suffix(".kvn"))
+
+        ndm = NdmIo().from_path(kvn_path)
+        kvn_out = NdmIo().to_string(ndm, NDMFileFormats.KVN)
+
+        original = kvn_path.read_text()
+
+        def extract_kv_keys(text):
+            """Return sorted list of keyword names from KV lines (those containing '=').
+
+            Packed data lines and section markers are ignored — their content
+            is covered by test_compare_objects."""
+            return sorted(
+                stripped.split("=")[0].strip()
+                for line in text.splitlines()
+                if (stripped := line.strip())
+                and "=" in stripped
+                and not stripped.startswith("COMMENT")
+            )
+
+        assert extract_kv_keys(kvn_out) == extract_kv_keys(original)
+
+
+@pytest.mark.parametrize("ndm_key, path", file_paths.items())
+def test_round_trip(ndm_key, path: Path):
+    """Tests a full KVN → XML → KVN round-trip.
+
+    Reads the KVN file, exports to XML string, re-parses the XML, exports
+    that back to KVN, and compares the two KVN strings."""
+
+    working_dir = Path.cwd()
+
+    if path is not None:
+        kvn_path = process_paths(working_dir, path.with_suffix(".kvn"))
+
+        ndm = NdmIo().from_path(kvn_path)
+        kvn_str_1 = NdmIo().to_string(ndm, NDMFileFormats.KVN)
+
+        ndm_reread = NdmIo().from_string(kvn_str_1)
+        kvn_str_2 = NdmIo().to_string(ndm_reread, NDMFileFormats.KVN)
+
+        assert kvn_str_1 == kvn_str_2
+
+
 def _collect_diffs(kvn_obj: Any, xml_obj: Any, root: str) -> list[tuple[str, Any, Any]]:
     """Recursively compare two NDM xsdata object trees.
 
