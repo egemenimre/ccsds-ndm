@@ -14,6 +14,7 @@ from ccsds_ndm.kvn_builder import build_object
 from ccsds_ndm.kvn_parser import dispatch_document
 from ccsds_ndm.kvn_tokenizer import tokenize
 from ccsds_ndm.kvn_writer import write_kvn_lines
+from ccsds_ndm.ndm_utils import is_multi_ndm
 
 
 class NdmKvnIo:
@@ -93,7 +94,20 @@ class NdmKvnIo:
         -------
         str
             The NDM data formatted as a KVN string.
+
+        Raises
+        ------
+        NotImplementedError
+            Combined NDM input for KVN not implemented in CCSDS NDM Standard.
         """
+        # check for multi-NDM file
+        if is_multi_ndm(ndm_obj):
+            raise NotImplementedError(
+                "NDM data appears to have more than one data set (e.g. two OPMs). "
+                "This sort of NDM output to KVN is not supported. "
+                "Try outputting to multiple files instead."
+            )
+
         lines = write_kvn_lines(ndm_obj)
         return "\n".join(line.to_str() for line in lines)
 
