@@ -139,3 +139,6 @@ dmypy.json
 # Internal temp dirs
 temp
 /ccsds_ndm/temp/
+/test-results/
+/docs/_autosummary/
+/docs/_themes/
