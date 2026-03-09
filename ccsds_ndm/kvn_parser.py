@@ -400,7 +400,7 @@ def _dispatch_cdm(lines: list[KvnLine]) -> tuple[list[KvnLine], list[Segment]]:
 @dataclass
 class BlockSpan:
     """
-    A located sub-block within a list of ``KvnLine``s.
+    A located sub-block within a list of KvnLines.
 
     Attributes
     ----------
@@ -409,7 +409,7 @@ class BlockSpan:
     end : int
         Index one past the last line (exclusive) in the source list.
     lines : list[KvnLine]
-        The actual lines within ``[start, end)``.
+        The actual lines within [start, end).
     """
 
     start: int
