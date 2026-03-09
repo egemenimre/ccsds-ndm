@@ -14,8 +14,7 @@ import pytest
 
 from ccsds_ndm.models.ndmxml2 import Omm
 from ccsds_ndm.ndm_xml_io import NdmXmlIo
-
-extra_path = Path("ccsds_ndm", "tests")
+from ccsds_ndm.tests.test_ndm_io import process_paths
 
 xml_file_paths = {
     "AEMv1": Path("data", "xml", "NDMXML-P1.0.1-figure-B-2.xml"),
@@ -41,9 +40,7 @@ def test_read_single_file():
     # *** read XML files ***
     # *** should raise an error in case something goes wrong ***
     if path:
-        xml_path = Path.cwd().joinpath(path)
-        if not Path.cwd().joinpath(xml_path).exists():
-            xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
+        xml_path = process_paths(Path.cwd(), path)
 
         # try a string rather than a path
         NdmXmlIo().from_path(str(xml_path))
@@ -56,9 +53,7 @@ def test_read_files(ndm_key, path):
     # *** read XML files ***
     # *** should raise an error in case something goes wrong ***
     if path is not None:
-        xml_path = Path.cwd().joinpath(path)
-        if not Path.cwd().joinpath(xml_path).exists():
-            xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
+        xml_path = process_paths(Path.cwd(), path)
 
         # try a string rather than a path
         NdmXmlIo().from_path(str(xml_path))
@@ -70,9 +65,7 @@ def test_strip_ndm_combi():
 
     # *** read XML file ***
     path = xml_file_paths["NDMv2_strip"]
-    xml_path = Path.cwd().joinpath(path)
-    if not Path.cwd().joinpath(xml_path).exists():
-        xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
+    xml_path = process_paths(Path.cwd(), path)
 
     omm = NdmXmlIo().from_path(xml_path)
 
@@ -86,9 +79,7 @@ def test_read_string_and_bytes(ndm_key):
     """Tests reading XML data as string and bytes."""
 
     # check path and correct if necessary
-    xml_path_ndm = Path.cwd().joinpath(xml_file_paths[ndm_key])
-    if not Path.cwd().joinpath(xml_path_ndm).exists():
-        xml_path_ndm = Path.cwd().joinpath(extra_path).joinpath(xml_file_paths[ndm_key])
+    xml_path_ndm = process_paths(Path.cwd(), xml_file_paths[ndm_key])
 
     # read XML file as text
     NdmXmlIo().from_string(xml_path_ndm.read_text())
@@ -107,9 +98,7 @@ def test_write_string(ndm_key, path):
     # *** read XML files ***
     # *** should raise an error in case something goes wrong ***
     if path is not None:
-        xml_path = Path.cwd().joinpath(path)
-        if not Path.cwd().joinpath(xml_path).exists():
-            xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
+        xml_path = process_paths(Path.cwd(), path)
 
         # read XML file into object and write to string
         ndm = NdmXmlIo().from_path(xml_path)
@@ -126,15 +115,8 @@ def test_write_file():
     """Tests writing XML data as file."""
 
     # check path and correct if necessary
-    working_dir = Path.cwd()
-    xml_read_path = working_dir.joinpath(xml_file_paths["TDMv2"])
-    if not working_dir.joinpath(xml_read_path).exists():
-        working_dir = working_dir.joinpath(extra_path)
-
-    # update the read path with the new working path
-    xml_read_path = working_dir.joinpath(xml_file_paths["TDMv2"])
-
-    xml_write_path = working_dir.joinpath(Path("data", "xml", "write_test.xml"))
+    xml_read_path = process_paths(Path.cwd(), xml_file_paths["TDMv2"])
+    xml_write_path = xml_read_path.parent / "write_test.xml"
 
     # read XML file into object and write to file
     ndm = NdmXmlIo().from_path(xml_read_path)

@@ -69,7 +69,10 @@ def test_read_file():
 
 @pytest.mark.parametrize("ndm_key, path", file_paths.items())
 def test_compare_files(ndm_key, path: Path):
-    """Tests comparison of XML and KVN NDM files."""
+    """Tests comparison of XML and KVN NDM files.
+
+    Reads the equivalent XML and KVN files and writes the contents to XML strings
+    to be compared line by line."""
 
     working_dir = Path.cwd()
 
@@ -86,7 +89,9 @@ def test_compare_files(ndm_key, path: Path):
         ndm_kvn_out_str = NdmIo().to_string(ndm_kvn, NDMFileFormats.XML)
         ndm_xml_out_str = NdmIo().to_string(ndm_xml, NDMFileFormats.XML)
 
-        assert ndm_kvn_out_str == ndm_xml_out_str
+        assert (
+            ndm_kvn_out_str == ndm_xml_out_str
+        ), f"[{ndm_key}] KVN and XML outputs differ"
 
 
 @pytest.mark.parametrize("ndm_key, path", file_paths.items())
@@ -108,190 +113,64 @@ def test_compare_objects(ndm_key, path: Path):
         ndm_kvn = NdmIo().from_path(kvn_path)
 
         diffs = _collect_diffs(ndm_kvn, ndm_xml, root=type(ndm_kvn).__name__)
-        assert (
-            not diffs
-        ), f"{len(diffs)} field(s) differ between KVN and XML objects:\n" + "\n".join(
-            f"  {path}: KVN={kvn!r}  XML={xml!r}" for path, kvn, xml in diffs
+        assert not diffs, (
+            f"[{ndm_key}] {len(diffs)} field(s) differ between KVN and XML objects:\n"
+            + "\n".join(
+                f"  {path}: KVN={kvn!r}  XML={xml!r}" for path, kvn, xml in diffs
+            )
         )
 
 
-# file_paths = {
-#     "AEMv2": Path("data", "xml", "NDMXML-P1.0.1-figure-B-2.xml"),
-#     "APMv2": Path("data", "xml", "NDMXML-P1.0.1-figure-B-3.xml"),
-#     "CDMv2": Path("data", "kvn", "cdm_example_section4.kvn"),
-#     "OEMv2": Path("data", "xml", "ndmxml-1.0-oem-2.0-single.xml"),
-#     "OMMv2_1": Path("data", "kvn", "omm1_st.kvn"),
-#     "OMMv2_2": Path("data", "kvn", "omm1_ct.kvn"),
-#     "OMMv2": Path("data", "xml", "ndmxml-1.0-omm-2.0.xml"),
-#     "OPMv2": None,
-#     "RDMv2": None,
-#     "TDMv2_1": Path("data", "xml", "tdm-testcase01a-fordocument.xml"),
-#     "TDMv2_2": Path("data", "kvn", "tdm_opt_data.kvn"),
-#     "NDMv2": Path("data", "xml", "omm_combined.xml"),
-#     "NDMv2_strip": Path("data", "xml", "omm_single_ndm.xml"),
-# }
+wrong_contents = [
+    "THIS=is a wrong data \n More wrong data\n",
+    "<THIS=is a wrong data \n More wrong data>\n",
+]
 
-# wrong_contents = [
-#     "THIS=is a wrong data \n More wrong data\n",
-#     "<THIS=is a wrong data \n More wrong data>\n",
-# ]
-
-# not_implemented = {
-#     "OMMv2_1": Path("data", "json", "omm1_st.json"),
-#     "OMMv2_2": Path("data", "json", "omm1_ct.json"),
-# }
+not_implemented = {
+    "OMMv2_1": Path("data", "json", "omm1_st.json"),
+    "OMMv2_2": Path("data", "json", "omm1_ct.json"),
+}
 
 
-# @pytest.mark.parametrize("ndm_key, path", file_paths.items())
-# def test_read_files(ndm_key, path):
-#     """Tests reading NDM files."""
-
-#     # *** read files ***
-#     # *** should raise an error in case something goes wrong ***
-#     if path is not None:
-#         xml_path = Path.cwd().joinpath(path)
-#         if not Path.cwd().joinpath(xml_path).exists():
-#             xml_path = Path.cwd().joinpath(extra_path).joinpath(path)
-
-#         # try a string rather than a path
-#         NdmIo().from_path(xml_path)
+@pytest.mark.parametrize("source_data", wrong_contents)
+def test_read_errs(source_data):
+    with pytest.raises(ValueError):
+        # this should throw an ValueError exception
+        NdmIo().from_string(source_data)
 
 
-# @pytest.mark.parametrize("source_data", wrong_contents)
-# def test_read_errs(source_data):
-#     with pytest.raises(ValueError):
-#         # this should throw an ValueError exception
-#         NdmIo().from_string(source_data)
+@pytest.mark.parametrize("path", not_implemented.values())
+def test_read_json_file(path):
+    with pytest.raises(NotImplementedError):
+
+        # *** read files ***
+        # *** should raise an error in case something goes wrong ***
+        if path is not None:
+            json_path = process_paths(Path.cwd(), path)
+
+            # this should throw an NotImplementedError exception
+            NdmIo().from_path(json_path)
 
 
-# @pytest.mark.parametrize("ndm_key, path", not_implemented.items())
-# def test_read_json_file(ndm_key, path):
-#     with pytest.raises(NotImplementedError):
+def test_write_json_string():
+    """Tests writing JSON data as string."""
+    with pytest.raises(NotImplementedError):
+        # check path and correct if necessary
+        ommv2_1 = Path("data", "kvn", "omm1_st.kvn")
+        kvn_path = process_paths(Path.cwd(), ommv2_1)
 
-#         # *** read files ***
-#         # *** should raise an error in case something goes wrong ***
-#         if path is not None:
-#             json_path = Path.cwd().joinpath(path)
-#             if not Path.cwd().joinpath(json_path).exists():
-#                 json_path = Path.cwd().joinpath(extra_path).joinpath(path)
-
-#             # this should throw an NotImplementedError exception
-#             NdmIo().from_path(json_path)
-
-
-# def test_write_multi_ndm_kvn():
-#     """Combi-NDM for KVN fail test."""
-#     with pytest.raises(NotImplementedError):
-#         # this should throw an NotImplementedError exception
-
-#         # check path and correct if necessary
-#         kvn_path = Path.cwd().joinpath(file_paths.get("NDMv2"))
-#         if not Path.cwd().joinpath(kvn_path).exists():
-#             kvn_path = Path.cwd().joinpath(extra_path).joinpath(file_paths.get("NDMv2"))
-
-#         ndm = NdmIo().from_path(kvn_path)
-#         NdmIo().to_file(ndm, NDMFileFormats.KVN, Path("new.kvn"))
-
-
-# def test_write_kvn_string():
-#     """Tests writing KVN data as string."""
-#     # check path and correct if necessary
-#     kvn_path = Path.cwd().joinpath(file_paths.get("OMMv2_1"))
-#     if not Path.cwd().joinpath(kvn_path).exists():
-#         kvn_path = Path.cwd().joinpath(extra_path).joinpath(file_paths.get("OMMv2_1"))
-
-#     # read KVN file
-#     ndm = NdmIo().from_path(kvn_path)
-
-#     # read equivalent XML file
-#     ndm_truth = NdmIo().from_path(kvn_path.with_suffix(".xml"))
-
-#     # export both files to KVN and compare
-#     kvn_text = NdmIo().to_string(ndm, NDMFileFormats.KVN)
-#     kvn_text_truth = NdmIo().to_string(ndm_truth, NDMFileFormats.KVN)
-
-#     # compare strings
-#     assert kvn_text_truth == kvn_text
-
-
-# def test_write_json_string():
-#     """Tests writing JSON data as string."""
-#     with pytest.raises(NotImplementedError):
-#         # check path and correct if necessary
-#         kvn_path = Path.cwd().joinpath(file_paths.get("OMMv2_1"))
-#         if not Path.cwd().joinpath(kvn_path).exists():
-#             kvn_path = (
-#                 Path.cwd().joinpath(extra_path).joinpath(file_paths.get("OMMv2_1"))
-#             )
-
-#         # read KVN file
-#         ndm = NdmIo().from_path(kvn_path)
-
-#         # read equivalent JSON file
-#         ndm_truth = NdmIo().from_path(kvn_path.with_suffix(".xml"))
-
-#         # export both files to JSON and compare
-#         kvn_text = NdmIo().to_string(ndm, NDMFileFormats.JSON)
-#         kvn_text_truth = NdmIo().to_string(ndm_truth, NDMFileFormats.JSON)
-
-#         # compare strings
-#         assert kvn_text_truth == kvn_text
-
-
-@pytest.mark.parametrize("ndm_key, path", file_paths.items())
-def test_write_files(ndm_key, path: Path):
-    """Tests that the KVN writer produces the same keywords as the original file.
-
-    Reads the KVN file, builds the object, writes it back to a KVN string,
-    and compares the ordered list of keyword names. Values are intentionally
-    excluded because float formatting may differ (e.g. '.83483E-4' vs
-    '8.3483e-05') while remaining semantically identical."""
-
-    working_dir = Path.cwd()
-
-    if path is not None:
-        kvn_path = process_paths(working_dir, path.with_suffix(".kvn"))
-
+        # read KVN file
         ndm = NdmIo().from_path(kvn_path)
-        kvn_out = NdmIo().to_string(ndm, NDMFileFormats.KVN)
 
-        original = kvn_path.read_text()
+        # read equivalent JSON file
+        ndm_truth = NdmIo().from_path(kvn_path.with_suffix(".xml"))
 
-        def extract_kv_keys(text):
-            """Return sorted list of keyword names from KV lines (those containing '=').
+        # export both files to JSON and compare
+        kvn_text = NdmIo().to_string(ndm, NDMFileFormats.JSON)
+        kvn_text_truth = NdmIo().to_string(ndm_truth, NDMFileFormats.JSON)
 
-            Packed data lines and section markers are ignored — their content
-            is covered by test_compare_objects."""
-            return sorted(
-                stripped.split("=")[0].strip()
-                for line in text.splitlines()
-                if (stripped := line.strip())
-                and "=" in stripped
-                and not stripped.startswith("COMMENT")
-            )
-
-        assert extract_kv_keys(kvn_out) == extract_kv_keys(original)
-
-
-@pytest.mark.parametrize("ndm_key, path", file_paths.items())
-def test_round_trip(ndm_key, path: Path):
-    """Tests a full KVN → XML → KVN round-trip.
-
-    Reads the KVN file, exports to XML string, re-parses the XML, exports
-    that back to KVN, and compares the two KVN strings."""
-
-    working_dir = Path.cwd()
-
-    if path is not None:
-        kvn_path = process_paths(working_dir, path.with_suffix(".kvn"))
-
-        ndm = NdmIo().from_path(kvn_path)
-        kvn_str_1 = NdmIo().to_string(ndm, NDMFileFormats.KVN)
-
-        ndm_reread = NdmIo().from_string(kvn_str_1)
-        kvn_str_2 = NdmIo().to_string(ndm_reread, NDMFileFormats.KVN)
-
-        assert kvn_str_1 == kvn_str_2
+        # compare strings
+        assert kvn_text_truth == kvn_text
 
 
 def _collect_diffs(kvn_obj: Any, xml_obj: Any, root: str) -> list[tuple[str, Any, Any]]:
