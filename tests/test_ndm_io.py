@@ -17,7 +17,7 @@ import pytest
 from ccsds_ndm.mapping import NDMFileFormats
 from ccsds_ndm.ndm_io import NdmIo
 
-extra_path = Path("ccsds_ndm", "tests")
+extra_path = Path("tests")
 
 file_paths = {
     "OPM_1": Path("data", "kvn", "502x0b2c1e2_fig3_2_opm"),

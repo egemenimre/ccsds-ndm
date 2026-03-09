@@ -14,7 +14,7 @@ import pytest
 
 from ccsds_ndm.models.ndmxml2 import Omm
 from ccsds_ndm.ndm_xml_io import NdmXmlIo
-from ccsds_ndm.tests.test_ndm_io import process_paths
+from tests.test_ndm_io import process_paths
 
 xml_file_paths = {
     "AEMv1": Path("data", "xml", "NDMXML-P1.0.1-figure-B-2.xml"),

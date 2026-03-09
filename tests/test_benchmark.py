@@ -13,7 +13,7 @@ Steps timed independently:
   3. build_object - map KvnDocument onto the xsdata dataclass tree
 
 Run with pytest:
-  pytest -v ccsds_ndm/tests/test_benchmark.py
+  pytest -v tests/test_benchmark.py
 """
 
 import statistics
