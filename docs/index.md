@@ -109,8 +109,9 @@ Please use the DOI for citations. This is the latest version:
 ## Table of Contents
 
 ```{toctree}
-:maxdepth: 2
-
+---
+maxdepth: 2
+---
 changelog
 ndmio
 more_info
