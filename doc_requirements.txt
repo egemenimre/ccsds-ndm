@@ -1,0 +1,10 @@
+-r requirements.txt
+pytest
+sphinx
+sphinx-rtd-theme
+myst-parser
+sphinx-autodoc-typehints
+sphinx-copybutton
+nbsphinx
+sphinx-notfound-page
+sphinx-hoverxref
