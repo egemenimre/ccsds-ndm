@@ -7,7 +7,7 @@
 KVN parser: type identification, document dispatch, and block location.
 
 Phase 1 implements:
-  1. ``identify_ndm_type``   — scan tokenised lines for CCSDS_*_VERS
+  1. ``identify_ndm_type``   — scan tokenised lines for ``CCSDS_*_VERS``
   2. ``dispatch_document``   — split lines into header + Segment list
                                (flat / segmented / CDM structural variants)
   3. ``locate_blocks``       — given a list of KvLine objects and a target

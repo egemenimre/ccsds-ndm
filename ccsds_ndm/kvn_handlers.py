@@ -105,11 +105,13 @@ Serialise an xsdata object to a list of KvnLines.
 
 ``WRITE_DEFAULT``
     Iterates dataclass fields in declaration order:
+
     - ``str`` / ``int`` / ``float`` / ``Enum`` leaf → one ``KvnLine``
       (keyword from field metadata ``"name"``, value, unit from the ``units``
       attribute on the value object if present).
     - ``list[str]`` (COMMENT) → one ``CommentLine`` per entry.
     - sub-container → recurse via registry.
+
     Works for all KEY = VALUE containers.
 
 ``WRITE_PACKED_STATE``
