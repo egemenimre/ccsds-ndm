@@ -14,7 +14,6 @@ import pytest
 
 from ccsds_ndm.mapping import NDMFileFormats
 from ccsds_ndm.ndm_io import NdmIo
-from ccsds_ndm.ndm_kvn_io import NdmKvnIo
 from tests.test_ndm_io import extra_path, process_paths
 
 file_paths = {
@@ -35,22 +34,22 @@ file_paths = {
 }
 
 
-def test_read_file():
+# def test_read_file():
 
-    path = Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn")
-    # path = Path("data", "kvn", "adm-testcase04a_multi.kvn")
+#     path = Path("data", "kvn", "504x0b1c1_fig3_8_apm.kvn")
+#     # path = Path("data", "kvn", "adm-testcase04a_multi.kvn")
 
-    # *** read KVN files ***
-    working_dir = Path.cwd()
+#     # *** read KVN files ***
+#     working_dir = Path.cwd()
 
-    if path is not None:
-        kvn_path = process_paths(working_dir, path)
+#     if path is not None:
+#         kvn_path = process_paths(working_dir, path)
 
-        # read KVN file
-        ndm = NdmKvnIo().from_path(kvn_path)
+#         # read KVN file
+#         ndm = NdmKvnIo().from_path(kvn_path)
 
-        # print(ndm)
-        # print(NdmKvnIo().to_string(ndm, NDMFileFormats.XML))
+# print(ndm)
+# print(NdmKvnIo().to_string(ndm, NDMFileFormats.XML))
 
 
 def test_write_multi_ndm_kvn():

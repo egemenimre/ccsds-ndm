@@ -37,34 +37,34 @@ file_paths = {
 }
 
 
-def test_read_file():
-    """This is just a read test for individual files to understand specific
-    issues and run debugging."""
+# def test_read_file():
+#     """This is just a read test for individual files to understand specific
+#     issues and run debugging."""
 
-    path_kvn = Path("data", "kvn", "odmv2-testcase7a_xxx.kvn")
-    path_xml = Path("data", "kvn", "odmv2-testcase7a_xxx.xml")
-    # path = Path("data", "kvn", "adm-testcase04a_multi.kvn")
+#     path_kvn = Path("data", "kvn", "odmv2-testcase7a_xxx.kvn")
+#     path_xml = Path("data", "kvn", "odmv2-testcase7a_xxx.xml")
+#     # path = Path("data", "kvn", "adm-testcase04a_multi.kvn")
 
-    # *** read KVN files ***
-    working_dir = Path.cwd()
+#     # *** read KVN files ***
+#     working_dir = Path.cwd()
 
-    if path_kvn is not None:
-        kvn_path = process_paths(working_dir, path_kvn)
-        xml_path = process_paths(working_dir, path_xml)
+#     if path_kvn is not None:
+#         kvn_path = process_paths(working_dir, path_kvn)
+#         xml_path = process_paths(working_dir, path_xml)
 
-        # read KVN file
-        ndm = NdmIo().from_path(kvn_path)
+#         # read KVN file
+#         ndm = NdmIo().from_path(kvn_path)
 
-        # read KVN file
-        ndm_xml = NdmIo().from_path(xml_path)
+#         # read KVN file
+#         ndm_xml = NdmIo().from_path(xml_path)
 
-        # print(ndm)
-        # print("-------------------------------------")
-        # print(ndm_xml)
+# print(ndm)
+# print("-------------------------------------")
+# print(ndm_xml)
 
-        # print(NdmIo().to_string(ndm, NDMFileFormats.XML))
-        # print("-------------------------------------")
-        # print(NdmIo().to_string(ndm_xml, NDMFileFormats.XML))
+# print(NdmIo().to_string(ndm, NDMFileFormats.XML))
+# print("-------------------------------------")
+# print(NdmIo().to_string(ndm_xml, NDMFileFormats.XML))
 
 
 @pytest.mark.parametrize("ndm_key, path", file_paths.items())
