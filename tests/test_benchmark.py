@@ -26,7 +26,11 @@ from ccsds_ndm.kvn_builder import build_object
 from ccsds_ndm.kvn_parser import dispatch_document
 from ccsds_ndm.kvn_tokenizer import tokenize
 
-DATA_DIR = Path(__file__).parent / "data" / "kvn"
+_LOCAL_DATA_DIR = Path(__file__).parent / "data" / "kvn"
+_ROOT_DATA_DIR = Path.cwd() / "tests" / "data" / "kvn"
+# When running from repo root (e.g. CI), __file__ is a relative path that may
+# not resolve to the tests directory; fall back to cwd-relative path.
+DATA_DIR = _LOCAL_DATA_DIR if _LOCAL_DATA_DIR.exists() else _ROOT_DATA_DIR
 _benchmark_results: list = []
 
 
