@@ -5,6 +5,7 @@
   - Introduced support for the older NDM XML Schemas. Now a TDM 1.0 and a TDM 2.0 can be read properly, with their respective NDM XML schemas. ([#20](https://github.com/egemenimre/ccsds-ndm/issues/20))
   - Moved documentation to markdown.
   - Bumped up to the new sphinx versions and cleaned up the build errors.
+  - Updated the CircleCI and Github Actions workflows and added a benchmark.
 
 - Version 2.2 (2021/08/01)
   - Added a proper error message if the user tries to output a Combined NDM to KVN.
