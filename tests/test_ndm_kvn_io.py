@@ -49,7 +49,7 @@ def test_read_file():
         # read KVN file
         ndm = NdmKvnIo().from_path(kvn_path)
 
-        print(ndm)
+        # print(ndm)
         # print(NdmKvnIo().to_string(ndm, NDMFileFormats.XML))
 
 

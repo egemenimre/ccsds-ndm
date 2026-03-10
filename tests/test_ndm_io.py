@@ -62,9 +62,9 @@ def test_read_file():
         # print("-------------------------------------")
         # print(ndm_xml)
 
-        print(NdmIo().to_string(ndm, NDMFileFormats.XML))
-        print("-------------------------------------")
-        print(NdmIo().to_string(ndm_xml, NDMFileFormats.XML))
+        # print(NdmIo().to_string(ndm, NDMFileFormats.XML))
+        # print("-------------------------------------")
+        # print(NdmIo().to_string(ndm_xml, NDMFileFormats.XML))
 
 
 @pytest.mark.parametrize("ndm_key, path", file_paths.items())

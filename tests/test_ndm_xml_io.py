@@ -104,7 +104,7 @@ def test_write_string(ndm_key, path):
         ndm = NdmXmlIo().from_path(xml_path)
         xml_text_out = NdmXmlIo().to_string(ndm)
 
-        print(xml_text_out)
+        # print(xml_text_out)
 
         # round-trip: parse the written string back and compare objects
         ndm_readback = NdmXmlIo().from_string(xml_text_out)
