@@ -27,7 +27,7 @@ jobs:
 
   codestyle:
     docker:
-      - image: cimg/python:3.13
+      - image: cimg/python:3.14
     steps:
       - checkout
       - run:
@@ -37,9 +37,27 @@ jobs:
           name: Run codestyle checks
           command: tox -e codestyle
 
+  benchmark:
+    docker:
+      - image: cimg/python:3.14
+    steps:
+      - checkout
+      - run:
+          name: Install tox
+          command: pip install tox
+      - run:
+          name: Create benchmark output directory
+          command: mkdir -p benchmark-results
+      - run:
+          name: Run benchmarks
+          command: tox -e benchmark
+      - store_artifacts:
+          path: benchmark-results
+          destination: benchmark-results
+
   coverage:
     docker:
-      - image: cimg/python:3.13
+      - image: cimg/python:3.14
     steps:
       - checkout
       - run:
@@ -59,4 +77,5 @@ workflows:
             parameters:
               python-version: ["3.11", "3.12", "3.13", "3.14"]
       - codestyle
+      - benchmark
       - coverage
