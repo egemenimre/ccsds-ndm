@@ -1,12 +1,14 @@
-# Python CircleCI 2.0 configuration file
-version: 2
+# Python CircleCI 2.1 configuration file
+version: 2.1
 
 jobs:
 
-  tests:
+  test:
+    parameters:
+      python-version:
+        type: string
     docker:
-      - image: cimg/python:3.9
-
+      - image: cimg/python:<< parameters.python-version >>
     steps:
       - checkout
       - run:
@@ -14,39 +16,47 @@ jobs:
           command: pip install tox
       - run:
           name: Run tests
-          command: tox -e py39-test -- -n=4
+          command: |
+            PY_ENV=$(echo "<< parameters.python-version >>" | tr -d '.')
+            tox -e py${PY_ENV} -- --junitxml=test-results/results.xml
       - store_test_results:
           path: test-results
       - store_artifacts:
           path: test-results
-          destination: tr1
-
+          destination: test-results
 
   codestyle:
     docker:
-      - image: cimg/python:3.9
+      - image: cimg/python:3.13
     steps:
       - checkout
-      #      - run:
-      #          name: Install apt packages
-      #          command: |
-      #            sudo apt update
-      #            sudo apt install -y graphviz
       - run:
-          name: Install Python dependencies
-          command: pip install tox --user
+          name: Install tox
+          command: pip install tox
       - run:
-          name: Make sure style checks pass
+          name: Run codestyle checks
           command: tox -e codestyle
-#      - run:
-#          name: Build Docs
-#          command: tox -e build_docs -- -j=4
-#      - store_artifacts:
-#          path: docs/_build/html
+
+  coverage:
+    docker:
+      - image: cimg/python:3.13
+    steps:
+      - checkout
+      - run:
+          name: Install tox
+          command: pip install tox
+      - run:
+          name: Run coverage
+          command: tox -e coverage
+      - store_artifacts:
+          path: coverage.xml
 
 workflows:
-  version: 2
-  tests_and_codestyle:
+  ci:
     jobs:
+      - test:
+          matrix:
+            parameters:
+              python-version: ["3.11", "3.12", "3.13", "3.14"]
       - codestyle
-      - tests
+      - coverage
