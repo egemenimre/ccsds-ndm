@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [tool.flit.metadata]
 module = "ccsds_ndm"
 author = "Egemen Imre"
-description-file = "README.rst"
+description-file = "README.md"
 home-page = "https://github.com/egemenimre/ccsds-ndm/"
 keywords = "satellite,satellite design,mission analysis,aerospace,engineering,astrodynamics,orbits,orbital mechanics"
 classifiers = [
