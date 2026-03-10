@@ -1,92 +1,99 @@
 # CCSDS-NDM: CCSDS Navigation Data Messages Read/Write Library
 #
-# Copyright (C) 2020 Egemen Imre
+# Copyright (C) Egemen Imre
 #
 # Licensed under GNU GPL v3.0. See LICENSE.rst for more info.
-"""
-CCSDS Navigation Data Messages XML File I/O.
 
-"""
-
-from enum import Enum, auto
 from pathlib import Path
 
+from ccsds_ndm.mapping import NDMFileFormats
 from ccsds_ndm.ndm_kvn_io import NdmKvnIo
 from ccsds_ndm.ndm_xml_io import NdmXmlIo
 
 
-class NDMFileFormats(Enum):
-    """
-    NDM file formats.
-    """
-
-    XML = auto()
-    KVN = auto()
-    JSON = auto()
-
-
 class NdmIo:
     """
-    Unified I/O Model for CCSDS Navigation Data Message (NDM) input and output.
+    Format-agnostic read/write facade for CCSDS Navigation Data Messages.
+
+    Detects whether the source is KVN or XML by inspecting the first
+    non-whitespace characters, then delegates to
+    :class:`~ccsds_ndm.ndm_kvn_io_new.NdmKvnIo` or
+    :class:`~ccsds_ndm.ndm_xml_io.NdmXmlIo` accordingly.
+
+    JSON is not yet defined by the CCSDS standard and will raise
+    :exc:`NotImplementedError` if attempted.
     """
 
     def from_path(self, input_file_path):
         """
-        Reads the file to extract contents to an object of correct type.
+        Read an NDM file and return the corresponding object tree.
+
+        Reads the file as plain text and forwards the content to
+        :meth:`from_string`, which handles format detection.
 
         Parameters
         ----------
-        input_file_path : Path or AnyStr
-            Path of the file to be read (path or pathlike accepted)
+        input_file_path : Path or str
+            Path to the KVN or XML input file.
 
         Returns
         -------
         object
-            NDM Object tree from the file contents
+            Root xsdata dataclass instance for the detected NDM type
+            (e.g. ``OpmType``, ``OemType``, ``ApmType``, …).
         """
-        # read file contents as text
         file_contents = Path(input_file_path).read_text()
-
-        # parse as `from_string()`
         return self.from_string(file_contents)
 
     def from_bytes(self, ndm_data_source):
         """
-        Reads the input bytes array to extract contents to an object of correct type.
+        Read an NDM byte string and return the corresponding object tree.
+
+        Decodes the bytes as UTF-8 and forwards the result to
+        :meth:`from_string`, which handles format detection.
 
         Parameters
         ----------
         ndm_data_source : bytes
-            NDM data as input bytes array
+            KVN or XML content encoded as a byte string.
 
         Returns
         -------
         object
-            NDM Object tree from the file contents
+            Root xsdata dataclass instance for the detected NDM type
+            (e.g. ``OpmType``, ``OemType``, ``ApmType``, …).
         """
-        # decode bytes and parse as `from_string()`
         return self.from_string(ndm_data_source.decode())
 
     def from_string(self, ndm_data_source):
         """
-        Reads the input string to extract contents to an object of correct type.
+        Parse an NDM string and return the corresponding object tree.
+
+        Calls :func:`_identify_data_format` to determine whether the input
+        is KVN or XML, then dispatches to the appropriate parser:
+
+        - **KVN** → :class:`~ccsds_ndm.ndm_kvn_io_new.NdmKvnIo`
+        - **XML** → :class:`~ccsds_ndm.ndm_xml_io.NdmXmlIo`
 
         Parameters
         ----------
         ndm_data_source : str
-            input string data
-
-        Raises
-        ------
-        NotImplementedError
-            JSON input not implemented in CCSDS NDM Standard yet.
+            Raw KVN or XML text (Windows or Unix line endings accepted).
 
         Returns
         -------
         object
-            NDM Object tree from the file contents
+            Root xsdata dataclass instance for the detected NDM type
+            (e.g. ``OpmType``, ``OemType``, ``ApmType``, …).
+
+        Raises
+        ------
+        NotImplementedError
+            If the input is identified as JSON, which is not yet defined
+            by the CCSDS NDM standard.
+        ValueError
+            If the format cannot be identified from the input text.
         """
-        # Identify data format
         data_format = _identify_data_format(ndm_data_source)
 
         if data_format is NDMFileFormats.XML:
@@ -106,23 +113,32 @@ class NdmIo:
 
     def to_string(self, ndm_obj, data_format, **kwargs):
         """
-        Convert and return the given object tree as xml string.
+        Serialise an NDM object tree to a string.
+
+        Dispatches to the appropriate writer based on *data_format*:
+
+        - **XML** → :class:`~ccsds_ndm.ndm_xml_io.NdmXmlIo`
+        - **KVN** → :class:`~ccsds_ndm.ndm_kvn_io_new.NdmKvnIo`
 
         Parameters
         ----------
-        ndm_obj
-            input object tree
+        ndm_obj : object
+            Root xsdata dataclass instance to serialise.
         data_format : NDMFileFormats
-            output data format (KVN, XML or JSON)
-        kwargs
-            other keywords to be passed on to individual writers
-            (e.g. `schema_location` and `no_namespace_schema_location`
-            for XML output)
+            Target output format (``NDMFileFormats.KVN`` or ``NDMFileFormats.XML``).
+        **kwargs
+            Additional keyword arguments forwarded to the underlying writer.
+            For XML output: ``schema_location``, ``no_namespace_schema_location``.
 
         Returns
         -------
         str
-            given object tree as string in the requested format
+            The serialised NDM text in the requested format.
+
+        Raises
+        ------
+        NotImplementedError
+            If *data_format* is ``NDMFileFormats.JSON``.
         """
         if data_format is NDMFileFormats.XML:
             return NdmXmlIo().to_string(ndm_obj, **kwargs)
@@ -137,21 +153,29 @@ class NdmIo:
 
     def to_file(self, ndm_obj, data_format, xml_write_file_path, **kwargs):
         """
-        Convert and return the given object tree as output file.
+        Serialise an NDM object tree and write it to a file.
+
+        Dispatches to the appropriate writer based on *data_format*:
+
+        - **XML** → :class:`~ccsds_ndm.ndm_xml_io.NdmXmlIo`
+        - **KVN** → :class:`~ccsds_ndm.ndm_kvn_io_new.NdmKvnIo`
 
         Parameters
         ----------
-        ndm_obj
-            input object tree
+        ndm_obj : object
+            Root xsdata dataclass instance to serialise.
         data_format : NDMFileFormats
-            output data format (KVN, XML or JSON)
-        xml_write_file_path : Path or AnyStr
-            Path of the file to be written (path or pathlike accepted)
-        kwargs
-            other keywords to be passed on to individual writers
-            (e.g. `schema_location` and `no_namespace_schema_location`
-            for XML output)
+            Target output format (``NDMFileFormats.KVN`` or ``NDMFileFormats.XML``).
+        xml_write_file_path : Path or str
+            Destination file path.
+        **kwargs
+            Additional keyword arguments forwarded to the underlying writer.
+            For XML output: ``schema_location``, ``no_namespace_schema_location``.
 
+        Raises
+        ------
+        NotImplementedError
+            If *data_format* is ``NDMFileFormats.JSON``.
         """
         if data_format is NDMFileFormats.XML:
             return NdmXmlIo().to_file(ndm_obj, xml_write_file_path, **kwargs)

@@ -18,18 +18,15 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Physics",
 ]
 
-requires = [
-    "lxml >=4.0",
-    "xsdata >=20.12"
-]
+requires = ["lxml >=6.0", "lxml-stubs >=0.5", "xsdata >=26"]
 
 [tool.flit.metadata.requires-extra]
-test = [
-    "pytest",
-    "pytest-cov",
-    "pytest-xdist",
-]
+test = ["pytest", "pytest-cov", "pytest-xdist"]
 doc = ["sphinx"]
 
 [tool.flit.metadata.urls]
 Documentation = "https://ccsds-ndm.readthedocs.io"
+
+[tool.pytest.ini_options]
+addopts = "-v -s"
+testpaths = ["tests"]

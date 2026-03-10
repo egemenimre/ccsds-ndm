@@ -1,24 +1,23 @@
 name: Codecov
-on: [ push ]
+on: [push, pull_request]
+
 jobs:
-  run:
+  coverage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Setup Python
-        uses: actions/setup-python@master
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.7
+          python-version: "3.13"
+      - name: Install tox
+        run: pip install tox
       - name: Generate coverage report
-        run: |
-          pip install pytest
-          pip install pytest-cov
-          pip install -r requirements.txt
-          pytest --cov=./ --cov-report=xml
+        run: tox -e coverage
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v5
         with:
-          file: ./coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
           flags: unittests
-          name: codecov-umbrella
           fail_ci_if_error: true

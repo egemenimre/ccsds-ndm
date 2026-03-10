@@ -1,0 +1,99 @@
+<oem id="CCSDS_OEM_VERS" version="2.0">
+    <header>
+        <CREATION_DATE>1996-11-04T17:22:31</CREATION_DATE>
+        <ORIGINATOR>NASA/JPL</ORIGINATOR>
+    </header>
+    <body>
+        <segment>
+            <metadata>
+                <OBJECT_NAME>MARS GLOBAL SURVEYOR</OBJECT_NAME>
+                <OBJECT_ID>1996-062A</OBJECT_ID>
+                <CENTER_NAME>MARS BARYCENTER</CENTER_NAME>
+                <REF_FRAME>EME2000</REF_FRAME>
+                <TIME_SYSTEM>UTC</TIME_SYSTEM>
+                <START_TIME>1996-12-18T12:00:00.331</START_TIME>
+                <USEABLE_START_TIME>1996-12-18T12:10:00.331</USEABLE_START_TIME>
+                <USEABLE_STOP_TIME>1996-12-28T21:23:00.331</USEABLE_STOP_TIME>
+                <STOP_TIME>1996-12-28T21:28:00.331</STOP_TIME>
+                <INTERPOLATION>HERMITE</INTERPOLATION>
+                <INTERPOLATION_DEGREE>7</INTERPOLATION_DEGREE>
+            </metadata>
+            <data>
+                <COMMENT>This file was produced by M.R. Somebody, MSOO NAV/JPL, 1996NOV 04. It is</COMMENT>
+                <COMMENT>to be used for DSN scheduling purposes only.</COMMENT>
+                <stateVector>
+                    <EPOCH>1996-12-18T12:00:00.331</EPOCH>
+                    <X>2789.619</X>
+                    <Y>-280.045</Y>
+                    <Z>-1746.755</Z>
+                    <X_DOT>4.73372</X_DOT>
+                    <Y_DOT>-2.49586</Y_DOT>
+                    <Z_DOT>-1.04195</Z_DOT>
+                </stateVector>
+                <stateVector>
+                    <EPOCH>1996-12-18T12:01:00.331</EPOCH>
+                    <X>2783.419</X>
+                    <Y>-308.143</Y>
+                    <Z>-1877.071</Z>
+                    <X_DOT>5.18604</X_DOT>
+                    <Y_DOT>-2.42124</Y_DOT>
+                    <Z_DOT>-1.99608</Z_DOT>
+                </stateVector>
+                <stateVector>
+                    <EPOCH>1996-12-18T12:02:00.331</EPOCH>
+                    <X>2776.033</X>
+                    <Y>-336.859</Y>
+                    <Z>-2008.682</Z>
+                    <X_DOT>5.63678</X_DOT>
+                    <Y_DOT>-2.33951</Y_DOT>
+                    <Z_DOT>-1.94687</Z_DOT>
+                </stateVector>
+            </data>
+        </segment>
+        <segment>
+            <metadata>
+                <OBJECT_NAME>MARS GLOBAL SURVEYOR</OBJECT_NAME>
+                <OBJECT_ID>1996-062A</OBJECT_ID>
+                <CENTER_NAME>MARS BARYCENTER</CENTER_NAME>
+                <REF_FRAME>EME2000</REF_FRAME>
+                <TIME_SYSTEM>UTC</TIME_SYSTEM>
+                <START_TIME>1996-12-28T21:29:07.267</START_TIME>
+                <USEABLE_START_TIME>1996-12-28T22:08:02.5</USEABLE_START_TIME>
+                <USEABLE_STOP_TIME>1996-12-30T01:18:02.5</USEABLE_STOP_TIME>
+                <STOP_TIME>1996-12-30T01:28:02.267</STOP_TIME>
+                <INTERPOLATION>HERMITE</INTERPOLATION>
+                <INTERPOLATION_DEGREE>7</INTERPOLATION_DEGREE>
+            </metadata>
+            <data>
+                <COMMENT>This block begins after trajectory correction maneuver TCM-3.</COMMENT>
+                <stateVector>
+                    <EPOCH>1996-12-28T21:29:07.267</EPOCH>
+                    <X>-2432.166</X>
+                    <Y>-63.042</Y>
+                    <Z>1742.754</Z>
+                    <X_DOT>7.33702</X_DOT>
+                    <Y_DOT>-3.495867</Y_DOT>
+                    <Z_DOT>-1.041945</Z_DOT>
+                </stateVector>
+                <stateVector>
+                    <EPOCH>1996-12-28T21:59:02.267</EPOCH>
+                    <X>-2445.234</X>
+                    <Y>-878.141</Y>
+                    <Z>1873.073</Z>
+                    <X_DOT>1.86043</X_DOT>
+                    <Y_DOT>-3.421256</Y_DOT>
+                    <Z_DOT>-0.996366</Z_DOT>
+                </stateVector>
+                <stateVector>
+                    <EPOCH>1996-12-28T22:00:02.267</EPOCH>
+                    <X>-2458.079</X>
+                    <Y>-683.858</Y>
+                    <Z>2007.684</Z>
+                    <X_DOT>6.36786</X_DOT>
+                    <Y_DOT>-3.339563</Y_DOT>
+                    <Z_DOT>-0.946654</Z_DOT>
+                </stateVector>
+            </data>
+        </segment>
+    </body>
+</oem>
