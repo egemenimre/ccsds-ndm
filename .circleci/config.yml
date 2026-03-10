@@ -46,11 +46,10 @@ jobs:
           name: Install tox
           command: pip install tox
       - run:
-          name: Create benchmark output directory
-          command: mkdir -p benchmark-results
-      - run:
           name: Run benchmarks
-          command: tox -e benchmark
+          command: |
+            mkdir -p benchmark-results
+            tox -e benchmark | tee benchmark-results/benchmark_output.txt
       - store_artifacts:
           path: benchmark-results
           destination: benchmark-results
