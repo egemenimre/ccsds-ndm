@@ -50,9 +50,14 @@ from ccsds_ndm.kvn_tokenizer import (
 
 
 def _unwrap(t) -> typing.Any:
-    """Strip ``Optional[X]`` → ``X``; return *t* unchanged otherwise."""
+    """Strip ``Optional[X]`` / ``None | X`` → ``X``; return *t* unchanged otherwise."""
     origin = getattr(t, "__origin__", None)
-    if origin is _types.UnionType or origin is typing.Union:
+    # On Python 3.11-3.13, ``get_type_hints()`` resolves ``None | X`` (PEP 604
+    # union syntax) to a ``types.UnionType`` which has no ``__origin__``.
+    # On Python 3.14+ it resolves to ``typing.Union`` (origin is typing.Union).
+    # We therefore check both the origin attribute and isinstance to cover all
+    # supported versions.
+    if origin is typing.Union or isinstance(t, _types.UnionType):
         args = [a for a in t.__args__ if a is not type(None)]
         return args[0] if args else str
     return t
