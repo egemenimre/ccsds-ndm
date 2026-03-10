@@ -26,3 +26,7 @@ doc = ["sphinx"]
 
 [tool.flit.metadata.urls]
 Documentation = "https://ccsds-ndm.readthedocs.io"
+
+[tool.pytest.ini_options]
+addopts = "-v -s"
+testpaths = ["tests"]
