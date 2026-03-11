@@ -1,6 +1,9 @@
 # Changelog
 
-- Version 3.0 (2026/03/12)
+- Version 3.0.1 (2026/03/11)
+  - Updated DOI reference and Flit config. No changes in code.
+
+- Version 3.0 (2026/03/11)
   - Completely rewritten the KVN read/write engine
   - Introduced support for the older NDM XML Schemas. Now a TDM 1.0 and a TDM 2.0 can be read properly, with their respective NDM XML schemas. ([#20](https://github.com/egemenimre/ccsds-ndm/issues/20))
   - Moved documentation to markdown.
