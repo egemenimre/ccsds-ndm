@@ -100,7 +100,7 @@ Do not install `ccsds-ndm` using `sudo`.
 
 Please use the DOI for citations. This is the latest version:
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4765552.svg)](https://zenodo.org/records/4765552)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4765552.svg)](https://doi.org/10.5281/zenodo.4765552)
 
 ## Known Issues
 
