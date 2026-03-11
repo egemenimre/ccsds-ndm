@@ -1,13 +1,15 @@
 [build-system]
-requires = ["flit_core >=2,<4"]
+requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
-[tool.flit.metadata]
-module = "ccsds_ndm"
-author = "Egemen Imre"
-description-file = "README.md"
-home-page = "https://github.com/egemenimre/ccsds-ndm/"
-keywords = "satellite,satellite design,mission analysis,aerospace,engineering,astrodynamics,orbits,orbital mechanics"
+[project]
+name = "ccsds-ndm"
+authors = [{ name = "Egemen Imre" }]
+description = "Read and write utility for CCSDS 'Navigation Data Messages."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dynamic = ["version"]
 classifiers = [
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
@@ -17,16 +19,38 @@ classifiers = [
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Physics",
 ]
+keywords = [
+    "satellite,satellite design,mission analysis,aerospace,engineering,astrodynamics,orbits,orbital mechanics",
+]
+dependencies = ["lxml >=6.0", "lxml-stubs >=0.5", "xsdata >=26"]
 
-requires = ["lxml >=6.0", "lxml-stubs >=0.5", "xsdata >=26"]
+[project.urls]
+Documentation = "https://ccsds-ndm.readthedocs.io"
+Source = "https://github.com/egemenimre/ccsds-ndm/"
 
-[tool.flit.metadata.requires-extra]
+[tool.flit.module]
+name = "ccsds_ndm"
+
+[project.optional-dependencies]
 test = ["pytest", "pytest-cov", "pytest-xdist"]
 doc = ["sphinx"]
 
-[tool.flit.metadata.urls]
-Documentation = "https://ccsds-ndm.readthedocs.io"
 
 [tool.pytest.ini_options]
 addopts = "-v -s"
 testpaths = ["tests"]
+
+[tool.flake8]
+ignore = ["E203", "E266", "E501", "W503"]
+exclude = ["temp", "ccsds_ndm/models"]
+max-line-length = 80
+max-complexity = 18
+select = ["B", "C", "E", "F", "W", "T4", "B9"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
