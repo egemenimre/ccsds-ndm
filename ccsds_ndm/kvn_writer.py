@@ -150,11 +150,12 @@ def _write_segmented(ndm_obj, schema_reg) -> list[KvnLine]:
             lines.append(SectionMarkerLine(key="DATA_START"))
 
         # Data (covariance_matrix is written separately below for OEM)
+        # DATA_MARKER_TYPES (TdmData, AemData) use packed/obs lines — no sep needed
         lines.extend(
             _write_fields(
                 seg.data,
                 schema_reg,
-                sep=True,
+                sep=data_cls_name not in _DATA_MARKER_TYPES,
                 seg_meta=seg.metadata,
                 skip_fields=(
                     frozenset({"covariance_matrix"})
