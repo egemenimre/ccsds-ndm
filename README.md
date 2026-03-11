@@ -1,7 +1,8 @@
 # CCSDS "Navigation Data Messages" Read and Write
 
 [![CircleCI Status](https://img.shields.io/circleci/build/github/egemenimre/ccsds-ndm.svg?style=svg)](https://circleci.com/gh/egemenimre/ccsds-ndm)
-[![codecov](https://codecov.io/gh/egemenimre/ccsds-ndm/graph/badge.svg?token=Z53pKJ5agN)](https://codecov.io/gh/egemenimre/ccsds-ndm)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/18f1e1e99cb64fe0a86d8b6185949448)](https://app.codacy.com/gh/egemenimre/ccsds-ndm/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/18f1e1e99cb64fe0a86d8b6185949448)](https://app.codacy.com/gh/egemenimre/ccsds-ndm/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 [![Documentation Status](https://readthedocs.org/projects/ccsds-ndm/badge/?version=latest)](https://ccsds-ndm.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/312698629.svg)](https://zenodo.org/badge/latestdoi/312698629)
 
