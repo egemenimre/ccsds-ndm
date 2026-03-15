@@ -317,6 +317,58 @@ def _build_field_map(cls, wrapper_types: set[type]) -> dict[str, _FieldInfo]:
 # ---------------------------------------------------------------------------
 
 
+def _resolve_quantity(
+    value,
+    name: str,
+    owner_type: str,
+    wrapper_cls,
+    units_enum,
+    matched,
+    dims_ok: bool,
+    unit_attr: str,
+    mag_attr: str,
+    convert_fn,
+):
+    """Convert a pint/astropy Quantity to the correct wrapper, or raise TypeError.
+
+    Parameters
+    ----------
+    unit_attr:
+        Attribute name for the unit on *value* (``"units"`` for pint,
+        ``"unit"`` for astropy).
+    mag_attr:
+        Attribute name for the magnitude on *value* (``"magnitude"`` for
+        pint, ``"value"`` for astropy).
+    convert_fn:
+        Library-specific conversion helper (``_convert_pint`` or
+        ``_convert_astropy``).
+    """
+    if matched is not None:
+        return wrapper_cls(value=float(getattr(value, mag_attr)), units=matched)
+    unit_str = getattr(value, unit_attr)
+    accepted = _accepted_unit_strings(units_enum)
+    if dims_ok:
+        default = _default_unit_member(units_enum)
+        if default is not None and _auto_convert:
+            try:
+                return wrapper_cls(value=convert_fn(value, default), units=default)
+            except Exception:
+                raise TypeError(
+                    f"Unit '{unit_str}' could not be auto-converted "
+                    f"for field '{name}' on {owner_type}. "
+                    f"Accepted units for {wrapper_cls.__name__}: {accepted}."
+                )
+        raise TypeError(
+            f"Unit '{unit_str}' is not accepted for field '{name}' on {owner_type}. "
+            f"Accepted units for {wrapper_cls.__name__}: {accepted}. "
+            f"Convert your Quantity first."
+        )
+    raise TypeError(
+        f"Cannot assign {unit_str} quantity to field '{name}' on {owner_type} "
+        f"which expects {wrapper_cls.__name__}. Dimensions are incompatible."
+    )
+
+
 def _make_setattr(field_map: dict[str, _FieldInfo]):
     """Return a ``__setattr__`` that validates and wraps Quantities.
 
@@ -334,80 +386,32 @@ def _make_setattr(field_map: dict[str, _FieldInfo]):
                 pass  # already the correct wrapper type
             elif _is_pint_quantity(value):
                 matched, dims_ok = _match_pint_unit(value, units_enum)
-                if matched is not None:
-                    value = wrapper_cls(value=float(value.magnitude), units=matched)
-                elif dims_ok:
-                    if _auto_convert:
-                        default = _default_unit_member(units_enum)
-                        if default is not None:
-                            try:
-                                mag = _convert_pint(value, default)
-                                value = wrapper_cls(value=mag, units=default)
-                            except Exception:
-                                raise TypeError(
-                                    f"Unit '{value.units}' could not be auto-converted "
-                                    f"for field '{name}' on {type(self).__name__}. "
-                                    f"Accepted units for {wrapper_cls.__name__}: "
-                                    f"{_accepted_unit_strings(units_enum)}."
-                                )
-                        else:
-                            raise TypeError(
-                                f"Unit '{value.units}' is not accepted for field "
-                                f"'{name}' on {type(self).__name__}. "
-                                f"Accepted units for {wrapper_cls.__name__}: "
-                                f"{_accepted_unit_strings(units_enum)}. Convert your Quantity first."
-                            )
-                    else:
-                        raise TypeError(
-                            f"Unit '{value.units}' is not accepted for field "
-                            f"'{name}' on {type(self).__name__}. "
-                            f"Accepted units for {wrapper_cls.__name__}: "
-                            f"{_accepted_unit_strings(units_enum)}. Convert your Quantity first."
-                        )
-                else:
-                    raise TypeError(
-                        f"Cannot assign {value.units} quantity to field "
-                        f"'{name}' on {type(self).__name__} which expects "
-                        f"{wrapper_cls.__name__}. Dimensions are incompatible."
-                    )
+                value = _resolve_quantity(
+                    value,
+                    name,
+                    type(self).__name__,
+                    wrapper_cls,
+                    units_enum,
+                    matched,
+                    dims_ok,
+                    "units",
+                    "magnitude",
+                    _convert_pint,
+                )
             elif _is_astropy_quantity(value):
                 matched, dims_ok = _match_astropy_unit(value, units_enum)
-                if matched is not None:
-                    value = wrapper_cls(value=float(value.value), units=matched)
-                elif dims_ok:
-                    if _auto_convert:
-                        default = _default_unit_member(units_enum)
-                        if default is not None:
-                            try:
-                                mag = _convert_astropy(value, default)
-                                value = wrapper_cls(value=mag, units=default)
-                            except Exception:
-                                raise TypeError(
-                                    f"Unit '{value.unit}' could not be auto-converted "
-                                    f"for field '{name}' on {type(self).__name__}. "
-                                    f"Accepted units for {wrapper_cls.__name__}: "
-                                    f"{_accepted_unit_strings(units_enum)}."
-                                )
-                        else:
-                            raise TypeError(
-                                f"Unit '{value.unit}' is not accepted for field "
-                                f"'{name}' on {type(self).__name__}. "
-                                f"Accepted units for {wrapper_cls.__name__}: "
-                                f"{_accepted_unit_strings(units_enum)}. Convert your Quantity first."
-                            )
-                    else:
-                        raise TypeError(
-                            f"Unit '{value.unit}' is not accepted for field "
-                            f"'{name}' on {type(self).__name__}. "
-                            f"Accepted units for {wrapper_cls.__name__}: "
-                            f"{_accepted_unit_strings(units_enum)}. Convert your Quantity first."
-                        )
-                else:
-                    raise TypeError(
-                        f"Cannot assign {value.unit.physical_type} quantity to field "
-                        f"'{name}' on {type(self).__name__} which expects "
-                        f"{wrapper_cls.__name__}. Dimensions are incompatible."
-                    )
+                value = _resolve_quantity(
+                    value,
+                    name,
+                    type(self).__name__,
+                    wrapper_cls,
+                    units_enum,
+                    matched,
+                    dims_ok,
+                    "unit",
+                    "value",
+                    _convert_astropy,
+                )
             else:
                 # Not a wrapper, not a Quantity — reject with a helpful message
                 raise TypeError(
@@ -448,18 +452,23 @@ def _make_wrapper_q():
                 stacklevel=2,
             )
 
+        # Collapse the two None/unsupported guards into one variable
+        effective_unit = None if (unit_str is None or unsupported) else unit_str
+
         if mode is QuantityMode.PINT:
             u = _get_pint_ureg()
-            if unit_str is None or unsupported:
+            if effective_unit is None:
                 return u.Quantity(self.value)
-            return u.Quantity(f"{self.value} {_ccsds_to_pint(unit_str)}")
+            return u.Quantity(f"{self.value} {_ccsds_to_pint(effective_unit)}")
 
         else:  # QuantityMode.ASTROPY
             from astropy import units as astropy_u
 
-            if unit_str is None or unsupported:
+            if effective_unit is None:
                 return astropy_u.Quantity(self.value)
-            return astropy_u.Quantity(f"{self.value} {_ccsds_to_astropy(unit_str)}")
+            return astropy_u.Quantity(
+                f"{self.value} {_ccsds_to_astropy(effective_unit)}"
+            )
 
     return q
 
