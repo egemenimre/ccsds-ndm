@@ -268,11 +268,15 @@ def _route_line(
     elif state in (ParserState.AFTER_META, ParserState.IN_DATA):
         # OEM: packed data lines follow META_STOP without DATA_START
         if current is None:
-            raise ValueError(f"Parser state {state.value} but no current segment exists.")
+            raise ValueError(
+                f"Parser state {state.value} but no current segment exists."
+            )
         current.data.append(line)
     elif state == ParserState.IN_COVARIANCE:
         if current is None:
-            raise ValueError("Parser state IN_COVARIANCE but no current segment exists.")
+            raise ValueError(
+                "Parser state IN_COVARIANCE but no current segment exists."
+            )
         current.covariance.append(line)
     return state, current
 
