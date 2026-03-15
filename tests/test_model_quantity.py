@@ -7,12 +7,20 @@
 Tests for the merged validation + quantity support on xsdata model classes.
 """
 
+import dataclasses
+import warnings
+
 import pytest
 
 # Importing model_quantity triggers patching
 import ccsds_ndm.model_quantity  # noqa: F401
 from ccsds_ndm.model_quantity import (
     QuantityMode,
+    _build_field_map,
+    _default_unit_member,
+    _match_astropy_unit,
+    _match_pint_unit,
+    _resolve_quantity,
     get_auto_convert,
     get_quantity_mode,
     set_auto_convert,
@@ -391,6 +399,113 @@ class TestAutoConvert:
             assert sv.relative_position_t.value == pytest.approx(800.0)
         finally:
             set_auto_convert(False)
+
+
+# ---- Internal helpers (coverage of edge paths) ----
+
+
+class TestInternalHelpers:
+    """Cover internal helper edge paths that are hard to reach via the public API."""
+
+    def test_match_pint_unit_unrecognised_unit_string(self):
+        """_match_pint_unit returns (None, False) for an unrecognised pint unit."""
+        pytest.importorskip("pint")
+
+        class FakeQ:
+            units = "XYZGARBAGEUNIT_NOTREAL"
+            magnitude = 1.0
+
+        result = _match_pint_unit(FakeQ(), LengthUnits)
+        assert result == (None, False)
+
+    def test_match_pint_unit_skips_unsupported_enum_member(self):
+        """_match_pint_unit skips _UNSUPPORTED_UNITS entries and bad pint mappings."""
+        pint = pytest.importorskip("pint")
+        from ccsds_ndm.models.ndmxml4.ndmxml_4_0_0_common_4_0 import SolarFluxUnits
+
+        u = pint.UnitRegistry()
+        q = 1.0 * u.m  # length quantity — no solar-flux match expected
+        matched, dims_ok = _match_pint_unit(q, SolarFluxUnits)
+        assert matched is None
+        assert dims_ok is False
+
+    def test_match_astropy_unit_skips_unsupported_and_unparseable(self):
+        """_match_astropy_unit skips _UNSUPPORTED_UNITS entries and unparseable mappings."""
+        pytest.importorskip("astropy")
+        from astropy import units as astropy_u
+
+        from ccsds_ndm.models.ndmxml4.ndmxml_4_0_0_common_4_0 import SolarFluxUnits
+
+        q = 1.0 * astropy_u.m  # length quantity — no solar-flux match expected
+        matched, dims_ok = _match_astropy_unit(q, SolarFluxUnits)
+        assert matched is None
+        assert dims_ok is False
+
+    def test_default_unit_member_all_unsupported(self):
+        """_default_unit_member returns None when every member is unsupported."""
+        from enum import Enum
+
+        class AllBadUnits(str, Enum):
+            ONLY_BAD = "SFU"
+
+        assert _default_unit_member(AllBadUnits) is None
+
+    def test_build_field_map_get_type_hints_failure(self):
+        """_build_field_map returns {} when get_type_hints raises."""
+
+        @dataclasses.dataclass
+        class BrokenClass:
+            x: "NonExistentType123"  # type: ignore[name-defined]  # noqa: F821  # forward ref that cannot be resolved
+
+        result = _build_field_map(BrokenClass, set())
+        assert result == {}
+
+    def test_resolve_quantity_auto_convert_failure(self):
+        """_resolve_quantity raises TypeError with auto-convert message on convert failure."""
+        set_auto_convert(True)
+        try:
+
+            def bad_convert(value, target):
+                raise RuntimeError("simulated conversion failure")
+
+            class FakeQ:
+                units = "km"
+                magnitude = 0.7
+
+            with pytest.raises(TypeError, match="could not be auto-converted"):
+                _resolve_quantity(
+                    FakeQ(),
+                    "relative_position_r",
+                    "RelativeStateVectorType",
+                    LengthType,
+                    LengthUnits,
+                    None,  # matched = None → enter dims_ok branch
+                    True,  # dims_ok
+                    "units",
+                    "magnitude",
+                    bad_convert,
+                )
+        finally:
+            set_auto_convert(False)
+
+    def test_q_unsupported_unit_astropy_mode(self):
+        """Wrapper .q() in ASTROPY mode returns dimensionless Quantity for unsupported units."""
+        pytest.importorskip("astropy")
+        from ccsds_ndm.models.ndmxml4.ndmxml_4_0_0_common_4_0 import (
+            SolarFluxType,
+            SolarFluxUnits,
+        )
+
+        set_quantity_mode(QuantityMode.ASTROPY)
+        try:
+            sf = SolarFluxType(value=100, units=SolarFluxUnits.SFU)
+            with warnings.catch_warnings(record=True) as w:
+                warnings.simplefilter("always")
+                q = sf.q()  # type: ignore[attr-defined]
+            assert any("no equivalent" in str(warning.message) for warning in w)
+            assert float(q.value) == pytest.approx(100.0)
+        finally:
+            set_quantity_mode(QuantityMode.PINT)
 
 
 # ---- Idempotency ----
