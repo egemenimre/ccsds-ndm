@@ -1,6 +1,6 @@
 # Changelog
 
-- Version 3.1.1 (2026/03/XX)
+- Version 3.1.1 (2026/03/16)
   - Refactored the tests of quantity and validation to sort out some duplications.
   - Refactored kvn_parser to reduce code complexity.
   - Additional testing for `model_quantity`
