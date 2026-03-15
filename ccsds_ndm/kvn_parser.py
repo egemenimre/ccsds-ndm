@@ -233,17 +233,21 @@ def _dispatch_segmented(lines: list[KvnLine]) -> tuple[list[KvnLine], list[Segme
         if state == ParserState.HEADER:
             header.append(line)
         elif state == ParserState.IN_META:
-            assert current is not None
+            if current is None:
+                raise ValueError("Parser state IN_META but no current segment exists.")
             current.meta.append(line)
         elif state == ParserState.AFTER_META:
             # OEM: packed data lines follow META_STOP without DATA_START
-            assert current is not None
+            if current is None:
+                raise ValueError("Parser state AFTER_META but no current segment exists.")
             current.data.append(line)
         elif state == ParserState.IN_DATA:
-            assert current is not None
+            if current is None:
+                raise ValueError("Parser state IN_DATA but no current segment exists.")
             current.data.append(line)
         elif state == ParserState.IN_COVARIANCE:
-            assert current is not None
+            if current is None:
+                raise ValueError("Parser state IN_COVARIANCE but no current segment exists.")
             current.covariance.append(line)
 
     # Flush any remaining AFTER_META segment (last OEM segment)
