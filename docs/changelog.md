@@ -3,6 +3,7 @@
 - Version 3.1.1 (2026/03/XX)
   - Refactored the tests of quantity and validation to sort out some duplications.
   - Refactored kvn_parser to reduce code complexity.
+  - Additional testing for `model_quantity`
 
 - Version 3.1 (2026/03/15)
   - Added type validation for wrapper-typed fields (`model_validate`): assigning a plain
