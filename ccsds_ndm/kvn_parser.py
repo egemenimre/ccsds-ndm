@@ -701,9 +701,7 @@ def _single_span_from_member_kws(
 ) -> list[BlockSpan]:
     """Return a single BlockSpan covering the first-to-last matching keyword."""
     member_positions = [
-        i
-        for i, ln in enumerate(lines)
-        if isinstance(ln, KvLine) and ln.key in kw_set
+        i for i, ln in enumerate(lines) if isinstance(ln, KvLine) and ln.key in kw_set
     ]
     if not member_positions:
         return []
