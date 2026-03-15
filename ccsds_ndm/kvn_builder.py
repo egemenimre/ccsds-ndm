@@ -2,7 +2,7 @@
 #
 # Copyright (C) Egemen Imre
 #
-# Licensed under GNU GPL v3.0. See LICENSE.rst for more info.
+# Licensed under GNU GPL v3.0. See LICENSE for more info.
 """
 KVN object builder: mapping a :class:`~ccsds_ndm.kvn_parser.KvnDocument`
 onto the xsdata dataclass tree for the detected NDM type.

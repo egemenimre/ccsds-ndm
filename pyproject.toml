@@ -32,6 +32,8 @@ Source = "https://github.com/egemenimre/ccsds-ndm/"
 name = "ccsds_ndm"
 
 [project.optional-dependencies]
+pint = ["pint"]
+astropy = ["astropy"]
 test = ["pytest", "pytest-cov", "pytest-xdist"]
 doc = ["sphinx"]
 

@@ -2,7 +2,7 @@
 #
 # Copyright (C) Egemen Imre
 #
-# Licensed under GNU GPL v3.0. See LICENSE.rst for more info.
+# Licensed under GNU GPL v3.0. See LICENSE for more info.
 """
 CCSDS Navigation Data Messages Mappings
 

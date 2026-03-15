@@ -136,6 +136,9 @@ dmypy.json
 .pyre/
 /.idea/
 
+# Pyright type checker
+pyrightconfig.json
+
 # Internal temp dirs
 temp
 /ccsds_ndm/temp/

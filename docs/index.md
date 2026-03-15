@@ -43,29 +43,40 @@ print(ndm.omm[1].body.segment.data.mean_elements.eccentricity)
 
 If the file is of the type NDM Combined Instantiation but there is only a single data (e.g. OMM) in it, the ndm tags are stripped and only the single data is presented to the user.
 
-Filling the objects with data properly requires some care. As the standard is understandably strict, the object tree derived from the XSD files are also rather exacting in how they accept data. Out of these three different ways of inserting data, the third one is invalid:
+Filling the objects with data properly requires some care. As the standard is understandably strict, the object tree derived from the XSD files are also rather exacting in how they accept data. Every field that holds a physical quantity must be set with the corresponding *wrapper type* (e.g. `LengthType`, `DvType`). Assigning a plain number or string raises a `TypeError` immediately.
 
 ```python
-# This is valid but missing units information
-cdm.body.relative_metadata_data.relative_state_vector.relative_position_r = LengthType(700)
+# Correct: wrapper type with explicit units
+cdm.body.relative_metadata_data.relative_state_vector.relative_position_t = LengthType(value=800, units=LengthUnits.M)
 
-# This is the proper way to write data into the object
-cdm.body.relative_metadata_data.relative_state_vector.relative_position_t = LengthType(Decimal(800), LengthUnits.M)
+# Also correct: pint or astropy Quantity — auto-wrapped to the right type
+import pint
+u = pint.UnitRegistry()
+cdm.body.relative_metadata_data.relative_state_vector.relative_position_r = 700 * u.m
 
-# This is invalid
-# cdm.body.relative_metadata_data.relative_state_vector.relative_position_r = 600
+# Invalid: raises TypeError
+cdm.body.relative_metadata_data.relative_state_vector.relative_position_r = 600
 ```
 
-The output of the above two methods is different on the XML file - the latter is properly
-transmitting important unit information:
+The XML output for the correct assignments properly transmits unit information:
 
 ```xml
 <relativeStateVector>
-  <RELATIVE_POSITION_R>700</RELATIVE_POSITION_R>
+  <RELATIVE_POSITION_R units="m">700</RELATIVE_POSITION_R>
   <RELATIVE_POSITION_T units="m">800</RELATIVE_POSITION_T>
 ```
 
-Therefore, care must be taken (and standard documents must be kept as a reference) when mapping the user objects into the object tree. Valuable information on units, models and methods can be found there to correctly interpret the data. Also, comments can also be used to provide supplementary information on how this data is generated.
+Optional Unit Support: Reading the value back as a pint or astropy `Quantity` is done via the `.q()` method on any wrapper instance:
+
+```python
+from ccsds_ndm.model_quantity import set_quantity_mode, QuantityMode
+set_quantity_mode(QuantityMode.PINT)
+
+q = cdm.body.relative_metadata_data.relative_state_vector.relative_position_t.q()
+# q is a pint Quantity: 800.0 meter
+```
+
+Therefore, care must be taken (and standard documents must be kept as a reference) when mapping the user objects into the object tree. Valuable information on units, models and methods can be found there to correctly interpret the data. Also, comments can also be used to provide supplementary information on how this data is generated. Full details on validation and quantity support are in {doc}`quantity_and_validation`.
 
 Finally, once filled with the relevant data, the `cdm` object can be written to `xml_write_path` in XML data format as:
 
@@ -95,6 +106,8 @@ Do not install `ccsds-ndm` using `sudo`.
 
 - `xsData` is used to read and write XML files (and also to generate the object tree)
 - `lxml` to support XML object creation
+- `pint` *(optional)* for pint Quantity input/output — install with `pip install ccsds_ndm[pint]`
+- `astropy` *(optional)* for astropy Quantity input/output — install with `pip install ccsds_ndm[astropy]`
 
 ## Citation
 
@@ -114,6 +127,7 @@ maxdepth: 2
 ---
 changelog
 ndmio
+quantity_and_validation
 more_info
 api_index
 ```
