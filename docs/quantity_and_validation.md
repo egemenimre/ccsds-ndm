@@ -66,7 +66,7 @@ Validation applies at both assignment time and at constructor time (dataclass
 When `model_quantity` is active, a pint `Quantity` can be assigned directly to any
 wrapper-typed field.  The library matches the incoming unit against the accepted CCSDS
 unit strings for that field and wraps the value automatically — **no unit conversion is
-performed**.
+performed by default**.
 
 ```python
 import pint
@@ -119,6 +119,46 @@ sv.relative_velocity_r  = 10 * astropy_u.m / astropy_u.s
 ```
 
 Unit mismatch errors follow the same pattern as for pint.
+
+---
+
+## Automatic Unit Conversion
+
+Nearly all CCSDS unit enums have exactly one member, so the "correct" unit for a field
+is unambiguous but not always obvious.  Enable the `auto_convert` flag to have
+dimensionally compatible Quantities silently converted to the field's NDM default unit
+instead of raising `TypeError`:
+
+```python
+from ccsds_ndm.model_quantity import set_auto_convert
+
+set_auto_convert(True)
+
+# km is not the NDM unit for LengthType (which is "m"), but it is auto-converted:
+sv.relative_position_r = 0.7 * u.km    # → LengthType(value=700.0, units=LengthUnits.M)
+sv.relative_velocity_r = 10 * u.km / u.s  # → DvType(value=10000.0, units=DvUnits.M_S)
+```
+
+The flag is `False` by default (existing exact-match behaviour is preserved).  Toggle
+it at any time — the change takes effect on the next assignment:
+
+```python
+set_auto_convert(False)   # back to strict mode
+```
+
+Dimensionally incompatible assignments still raise `TypeError` regardless of the flag:
+
+```python
+set_auto_convert(True)
+sv.relative_position_r = 10 * u.m / u.s
+# TypeError: … Dimensions are incompatible.
+```
+
+| Function                  | Description                      |
+|---------------------------|----------------------------------|
+| `set_auto_convert(True)`  | Enable automatic unit conversion |
+| `set_auto_convert(False)` | Disable (default)                |
+| `get_auto_convert()`      | Return the current setting       |
 
 ---
 
