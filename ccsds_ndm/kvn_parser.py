@@ -311,31 +311,15 @@ def _dispatch_flat(lines: list[KvnLine]) -> tuple[list[KvnLine], list[Segment]]:
     in_header_section = False
 
     for line in lines:
-        if isinstance(line, BlankLine):
-            if not vers_seen:
-                continue
-            if in_header_section:
-                header.append(line)
-            else:
-                body.append(line)
-            continue
-
-        if isinstance(line, KvLine) and line.key.startswith("CCSDS_") and not vers_seen:
+        dest, vers_seen, in_header_section = _classify_flat_line(
+            line, vers_seen, in_header_section
+        )
+        if dest == "header":
             header.append(line)
-            vers_seen = True
-            in_header_section = True
-            continue
+        elif dest == "body":
+            body.append(line)
 
-        if in_header_section and isinstance(line, KvLine) and line.key in _HEADER_KWS:
-            header.append(line)
-            continue
-
-        # First non-header-kw line: switch to body permanently
-        in_header_section = False
-        body.append(line)
-
-    seg = Segment(data=body)
-    return header, [seg]
+    return header, [Segment(data=body)]
 
 
 # -- CDM dispatch -----------------------------------------------------------
@@ -364,6 +348,7 @@ def _dispatch_cdm(lines: list[KvnLine]) -> tuple[list[KvnLine], list[Segment]]:
     rel_meta: list[KvnLine] = []
     obj1: list[KvnLine] = []
     obj2: list[KvnLine] = []
+    buckets = [header, rel_meta, obj1, obj2]
 
     bucket = CdmBucket.HEADER
     vers_seen = False
@@ -371,14 +356,7 @@ def _dispatch_cdm(lines: list[KvnLine]) -> tuple[list[KvnLine], list[Segment]]:
 
     for line in lines:
         if isinstance(line, BlankLine):
-            if not vers_seen:
-                continue
-            # If comments are pending, buffer the blank with them so the blank
-            # stays between the comments (preserving the inter-comment gap).
-            if pending_comments:
-                pending_comments.append(line)
-            else:
-                [header, rel_meta, obj1, obj2][bucket].append(line)
+            _cdm_route_blank(line, vers_seen, pending_comments, buckets, bucket)
             continue
 
         # Buffer comments: we don't know which bucket they belong to until the
@@ -394,30 +372,18 @@ def _dispatch_cdm(lines: list[KvnLine]) -> tuple[list[KvnLine], list[Segment]]:
                 vers_seen = True
                 pending_comments.clear()
                 continue
-
-            # Switch to rel_meta after the known header keywords are exhausted
-            if bucket == CdmBucket.HEADER and line.key not in _HEADER_KWS:
-                bucket = CdmBucket.REL_META
-
-            # OBJECT = OBJECT1 / OBJECT2 delimit the two object sections
-            if line.key == "OBJECT":
-                if line.value.strip() == "OBJECT1":
-                    bucket = CdmBucket.OBJECT_1
-                elif line.value.strip() == "OBJECT2":
-                    bucket = CdmBucket.OBJECT_2
+            bucket = _cdm_advance_bucket(line, bucket)
 
         # Flush buffered comments into the now-resolved bucket, then add line
-        buckets = [header, rel_meta, obj1, obj2]
         buckets[bucket].extend(pending_comments)
         pending_comments.clear()
         buckets[bucket].append(line)
 
-    segments = [
+    return header, [
         Segment(meta=rel_meta),
         Segment(data=obj1),
         Segment(data=obj2),
     ]
-    return header, segments
 
 
 # ---------------------------------------------------------------------------
@@ -517,11 +483,7 @@ def locate_blocks(
         # Clip: find the last line in the chunk whose key belongs to kw_set.
         # This stops the span from absorbing lines that belong to the next
         # sibling block (e.g. StateVectorType should not grab keplerian keys).
-        last_kw_offset = -1
-        for i, ln in enumerate(chunk):
-            if isinstance(ln, KvLine) and ln.key in kw_set:
-                last_kw_offset = i
-
+        last_kw_offset = _last_member_kw_offset(chunk, kw_set)
         if last_kw_offset == -1:
             continue  # anchor present but no member keywords — skip empty chunk
 
@@ -694,6 +656,90 @@ def locate_packed_lines(
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
+
+
+def _classify_flat_line(
+    line: KvnLine,
+    vers_seen: bool,
+    in_header_section: bool,
+) -> tuple[str, bool, bool]:
+    """
+    Classify one line for flat-dispatch routing.
+
+    Returns
+    -------
+    (destination, vers_seen, in_header_section)
+        destination is one of: ``"skip"``, ``"header"``, ``"body"``
+    """
+    if isinstance(line, BlankLine):
+        if not vers_seen:
+            return "skip", vers_seen, in_header_section
+        if in_header_section:
+            return "header", vers_seen, in_header_section
+        return "body", vers_seen, in_header_section
+
+    if isinstance(line, KvLine) and line.key.startswith("CCSDS_") and not vers_seen:
+        return "header", True, True
+
+    if in_header_section and isinstance(line, KvLine) and line.key in _HEADER_KWS:
+        return "header", vers_seen, in_header_section
+
+    # First non-header-kw line: switch to body permanently
+    return "body", vers_seen, False
+
+
+def _cdm_route_blank(
+    line: BlankLine,
+    vers_seen: bool,
+    pending_comments: list[KvnLine],
+    buckets: list[list[KvnLine]],
+    bucket: CdmBucket,
+) -> None:
+    """Append a blank line to the correct CDM accumulator."""
+    if not vers_seen:
+        return
+    # If comments are pending, buffer the blank with them so the blank
+    # stays between the comments (preserving the inter-comment gap).
+    if pending_comments:
+        pending_comments.append(line)
+    else:
+        buckets[bucket].append(line)
+
+
+def _cdm_advance_bucket(line: KvLine, bucket: CdmBucket) -> CdmBucket:
+    """
+    Return the updated CDM bucket after seeing a non-VERS ``KvLine``.
+
+    Handles the two transition rules:
+
+    * ``HEADER`` → ``REL_META`` when a non-header keyword is seen.
+    * ``OBJECT`` key value ``OBJECT1``/``OBJECT2`` transitions to the
+      respective object bucket.
+    """
+    if bucket == CdmBucket.HEADER and line.key not in _HEADER_KWS:
+        bucket = CdmBucket.REL_META
+
+    if line.key == "OBJECT":
+        if line.value.strip() == "OBJECT1":
+            return CdmBucket.OBJECT_1
+        if line.value.strip() == "OBJECT2":
+            return CdmBucket.OBJECT_2
+
+    return bucket
+
+
+def _last_member_kw_offset(chunk: list[KvnLine], kw_set: frozenset[str]) -> int:
+    """
+    Return the index of the last ``KvLine`` in *chunk* whose key is in
+    *kw_set*.
+
+    Returns ``-1`` if no such line exists.
+    """
+    last = -1
+    for i, ln in enumerate(chunk):
+        if isinstance(ln, KvLine) and ln.key in kw_set:
+            last = i
+    return last
 
 
 def _single_span_from_member_kws(
