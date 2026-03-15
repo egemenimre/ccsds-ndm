@@ -54,6 +54,11 @@ import pint
 u = pint.UnitRegistry()
 cdm.body.relative_metadata_data.relative_state_vector.relative_position_r = 700 * u.m
 
+# Also correct with auto-convert enabled: any compatible unit is silently converted
+from ccsds_ndm.model_quantity import set_auto_convert
+set_auto_convert(True)
+cdm.body.relative_metadata_data.relative_state_vector.relative_position_r = 0.7 * u.km  # → 700.0 m
+
 # Invalid: raises TypeError
 cdm.body.relative_metadata_data.relative_state_vector.relative_position_r = 600
 ```
