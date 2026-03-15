@@ -507,7 +507,9 @@ def _partition_lines(
             continue
 
         if lbl is None:
-            raise ValueError(f"Label for line index {i} is None — routing table is incomplete.")
+            raise ValueError(
+                f"Label for line index {i} is None — routing table is incomplete."
+            )
         fname = lbl
         if isinstance(ln, KvLine) and ln.key in container_map:
             _, _, is_list = container_map[ln.key]
