@@ -186,75 +186,95 @@ def _dispatch_segmented(lines: list[KvnLine]) -> tuple[list[KvnLine], list[Segme
 
     for line in lines:
         if isinstance(line, SectionMarkerLine):
-            # Flush an open AFTER_META segment when a new section begins
-            if state == ParserState.AFTER_META and current is not None:
-                if line.key in ("META_START", "COVARIANCE_START"):
-                    segments.append(current)
-                    current = None
-
-            match line.key:
-                case "META_START":
-                    current = Segment()
-                    state = ParserState.IN_META
-                case "META_STOP":
-                    state = ParserState.AFTER_META
-                case "DATA_START":
-                    # TDM: data block follows DATA_START without packed lines
-                    if current is None:
-                        current = Segment()
-                    state = ParserState.IN_DATA
-                case "DATA_STOP":
-                    if current is not None:
-                        segments.append(current)
-                        current = None
-                    state = ParserState.HEADER
-                case "COVARIANCE_START":
-                    current = Segment()
-                    state = ParserState.IN_COVARIANCE
-                case "COVARIANCE_STOP":
-                    if current is not None:
-                        segments.append(current)
-                        current = None
-                    state = ParserState.HEADER
+            state, current = _handle_section_marker(line, state, current, segments)
             continue  # section markers are not stored in any list
 
         if isinstance(line, BlankLine):
-            if state == ParserState.HEADER:
-                header.append(line)
-            elif state in (
-                ParserState.IN_META,
-                ParserState.AFTER_META,
-                ParserState.IN_DATA,
-            ):
-                if current is not None:
-                    current.data.append(line)
+            _route_blank(line, state, header, current)
             continue
 
-        if state == ParserState.HEADER:
-            header.append(line)
-        elif state == ParserState.IN_META:
-            if current is None:
-                raise ValueError("Parser state IN_META but no current segment exists.")
-            current.meta.append(line)
-        elif state == ParserState.AFTER_META:
-            # OEM: packed data lines follow META_STOP without DATA_START
-            if current is None:
-                raise ValueError("Parser state AFTER_META but no current segment exists.")
-            current.data.append(line)
-        elif state == ParserState.IN_DATA:
-            if current is None:
-                raise ValueError("Parser state IN_DATA but no current segment exists.")
-            current.data.append(line)
-        elif state == ParserState.IN_COVARIANCE:
-            if current is None:
-                raise ValueError("Parser state IN_COVARIANCE but no current segment exists.")
-            current.covariance.append(line)
+        state, current = _route_line(line, state, header, current, segments)
 
     # Flush any remaining AFTER_META segment (last OEM segment)
     if state == ParserState.AFTER_META and current is not None:
         segments.append(current)
 
     return header, segments
+
+
+def _handle_section_marker(
+    line: SectionMarkerLine,
+    state: ParserState,
+    current: Segment | None,
+    segments: list[Segment],
+) -> tuple[ParserState, Segment | None]:
+    """Update state machine for a section-marker line."""
+    # Flush an open AFTER_META segment when a new section begins
+    if state == ParserState.AFTER_META and current is not None:
+        if line.key in ("META_START", "COVARIANCE_START"):
+            segments.append(current)
+            current = None
+
+    match line.key:
+        case "META_START":
+            return ParserState.IN_META, Segment()
+        case "META_STOP":
+            return ParserState.AFTER_META, current
+        case "DATA_START":
+            # TDM: data block follows DATA_START without packed lines
+            return ParserState.IN_DATA, current if current is not None else Segment()
+        case "DATA_STOP":
+            if current is not None:
+                segments.append(current)
+            return ParserState.HEADER, None
+        case "COVARIANCE_START":
+            return ParserState.IN_COVARIANCE, Segment()
+        case "COVARIANCE_STOP":
+            if current is not None:
+                segments.append(current)
+            return ParserState.HEADER, None
+        case _:
+            return state, current
+
+
+def _route_blank(
+    line: BlankLine,
+    state: ParserState,
+    header: list[KvnLine],
+    current: Segment | None,
+) -> None:
+    """Append a blank line to the appropriate bucket."""
+    if state == ParserState.HEADER:
+        header.append(line)
+    elif state in (ParserState.IN_META, ParserState.AFTER_META, ParserState.IN_DATA):
+        if current is not None:
+            current.data.append(line)
+
+
+def _route_line(
+    line: KvnLine,
+    state: ParserState,
+    header: list[KvnLine],
+    current: Segment | None,
+    segments: list[Segment],
+) -> tuple[ParserState, Segment | None]:
+    """Append a non-blank, non-marker line to the appropriate bucket."""
+    if state == ParserState.HEADER:
+        header.append(line)
+    elif state == ParserState.IN_META:
+        if current is None:
+            raise ValueError("Parser state IN_META but no current segment exists.")
+        current.meta.append(line)
+    elif state in (ParserState.AFTER_META, ParserState.IN_DATA):
+        # OEM: packed data lines follow META_STOP without DATA_START
+        if current is None:
+            raise ValueError(f"Parser state {state.value} but no current segment exists.")
+        current.data.append(line)
+    elif state == ParserState.IN_COVARIANCE:
+        if current is None:
+            raise ValueError("Parser state IN_COVARIANCE but no current segment exists.")
+        current.covariance.append(line)
+    return state, current
 
 
 # -- Flat dispatch (OPM, OMM, APM, RDM) ------------------------------------
