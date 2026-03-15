@@ -1,5 +1,21 @@
 # Changelog
 
+- Version 3.1 (2026/03/15)
+  - Added type validation for wrapper-typed fields (`model_validate`): assigning a plain
+    number, `Decimal`, or string to a physical-quantity field now raises `TypeError` with
+    a clear message.
+  - Added pint and astropy Quantity support (`model_quantity`):
+    - The pint/astropy `Quantity`  objects can be assigned directly to wrapper-typed fields
+    and are automatically wrapped to the correct NDM type.  The unit must match one of the
+    accepted CCSDS unit strings for the field; a clear error lists the accepted options if
+    it does not.
+    - Added `.q()` method on all wrapper types (`LengthType`, `DvType`, etc.) to extract
+    the value as a pint or astropy `Quantity`.  The backend is selected globally via
+    `set_quantity_mode(QuantityMode.PINT)` or `set_quantity_mode(QuantityMode.ASTROPY)`.
+    - pint and astropy are optional dependencies; install with
+    `pip install ccsds_ndm[pint]` or `pip install ccsds_ndm[astropy]`.
+  - Added documentation page for quantity support and validation.
+
 - Version 3.0.1 (2026/03/11)
   - Updated DOI reference and Flit config. No changes in code.
 
