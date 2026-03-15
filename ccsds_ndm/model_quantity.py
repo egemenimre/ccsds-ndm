@@ -242,7 +242,7 @@ def _match_astropy_unit(value, units_enum: type[Enum]) -> tuple[object, bool]:
             continue
         try:
             target = astropy_u.Unit(_ccsds_to_astropy(ccsds_str))
-        except astropy_u.core.UnitsError:
+        except (astropy_u.core.UnitsError, ValueError):
             # Mapping produced a unit string astropy still can't parse — skip
             continue
         if value.unit.physical_type == target.physical_type:
