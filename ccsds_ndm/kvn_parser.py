@@ -492,21 +492,7 @@ def locate_blocks(
     if anchor is None:
         # No single field can serve as an instance delimiter (rare).
         # Treat the entire line list as one span if it contains any member kw.
-        member_positions = [
-            i
-            for i, ln in enumerate(lines)
-            if isinstance(ln, KvLine) and ln.key in kw_set
-        ]
-        if not member_positions:
-            return []
-        # Span from the first matching kw to the last (inclusive)
-        return [
-            BlockSpan(
-                start=member_positions[0],
-                end=member_positions[-1] + 1,
-                lines=lines[member_positions[0] : member_positions[-1] + 1],
-            )
-        ]
+        return _single_span_from_member_kws(lines, kw_set)
 
     # Find every line index where the anchor keyword appears.
     # Each occurrence marks the start of a new instance of cls.
@@ -517,20 +503,7 @@ def locate_blocks(
     if not anchor_positions:
         # Anchor is optional in this message (e.g. EPOCH absent in some blocks).
         # Fall back: form one span from the first to last member keyword.
-        member_positions = [
-            i
-            for i, ln in enumerate(lines)
-            if isinstance(ln, KvLine) and ln.key in kw_set
-        ]
-        if not member_positions:
-            return []
-        return [
-            BlockSpan(
-                start=member_positions[0],
-                end=member_positions[-1] + 1,
-                lines=lines[member_positions[0] : member_positions[-1] + 1],
-            )
-        ]
+        return _single_span_from_member_kws(lines, kw_set)
 
     spans: list[BlockSpan] = []
     for idx, pos in enumerate(anchor_positions):
@@ -646,19 +619,7 @@ def locate_covariance(lines: list[KvnLine]) -> list[BlockSpan]:
     epoch_positions = [
         i for i, ln in enumerate(lines) if isinstance(ln, KvLine) and ln.key == "EPOCH"
     ]
-
-    if not epoch_positions:
-        return []
-
-    spans: list[BlockSpan] = []
-    for idx, pos in enumerate(epoch_positions):
-        next_pos = (
-            epoch_positions[idx + 1] if idx + 1 < len(epoch_positions) else len(lines)
-        )
-        chunk = lines[pos:next_pos]
-        spans.append(BlockSpan(start=pos, end=next_pos, lines=chunk))
-
-    return spans
+    return _spans_from_anchors(lines, epoch_positions)
 
 
 # ---------------------------------------------------------------------------
@@ -724,14 +685,43 @@ def locate_packed_lines(
     if anchor is None:
         return []
 
-    # Find all anchor positions
     anchor_positions = [
         i for i, ln in enumerate(lines) if isinstance(ln, KvLine) and ln.key == anchor
     ]
+    return _spans_from_anchors(lines, anchor_positions)
 
+
+# ---------------------------------------------------------------------------
+# Internal helpers
+# ---------------------------------------------------------------------------
+
+
+def _single_span_from_member_kws(
+    lines: list[KvnLine], kw_set: frozenset[str]
+) -> list[BlockSpan]:
+    """Return a single BlockSpan covering the first-to-last matching keyword."""
+    member_positions = [
+        i
+        for i, ln in enumerate(lines)
+        if isinstance(ln, KvLine) and ln.key in kw_set
+    ]
+    if not member_positions:
+        return []
+    return [
+        BlockSpan(
+            start=member_positions[0],
+            end=member_positions[-1] + 1,
+            lines=lines[member_positions[0] : member_positions[-1] + 1],
+        )
+    ]
+
+
+def _spans_from_anchors(
+    lines: list[KvnLine], anchor_positions: list[int]
+) -> list[BlockSpan]:
+    """Build one BlockSpan per anchor, each running to the next anchor (or end)."""
     if not anchor_positions:
         return []
-
     spans: list[BlockSpan] = []
     for idx, pos in enumerate(anchor_positions):
         next_pos = (
@@ -739,13 +729,7 @@ def locate_packed_lines(
         )
         chunk = lines[pos:next_pos]
         spans.append(BlockSpan(start=pos, end=next_pos, lines=chunk))
-
     return spans
-
-
-# ---------------------------------------------------------------------------
-# Internal helpers
-# ---------------------------------------------------------------------------
 
 
 def _kw_set_for(cls) -> frozenset[str]:
