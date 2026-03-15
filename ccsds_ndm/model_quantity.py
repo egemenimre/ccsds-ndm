@@ -50,7 +50,7 @@ class QuantityMode(Enum):
 _quantity_mode: QuantityMode = QuantityMode.ASTROPY
 
 
-def set_quantity_mode(mode: QuantityMode) -> None:
+def set_quantity_mode(mode: object) -> None:
     """Set the global quantity mode for ``.q()`` on wrapper types."""
     global _quantity_mode
     if not isinstance(mode, QuantityMode):
@@ -64,6 +64,28 @@ def set_quantity_mode(mode: QuantityMode) -> None:
 def get_quantity_mode() -> QuantityMode:
     """Return the current global quantity mode."""
     return _quantity_mode
+
+
+# ---------------------------------------------------------------------------
+# Global auto-convert flag
+# ---------------------------------------------------------------------------
+
+# When True, dimensionally compatible Quantities are automatically converted
+# to the field's default CCSDS unit instead of raising TypeError.
+_auto_convert: bool = False
+
+
+def set_auto_convert(enabled: object) -> None:
+    """Enable or disable automatic unit conversion on Quantity assignment."""
+    global _auto_convert
+    if not isinstance(enabled, bool):
+        raise TypeError(f"Expected bool, got {type(enabled).__name__}.")
+    _auto_convert = enabled
+
+
+def get_auto_convert() -> bool:
+    """Return whether automatic unit conversion is enabled."""
+    return _auto_convert
 
 
 # ---------------------------------------------------------------------------
@@ -231,6 +253,36 @@ def _match_astropy_unit(value, units_enum: type[Enum]) -> tuple[object, bool]:
 
 
 # ---------------------------------------------------------------------------
+# Auto-convert helpers
+# ---------------------------------------------------------------------------
+
+
+def _default_unit_member(units_enum: type[Enum]) -> Enum | None:
+    """Return the first supported enum member (the NDM default unit)."""
+    for member in units_enum:
+        if member.value not in _UNSUPPORTED_UNITS:
+            return member
+    return None
+
+
+def _convert_pint(value, target_member) -> float:
+    """Convert a pint Quantity to *target_member*'s unit; return magnitude."""
+    u = _get_pint_ureg()
+    target_unit = u.Unit(_ccsds_to_pint(target_member.value))
+    converted = u.Quantity(f"{value.magnitude} {value.units}").to(target_unit)
+    return float(converted.magnitude)
+
+
+def _convert_astropy(value, target_member) -> float:
+    """Convert an astropy Quantity to *target_member*'s unit; return value."""
+    from astropy import units as astropy_u
+
+    target_unit = astropy_u.Unit(_ccsds_to_astropy(target_member.value))
+    converted = value.to(target_unit)
+    return float(converted.value)
+
+
+# ---------------------------------------------------------------------------
 # Field map construction
 # ---------------------------------------------------------------------------
 
@@ -268,10 +320,10 @@ def _build_field_map(cls, wrapper_types: set[type]) -> dict[str, _FieldInfo]:
 def _make_setattr(field_map: dict[str, _FieldInfo]):
     """Return a ``__setattr__`` that validates and wraps Quantities.
 
-    The unit of the incoming Quantity must exactly match one of the accepted
-    CCSDS unit strings for the field — no automatic conversion is performed.
-    If the unit is dimensionally right but not accepted, a TypeError lists
-    the accepted units so the user can convert explicitly beforehand.
+    By default the unit of the incoming Quantity must exactly match one of the
+    accepted CCSDS unit strings for the field.  When ``_auto_convert`` is
+    enabled, dimensionally compatible Quantities are silently converted to
+    the field's default CCSDS unit instead of raising ``TypeError``.
     """
 
     def __setattr__(self, name: str, value):
@@ -285,12 +337,33 @@ def _make_setattr(field_map: dict[str, _FieldInfo]):
                 if matched is not None:
                     value = wrapper_cls(value=float(value.magnitude), units=matched)
                 elif dims_ok:
-                    raise TypeError(
-                        f"Unit '{value.units}' is not accepted for field "
-                        f"'{name}' on {type(self).__name__}. "
-                        f"Accepted units for {wrapper_cls.__name__}: "
-                        f"{_accepted_unit_strings(units_enum)}. Convert your Quantity first."
-                    )
+                    if _auto_convert:
+                        default = _default_unit_member(units_enum)
+                        if default is not None:
+                            try:
+                                mag = _convert_pint(value, default)
+                                value = wrapper_cls(value=mag, units=default)
+                            except Exception:
+                                raise TypeError(
+                                    f"Unit '{value.units}' could not be auto-converted "
+                                    f"for field '{name}' on {type(self).__name__}. "
+                                    f"Accepted units for {wrapper_cls.__name__}: "
+                                    f"{_accepted_unit_strings(units_enum)}."
+                                )
+                        else:
+                            raise TypeError(
+                                f"Unit '{value.units}' is not accepted for field "
+                                f"'{name}' on {type(self).__name__}. "
+                                f"Accepted units for {wrapper_cls.__name__}: "
+                                f"{_accepted_unit_strings(units_enum)}. Convert your Quantity first."
+                            )
+                    else:
+                        raise TypeError(
+                            f"Unit '{value.units}' is not accepted for field "
+                            f"'{name}' on {type(self).__name__}. "
+                            f"Accepted units for {wrapper_cls.__name__}: "
+                            f"{_accepted_unit_strings(units_enum)}. Convert your Quantity first."
+                        )
                 else:
                     raise TypeError(
                         f"Cannot assign {value.units} quantity to field "
@@ -302,12 +375,33 @@ def _make_setattr(field_map: dict[str, _FieldInfo]):
                 if matched is not None:
                     value = wrapper_cls(value=float(value.value), units=matched)
                 elif dims_ok:
-                    raise TypeError(
-                        f"Unit '{value.unit}' is not accepted for field "
-                        f"'{name}' on {type(self).__name__}. "
-                        f"Accepted units for {wrapper_cls.__name__}: "
-                        f"{_accepted_unit_strings(units_enum)}. Convert your Quantity first."
-                    )
+                    if _auto_convert:
+                        default = _default_unit_member(units_enum)
+                        if default is not None:
+                            try:
+                                mag = _convert_astropy(value, default)
+                                value = wrapper_cls(value=mag, units=default)
+                            except Exception:
+                                raise TypeError(
+                                    f"Unit '{value.unit}' could not be auto-converted "
+                                    f"for field '{name}' on {type(self).__name__}. "
+                                    f"Accepted units for {wrapper_cls.__name__}: "
+                                    f"{_accepted_unit_strings(units_enum)}."
+                                )
+                        else:
+                            raise TypeError(
+                                f"Unit '{value.unit}' is not accepted for field "
+                                f"'{name}' on {type(self).__name__}. "
+                                f"Accepted units for {wrapper_cls.__name__}: "
+                                f"{_accepted_unit_strings(units_enum)}. Convert your Quantity first."
+                            )
+                    else:
+                        raise TypeError(
+                            f"Unit '{value.unit}' is not accepted for field "
+                            f"'{name}' on {type(self).__name__}. "
+                            f"Accepted units for {wrapper_cls.__name__}: "
+                            f"{_accepted_unit_strings(units_enum)}. Convert your Quantity first."
+                        )
                 else:
                     raise TypeError(
                         f"Cannot assign {value.unit.physical_type} quantity to field "

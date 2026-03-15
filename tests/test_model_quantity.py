@@ -14,7 +14,13 @@ import pytest
 
 # Importing model_quantity triggers patching
 import ccsds_ndm.model_quantity  # noqa: F401
-from ccsds_ndm.model_quantity import QuantityMode, get_quantity_mode, set_quantity_mode
+from ccsds_ndm.model_quantity import (
+    QuantityMode,
+    get_auto_convert,
+    get_quantity_mode,
+    set_auto_convert,
+    set_quantity_mode,
+)
 
 # ndmxml2 imports
 from ccsds_ndm.models.ndmxml2.ndmxml_2_0_0_cdm_1_0 import (
@@ -421,3 +427,134 @@ class TestRoundTrip:
         sv = ndm.body.relative_metadata_data.relative_state_vector  # type: ignore[union-attr]
         assert hasattr(sv.relative_position_r, "value")
         assert hasattr(sv.relative_position_r, "units")
+
+
+# ---- Auto-convert ----
+
+
+class TestAutoConvert:
+    """Auto-convert flag silently converts Quantities to the NDM default unit."""
+
+    def test_pint_auto_convert_length(self):
+        """km → m conversion when auto_convert is on."""
+        pint = pytest.importorskip("pint")
+        u = pint.UnitRegistry()
+        set_auto_convert(True)
+        try:
+            sv = _make_sv()
+            sv.relative_position_r = 0.7 * u.km
+            assert isinstance(sv.relative_position_r, LengthType)
+            assert sv.relative_position_r.value == pytest.approx(700.0)
+            assert sv.relative_position_r.units == LengthUnits.M
+        finally:
+            set_auto_convert(False)
+
+    def test_astropy_auto_convert_length(self):
+        """km → m conversion with astropy when auto_convert is on."""
+        astropy_u = pytest.importorskip("astropy.units")
+        set_auto_convert(True)
+        try:
+            sv = _make_sv()
+            sv.relative_position_r = 0.7 * astropy_u.km
+            assert isinstance(sv.relative_position_r, LengthType)
+            assert sv.relative_position_r.value == pytest.approx(700.0)
+            assert sv.relative_position_r.units == LengthUnits.M
+        finally:
+            set_auto_convert(False)
+
+    def test_pint_auto_convert_velocity(self):
+        """km/s → m/s conversion when auto_convert is on."""
+        pint = pytest.importorskip("pint")
+        u = pint.UnitRegistry()
+        set_auto_convert(True)
+        try:
+            sv = _make_sv()
+            sv.relative_velocity_r = 10 * u.km / u.s
+            assert isinstance(sv.relative_velocity_r, DvType)
+            assert sv.relative_velocity_r.value == pytest.approx(10000.0)
+            assert sv.relative_velocity_r.units == DvUnits.M_S
+        finally:
+            set_auto_convert(False)
+
+    def test_disabled_still_raises(self):
+        """With auto_convert off (default), unit mismatch still raises."""
+        pint = pytest.importorskip("pint")
+        u = pint.UnitRegistry()
+        assert get_auto_convert() is False
+        sv = _make_sv()
+        with pytest.raises(TypeError, match="not accepted"):
+            sv.relative_position_r = 0.7 * u.km
+
+    def test_incompatible_dims_still_raises(self):
+        """Even with auto_convert on, wrong dimensions must still raise."""
+        pint = pytest.importorskip("pint")
+        u = pint.UnitRegistry()
+        set_auto_convert(True)
+        try:
+            sv = _make_sv()
+            with pytest.raises(TypeError, match="incompatible"):
+                sv.relative_position_r = 10 * u.m / u.s
+        finally:
+            set_auto_convert(False)
+
+    def test_exact_match_no_conversion(self):
+        """Exact match still works with auto_convert on (no unnecessary conversion)."""
+        pint = pytest.importorskip("pint")
+        u = pint.UnitRegistry()
+        set_auto_convert(True)
+        try:
+            sv = _make_sv()
+            sv.relative_position_r = 700 * u.m
+            assert sv.relative_position_r.value == pytest.approx(700.0)
+            assert sv.relative_position_r.units == LengthUnits.M
+        finally:
+            set_auto_convert(False)
+
+    def test_toggle_at_runtime(self):
+        """Flag can be toggled and takes effect immediately."""
+        pint = pytest.importorskip("pint")
+        u = pint.UnitRegistry()
+        sv = _make_sv()
+
+        # Off → raises
+        set_auto_convert(False)
+        with pytest.raises(TypeError, match="not accepted"):
+            sv.relative_position_r = 0.7 * u.km
+
+        # On → converts
+        set_auto_convert(True)
+        try:
+            sv.relative_position_r = 0.7 * u.km
+            assert sv.relative_position_r.value == pytest.approx(700.0)
+        finally:
+            set_auto_convert(False)
+
+    def test_getter_setter(self):
+        """get/set_auto_convert work correctly with type validation."""
+        assert get_auto_convert() is False
+        set_auto_convert(True)
+        assert get_auto_convert() is True
+        set_auto_convert(False)
+        assert get_auto_convert() is False
+        with pytest.raises(TypeError, match="Expected bool"):
+            set_auto_convert("yes")  # type: ignore[arg-type]
+
+    def test_construction_with_auto_convert(self):
+        """Auto-convert works at construction time too."""
+        pint = pytest.importorskip("pint")
+        u = pint.UnitRegistry()
+        set_auto_convert(True)
+        try:
+            sv = RelativeStateVectorType(
+                relative_position_r=0.7 * u.km,
+                relative_position_t=0.8 * u.km,
+                relative_position_n=0.9 * u.km,
+                relative_velocity_r=10 * u.m / u.s,
+                relative_velocity_t=20 * u.m / u.s,
+                relative_velocity_n=30 * u.m / u.s,
+            )
+            assert sv.relative_position_r.value == pytest.approx(700.0)
+            assert sv.relative_position_r.units == LengthUnits.M
+            assert sv.relative_position_t.value == pytest.approx(800.0)
+        finally:
+            set_auto_convert(False)
